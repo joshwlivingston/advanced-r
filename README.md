@@ -1,6 +1,12 @@
 Advanced R - Exercises and Notes
 ================
 Josh Livingston
+June 15, 2022
+
+<p>This repository stores all of my notes and exercise work-throughs from <a href="https://adv-r.hadley.nz/">Advanced R</a>. This uses the 2nd edition of Hadley Wickham's book.</p>
+<p>Source code is organized at the chapter-section level.</p>
+<p>This README was rendered using <a href="https::quarto.org">quarto</a>.
+
 
 -   <a href="#introduction" id="toc-introduction">Introduction</a>
 -   <a href="#i---foundations" id="toc-i---foundations">I - Foundations</a>
