@@ -1,14 +1,14 @@
 Advanced R - Exercises and Notes
 ================
-Josh Livingston
+Josh Livingston \|
 June 15, 2022
 
 <p>This repository stores all of my notes and exercise work-throughs from <a href="https://adv-r.hadley.nz/">Advanced R</a>. This uses the 2nd edition of Hadley Wickham's book.</p>
 <p>Source code is organized at the chapter-section level.</p>
-<p>This README was rendered using <a href="https::quarto.org">quarto</a>.
+<p>This README was rendered using <a href="https::quarto.org">quarto</a>.</p>
+<h1>Table of Contents</h1>
 
 
--   <a href="#introduction" id="toc-introduction">Introduction</a>
 -   <a href="#i---foundations" id="toc-i---foundations">I - Foundations</a>
     -   <a href="#chapter-2---names-and-values"
         id="toc-chapter-2---names-and-values">Chapter 2 - Names and values</a>
@@ -69,15 +69,6 @@ June 15, 2022
     -   <a href="#chapter-25---rewriting-r-code-in-c"
         id="toc-chapter-25---rewriting-r-code-in-c">Chapter 25 - Rewriting R
         code in C++</a>
-
-## Introduction
-
-This repository stores all of my notes and exercise work-throughs from
-[Advanced R](https://adv-r.hadley.nz/). This uses the 2nd edition of
-Hadley Wickham’s book.
-
-Source code is organized at the chapter-section level. This README was
-rendered using [quarto](https://quarto.org/).
 
 ## I - Foundations
 
