@@ -4,7 +4,7 @@ Josh Livingston \|
 June 15, 2022
 
 <p>This repository stores all of my notes and exercise work-throughs from <a href="https://adv-r.hadley.nz/">Advanced R</a>. This uses the 2nd edition of Hadley Wickham's book.</p>
-<p>Source code is organized at the chapter-section level.</p>
+<p>Source code is organized at the chapter-section level. In each section, notes appear before the exercises. Exercise text is noted with <em><b>bold and italicized text</b></em>.</p>
 <p>This README was rendered using <a href="https::quarto.org">quarto</a>.</p>
 <h2>Table of Contents</h2>
 
@@ -12,6 +12,10 @@ June 15, 2022
 -   <a href="#i---foundations" id="toc-i---foundations">I - Foundations</a>
     -   <a href="#chapter-2---names-and-values"
         id="toc-chapter-2---names-and-values">Chapter 2 - Names and values</a>
+        -   <a href="#binding-basics" id="toc-binding-basics">2.2 - Binding
+            basics</a>
+        -   <a href="#copy-on-modify" id="toc-copy-on-modify">2.3 -
+            Copy-on-modify</a>
     -   <a href="#chapter-3---vectors" id="toc-chapter-3---vectors">Chapter 3 -
         Vectors</a>
     -   <a href="#chapter-4---subsetting"
@@ -73,6 +77,158 @@ June 15, 2022
 ## I - Foundations
 
 ### Chapter 2 - Names and values
+
+#### 2.2 - Binding basics
+
+-   A value does not have a name; a name has a value.
+-   That is, a name gets bound to a value as a reference to that value.
+-   Assigning a second name to that object does not change the object or
+    copy it. It simply assigns a new name as reference to that object.
+-   Names have to be pretty. See `?make.names` for rules governing
+    syntactically valid names.
+
+<b><em>1. Explain the relationship between `a`, `b`, `c`, and `d` in the
+following code:</em></b>
+
+``` r
+a <- 1:10
+b <- a
+c <- b
+d <- 1:10
+```
+
+`a`, `b`, and `c` all occupy the same space in memory. Thus, they are
+separate references, each of which have been assigned to the same
+object.
+
+``` r
+library(lobstr)
+obj_addr(a) == obj_addr(b) & obj_addr(b) == obj_addr(c)
+```
+
+    [1] TRUE
+
+``` r
+print(obj_addr(a))
+```
+
+    [1] "0x7fedd6168a58"
+
+<br>
+
+However, `d` does not occupy the same memory space. Thus, `d` is an is a
+separate object from that of `a`, `b`, and `c`, with a unique reference.
+Both of these objects are the vector of integers 1 through 10.
+
+``` r
+obj_addr(d) == obj_addr(a)
+```
+
+    [1] FALSE
+
+``` r
+print(obj_addr(d))
+```
+
+    [1] "0x7fede670c280"
+
+<br>
+
+<b><em>2. The following code accesses the mean function in multiple
+ways. Do they all point to the same underlying function object?</em></b>
+
+All accessors to the `mean()` function point to the same object in
+memory.
+
+``` r
+objs <- list(mean, base::mean, evalq(mean), match.fun("mean"))
+obj_addrs(objs)
+```
+
+    [1] "0x7fedb647ee60" "0x7fedb647ee60" "0x7fedb647ee60" "0x7fedb647ee60"
+
+<br>
+
+<b><em>3. By default, base R data import functions, like `read.csv()`,
+will automatically convert non-syntactc names to syntactic ones. Why
+might this be problematic? What option allows you to supporess this
+behavior?</em></b>
+
+Column names often represent data, so renaming with `make.names` changes
+underlying data. You can suppress this with `check.names = FALSE`.
+<br><br>
+
+<b><em>4. What rules does `make.names()` use to convert non-syntactic
+names into syntactic ones?</em></b>
+
+From the docs, <em>“A syntactically valid name consists of letters,
+numbers and the dot or underline characters and starts with a letter or
+the dot not followed by a number.”</em> Letters are defined by locale,
+but only ASCII digits are used. Invalid characters are translated to
+“.”. Missing is translated to “NA”. And reserved words have a “.”
+appended to them. Then, values are de-duplicated using `make.unique()`.
+<br><br>
+
+<b><em>5. I slightly simplified the rules that govern syntactic names.
+Why is `.123e1` not a syntactic name?</em></b>
+
+Syntactic names may start with a letter, or a dot not followed by a
+number. `.123e1` starts with `.1`, so it is not a syntactically valid
+name. <br><br>
+
+#### 2.3 - Copy-on-modify
+
+Consider the following two variables
+
+``` r
+x <- c(1, 2, 3)
+y <- x
+```
+
+<br>
+
+Note from previously that `x` and `y` are different references to the
+same object.
+
+``` r
+obj_addr(x) == obj_addr(y)
+```
+
+    [1] TRUE
+
+<br>
+
+This object is located at the following address:
+
+``` r
+obj_addr(y)
+```
+
+    [1] "0x7fedc1449d38"
+
+<br>
+
+Modiyfing the object assigned to `y` results in the creation of a new
+object.
+
+``` r
+y[[3]] <- 4
+obj_addr(y)
+```
+
+    [1] "0x7fede64b9658"
+
+We see that this is different than the original object’s address
+
+``` r
+obj_addr(x) == obj_addr(y)
+```
+
+    [1] FALSE
+
+This behavior is called <em>copy-on-modify</em>; i.e., R objects are
+immutable – any changes results in the creation of a new object in
+memory.
 
 ### Chapter 3 - Vectors
 
