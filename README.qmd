@@ -1,0 +1,71 @@
+---
+title: Advanced R - Exercises and Notes
+author: Josh Livingston
+format: gfm
+toc: true
+toc-depth: 4
+---
+
+## Introduction
+
+This repository stores all of my notes and exercise work-throughs from [Advanced R](https://adv-r.hadley.nz/). This uses the 2nd edition of Hadley Wickham's book. 
+
+Source code is organized at the chapter-section level. This README was rendered using [quarto](https://quarto.org/).
+
+## I - Foundations
+
+### Chapter 2 - Names and values
+
+### Chapter 3 - Vectors
+
+### Chapter 4 - Subsetting
+
+### Chapter 5 - Control Flow
+
+### Chapter 6 - Functions
+
+### Chapter 7 - Environments
+
+### Chapter 8 - Conditions
+
+## II - Functional programming
+
+### Chapter 9 - Functionals
+
+### Chapter 10 - Function factories
+
+### Chapter 11 - Function operators
+
+## III Object-oriented programming
+
+### Chapter 12 - Base types
+
+### Chapter 13 - S3
+
+### Chapter 14 - R6
+
+### Chapter 15 - S4
+
+### Chapter 16 - Trade-offs
+
+## IV - Metaprogramming
+
+### Chapter 17 - Big picture
+
+### Chapter 18 - Expressions
+
+### Chapter 19 - Quasiquotation
+
+### Chapter 20 - Evaluation
+
+### Chapter 21 - Translating R code
+
+## V - Techniques
+
+### Chapter 22 - Debugging
+
+### Chapter 23 - Measuring performance
+
+### Chapter 24 - Improving performance
+
+### Chapter 25 - Rewriting R code in C++
