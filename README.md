@@ -1,7 +1,7 @@
 Advanced R - Exercises and Notes
 ================
 Josh Livingston \|
-June 15, 2022
+June 16, 2022
 
 <p>This repository stores all of my notes and exercise work-throughs from <a href="https://adv-r.hadley.nz/">Advanced R</a>. This uses the 2nd edition of Hadley Wickham's book.</p>
 <p>Source code is organized at the chapter-section level. In each section, notes appear before the exercises. Exercise text is noted with <em><b>bold and italicized text</b></em>.</p>
@@ -112,7 +112,7 @@ obj_addr(a) == obj_addr(b) & obj_addr(b) == obj_addr(c)
 print(obj_addr(a))
 ```
 
-    [1] "0x7fedd6168a58"
+    [1] "0x7ff152aeb058"
 
 <br>
 
@@ -130,7 +130,7 @@ obj_addr(d) == obj_addr(a)
 print(obj_addr(d))
 ```
 
-    [1] "0x7fede670c280"
+    [1] "0x7ff1545b4790"
 
 <br>
 
@@ -145,7 +145,7 @@ objs <- list(mean, base::mean, evalq(mean), match.fun("mean"))
 obj_addrs(objs)
 ```
 
-    [1] "0x7fedb647ee60" "0x7fedb647ee60" "0x7fedb647ee60" "0x7fedb647ee60"
+    [1] "0x7ff1428c3060" "0x7ff1428c3060" "0x7ff1428c3060" "0x7ff1428c3060"
 
 <br>
 
@@ -204,7 +204,7 @@ This object is located at the following address:
 obj_addr(y)
 ```
 
-    [1] "0x7fedc1449d38"
+    [1] "0x7ff12406c528"
 
 <br>
 
@@ -216,7 +216,7 @@ y[[3]] <- 4
 obj_addr(y)
 ```
 
-    [1] "0x7fede64b9658"
+    [1] "0x7ff153a33d38"
 
 We see that this is different than the original object’s address
 
@@ -229,6 +229,31 @@ obj_addr(x) == obj_addr(y)
 This behavior is called <em>copy-on-modify</em>; i.e., R objects are
 immutable – any changes results in the creation of a new object in
 memory.
+
+Copy-on-modify also applies when an object with one standalone reference
+is modified.mHere, `z` is assigned to a new object upon modification of
+the original `z`. We see this by looking at the location in memory
+before and after the modificaiton.
+
+Before:
+
+``` r
+z <- letters[1:3]
+obj_addr(z)
+```
+
+    [1] "0x7ff1339a4c28"
+
+<br>
+
+After:
+
+``` r
+z[[4]] <- "d"
+obj_addr(z)
+```
+
+    [1] "0x7ff133aa6ec8"
 
 ### Chapter 3 - Vectors
 

@@ -108,6 +108,21 @@ obj_addr(x) == obj_addr(y)
 
 This behavior is called <em>copy-on-modify</em>; i.e., R objects are immutable -- any changes results in the creation of a new object in memory.
 
+Copy-on-modify also applies when an object with one standalone reference is modified.mHere, `z` is assigned to a new object upon modification of the original `z`. We see this by looking at the location in memory before and after the modificaiton.
+
+Before:
+```{r}
+z <- letters[1:3]
+obj_addr(z)
+```
+<br>
+
+After:
+```{r}
+z[[4]] <- "d"
+obj_addr(z)
+```
+
 
 ### Chapter 3 - Vectors
 
