@@ -5,6 +5,7 @@ date: today
 date-format: long
 toc: true
 toc-depth: 4
+columns: 80
 format: 
   gfm:
     include-in-header: 
