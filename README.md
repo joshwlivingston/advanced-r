@@ -1,7 +1,7 @@
 Advanced R - Exercises and Notes
 ================
 Josh Livingston \|
-June 16, 2022
+June 26, 2022
 
 <p>This repository stores all of my notes and exercise work-throughs from <a href="https://adv-r.hadley.nz/">Advanced R</a>. This uses the 2nd edition of Hadley Wickham's book.</p>
 <p>Source code is organized at the chapter-section level. In each section, notes appear before the exercises. Exercise text is noted with <em><b>bold and italicized text</b></em>.</p>
@@ -16,6 +16,8 @@ June 16, 2022
             basics</a>
         -   <a href="#copy-on-modify" id="toc-copy-on-modify">2.3 -
             Copy-on-modify</a>
+            -   <a href="#tracemem" id="toc-tracemem">tracemem()</a>
+            -   <a href="#lists" id="toc-lists">Lists</a>
     -   <a href="#chapter-3---vectors" id="toc-chapter-3---vectors">Chapter 3 -
         Vectors</a>
     -   <a href="#chapter-4---subsetting"
@@ -74,11 +76,11 @@ June 16, 2022
         id="toc-chapter-25---rewriting-r-code-in-c">Chapter 25 - Rewriting R
         code in C++</a>
 
-## I - Foundations
+# I - Foundations
 
-### Chapter 2 - Names and values
+## Chapter 2 - Names and values
 
-#### 2.2 - Binding basics
+### 2.2 - Binding basics
 
 -   A value does not have a name; a name has a value.
 -   That is, a name gets bound to a value as a reference to that value.
@@ -112,7 +114,7 @@ obj_addr(a) == obj_addr(b) & obj_addr(b) == obj_addr(c)
 print(obj_addr(a))
 ```
 
-    [1] "0x7ff152aeb058"
+    [1] "0x2202c188"
 
 <br>
 
@@ -130,7 +132,7 @@ obj_addr(d) == obj_addr(a)
 print(obj_addr(d))
 ```
 
-    [1] "0x7ff1545b4790"
+    [1] "0x2215de18"
 
 <br>
 
@@ -145,7 +147,7 @@ objs <- list(mean, base::mean, evalq(mean), match.fun("mean"))
 obj_addrs(objs)
 ```
 
-    [1] "0x7ff1428c3060" "0x7ff1428c3060" "0x7ff1428c3060" "0x7ff1428c3060"
+    [1] "0x159346d0" "0x159346d0" "0x159346d0" "0x159346d0"
 
 <br>
 
@@ -176,7 +178,7 @@ Syntactic names may start with a letter, or a dot not followed by a
 number. `.123e1` starts with `.1`, so it is not a syntactically valid
 name. <br><br>
 
-#### 2.3 - Copy-on-modify
+### 2.3 - Copy-on-modify
 
 Consider the following two variables
 
@@ -204,7 +206,7 @@ This object is located at the following address:
 obj_addr(y)
 ```
 
-    [1] "0x7ff12406c528"
+    [1] "0x2229a3d0"
 
 <br>
 
@@ -216,7 +218,7 @@ y[[3]] <- 4
 obj_addr(y)
 ```
 
-    [1] "0x7ff153a33d38"
+    [1] "0x22688fc0"
 
 We see that this is different than the original object’s address
 
@@ -231,7 +233,7 @@ immutable – any changes results in the creation of a new object in
 memory.
 
 Copy-on-modify also applies when an object with one standalone reference
-is modified.mHere, `z` is assigned to a new object upon modification of
+is modified. Here, `z` is assigned to a new object upon modification of
 the original `z`. We see this by looking at the location in memory
 before and after the modificaiton.
 
@@ -242,7 +244,7 @@ z <- letters[1:3]
 obj_addr(z)
 ```
 
-    [1] "0x7ff1339a4c28"
+    [1] "0x22a395f0"
 
 <br>
 
@@ -253,58 +255,112 @@ z[[4]] <- "d"
 obj_addr(z)
 ```
 
-    [1] "0x7ff133aa6ec8"
+    [1] "0x22ccdad8"
 
-### Chapter 3 - Vectors
+#### tracemem()
 
-### Chapter 4 - Subsetting
+`base::tracemem()` will track an object’s location in memory.
 
-### Chapter 5 - Control Flow
+``` r
+x <- c(1, 2, 3)
+cat(tracemem(x), "\n")
+```
 
-### Chapter 6 - Functions
+    <0000000022FEA588> 
 
-### Chapter 7 - Environments
+A second name, `y` was assigned to this object. So when `x` or `y` is
+modified, copy-on-modify takes place.
 
-### Chapter 8 - Conditions
+``` r
+y <- x
+y[[4]] <- 4L
+```
 
-## II - Functional programming
+    tracemem[0x0000000022fea588 -> 0x000000002321abc8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
-### Chapter 9 - Functionals
+`base::untracemem()` is the opposite of `base::tracemem()`
 
-### Chapter 10 - Function factories
+``` r
+untracemem(x)
+```
 
-### Chapter 11 - Function operators
+#### Lists
 
-## III Object-oriented programming
+Lists do not store values. Instead, they store references to them.
 
-### Chapter 12 - Base types
+So when you modify a list, you can view how this effects copy-on-modify
+behavior using `lobstr::ref()`.
 
-### Chapter 13 - S3
+The first and fifth references are the lists themselves. The sixth
+references points to the new object, 4.
 
-### Chapter 14 - R6
+``` r
+l1 <- list(1, 2, 3)
+l2 <- l1
+l1[[3]] <- 4
+ref(l1, l2)
+```
 
-### Chapter 15 - S4
+    o [1:0x23512510] <list> 
+    +-[2:0x23967bc0] <dbl> 
+    +-[3:0x23967b88] <dbl> 
+    \-[4:0x2397d5d8] <dbl> 
+     
+    o [5:0x234b5b28] <list> 
+    +-[2:0x23967bc0] 
+    +-[3:0x23967b88] 
+    \-[6:0x23967b50] <dbl> 
 
-### Chapter 16 - Trade-offs
+## Chapter 3 - Vectors
 
-## IV - Metaprogramming
+## Chapter 4 - Subsetting
 
-### Chapter 17 - Big picture
+## Chapter 5 - Control Flow
 
-### Chapter 18 - Expressions
+## Chapter 6 - Functions
 
-### Chapter 19 - Quasiquotation
+## Chapter 7 - Environments
 
-### Chapter 20 - Evaluation
+## Chapter 8 - Conditions
 
-### Chapter 21 - Translating R code
+# II - Functional programming
 
-## V - Techniques
+## Chapter 9 - Functionals
 
-### Chapter 22 - Debugging
+## Chapter 10 - Function factories
 
-### Chapter 23 - Measuring performance
+## Chapter 11 - Function operators
 
-### Chapter 24 - Improving performance
+# III Object-oriented programming
 
-### Chapter 25 - Rewriting R code in C++
+## Chapter 12 - Base types
+
+## Chapter 13 - S3
+
+## Chapter 14 - R6
+
+## Chapter 15 - S4
+
+## Chapter 16 - Trade-offs
+
+# IV - Metaprogramming
+
+## Chapter 17 - Big picture
+
+## Chapter 18 - Expressions
+
+## Chapter 19 - Quasiquotation
+
+## Chapter 20 - Evaluation
+
+## Chapter 21 - Translating R code
+
+# V - Techniques
+
+## Chapter 22 - Debugging
+
+## Chapter 23 - Measuring performance
+
+## Chapter 24 - Improving performance
+
+## Chapter 25 - Rewriting R code in C++

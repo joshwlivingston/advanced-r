@@ -15,11 +15,11 @@ format:
         <h2>Table of Contents</h2>
 ---
 
-## I - Foundations
+# I - Foundations
 
-### Chapter 2 - Names and values
+## Chapter 2 - Names and values
 
-#### 2.2 - Binding basics
+### 2.2 - Binding basics
 
 - A value does not have a name; a name has a value.
 - That is, a name gets bound to a value as a reference to that value.
@@ -74,7 +74,7 @@ From the docs, <em>"A syntactically valid name consists of letters, numbers and 
 Syntactic names may start with a letter, or a dot not followed by a number. `.123e1` starts with `.1`, so it is not a syntactically valid name.
 <br><br>
 
-#### 2.3 - Copy-on-modify
+### 2.3 - Copy-on-modify
 
 Consider the following two variables
 ```{r}
@@ -108,7 +108,7 @@ obj_addr(x) == obj_addr(y)
 
 This behavior is called <em>copy-on-modify</em>; i.e., R objects are immutable -- any changes results in the creation of a new object in memory.
 
-Copy-on-modify also applies when an object with one standalone reference is modified.mHere, `z` is assigned to a new object upon modification of the original `z`. We see this by looking at the location in memory before and after the modificaiton.
+Copy-on-modify also applies when an object with one standalone reference is modified.  Here, `z` is assigned to a new object upon modification of the original `z`. We see this by looking at the location in memory before and after the modificaiton.
 
 Before:
 ```{r}
@@ -123,57 +123,100 @@ z[[4]] <- "d"
 obj_addr(z)
 ```
 
+#### tracemem()
 
-### Chapter 3 - Vectors
+`base::tracemem()` will track an object's location in memory.
 
-### Chapter 4 - Subsetting
+```{r}
+x <- c(1, 2, 3)
+cat(tracemem(x), "\n")
+```
 
-### Chapter 5 - Control Flow
+```{r}
 
-### Chapter 6 - Functions
+```
 
-### Chapter 7 - Environments
+A second name, `y` was assigned to this object. So when `x` or `y` is modified, copy-on-modify takes place.
+```{r}
+y <- x
+y[[4]] <- 4L
+```
 
-### Chapter 8 - Conditions
+`base::untracemem()` is the opposite of `base::tracemem()`
+```{r}
+untracemem(x)
+```
 
-## II - Functional programming
+#### Lists
 
-### Chapter 9 - Functionals
+Lists do not store values. Instead, they store references to them.
 
-### Chapter 10 - Function factories
+So when you modify a list, you can view how this effects copy-on-modify behavior using `lobstr::ref()`.
 
-### Chapter 11 - Function operators
+The first and fifth references are the lists themselves. The sixth references points to the new object, 4.
 
-## III Object-oriented programming
+```{r}
+l1 <- list(1, 2, 3)
+l2 <- l1
+l1[[3]] <- 4
+ref(l1, l2)
+```
 
-### Chapter 12 - Base types
 
-### Chapter 13 - S3
 
-### Chapter 14 - R6
 
-### Chapter 15 - S4
 
-### Chapter 16 - Trade-offs
 
-## IV - Metaprogramming
+## Chapter 3 - Vectors
 
-### Chapter 17 - Big picture
+## Chapter 4 - Subsetting
 
-### Chapter 18 - Expressions
+## Chapter 5 - Control Flow
 
-### Chapter 19 - Quasiquotation
+## Chapter 6 - Functions
 
-### Chapter 20 - Evaluation
+## Chapter 7 - Environments
 
-### Chapter 21 - Translating R code
+## Chapter 8 - Conditions
 
-## V - Techniques
+# II - Functional programming
 
-### Chapter 22 - Debugging
+## Chapter 9 - Functionals
 
-### Chapter 23 - Measuring performance
+## Chapter 10 - Function factories
 
-### Chapter 24 - Improving performance
+## Chapter 11 - Function operators
 
-### Chapter 25 - Rewriting R code in C++
+# III Object-oriented programming
+
+## Chapter 12 - Base types
+
+## Chapter 13 - S3
+
+## Chapter 14 - R6
+
+## Chapter 15 - S4
+
+## Chapter 16 - Trade-offs
+
+# IV - Metaprogramming
+
+## Chapter 17 - Big picture
+
+## Chapter 18 - Expressions
+
+## Chapter 19 - Quasiquotation
+
+## Chapter 20 - Evaluation
+
+## Chapter 21 - Translating R code
+
+# V - Techniques
+
+## Chapter 22 - Debugging
+
+## Chapter 23 - Measuring performance
+
+## Chapter 24 - Improving performance
+
+## Chapter 25 - Rewriting R code in C++
