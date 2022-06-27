@@ -1,7 +1,7 @@
 Advanced R - Exercises and Notes
 ================
 Josh Livingston \|
-June 26, 2022
+June 27, 2022
 
 <p>This repository stores all of my notes and exercise work-throughs from <a href="https://adv-r.hadley.nz/">Advanced R</a>. This uses the 2nd edition of Hadley Wickham's book.</p>
 <p>Source code is organized at the chapter-section level. In each section, notes appear before the exercises. Exercise text is noted with <em><b>bold and italicized text</b></em>.</p>
@@ -18,6 +18,10 @@ June 26, 2022
             Copy-on-modify</a>
             -   <a href="#tracemem" id="toc-tracemem">tracemem()</a>
             -   <a href="#lists" id="toc-lists">Lists</a>
+            -   <a href="#dataframes" id="toc-dataframes">Dataframes</a>
+            -   <a href="#character-vectors" id="toc-character-vectors">Character
+                vectors</a>
+            -   <a href="#exercises" id="toc-exercises">Exercises</a>
     -   <a href="#chapter-3---vectors" id="toc-chapter-3---vectors">Chapter 3 -
         Vectors</a>
     -   <a href="#chapter-4---subsetting"
@@ -114,7 +118,7 @@ obj_addr(a) == obj_addr(b) & obj_addr(b) == obj_addr(c)
 print(obj_addr(a))
 ```
 
-    [1] "0x2202c188"
+    [1] "0x7f9bdfce0bd8"
 
 <br>
 
@@ -132,7 +136,7 @@ obj_addr(d) == obj_addr(a)
 print(obj_addr(d))
 ```
 
-    [1] "0x2215de18"
+    [1] "0x7f9beeb69030"
 
 <br>
 
@@ -147,7 +151,7 @@ objs <- list(mean, base::mean, evalq(mean), match.fun("mean"))
 obj_addrs(objs)
 ```
 
-    [1] "0x159346d0" "0x159346d0" "0x159346d0" "0x159346d0"
+    [1] "0x7f9bdecfe460" "0x7f9bdecfe460" "0x7f9bdecfe460" "0x7f9bdecfe460"
 
 <br>
 
@@ -206,7 +210,7 @@ This object is located at the following address:
 obj_addr(y)
 ```
 
-    [1] "0x2229a3d0"
+    [1] "0x7f9bbf627548"
 
 <br>
 
@@ -218,7 +222,7 @@ y[[3]] <- 4
 obj_addr(y)
 ```
 
-    [1] "0x22688fc0"
+    [1] "0x7f9bcf3988b8"
 
 We see that this is different than the original object’s address
 
@@ -244,7 +248,7 @@ z <- letters[1:3]
 obj_addr(z)
 ```
 
-    [1] "0x22a395f0"
+    [1] "0x7f9bcedb67a8"
 
 <br>
 
@@ -255,7 +259,7 @@ z[[4]] <- "d"
 obj_addr(z)
 ```
 
-    [1] "0x22ccdad8"
+    [1] "0x7f9beec35868"
 
 #### tracemem()
 
@@ -266,17 +270,19 @@ x <- c(1, 2, 3)
 cat(tracemem(x), "\n")
 ```
 
-    <0000000022FEA588> 
+    <0x7f9bdffcde38> 
 
-A second name, `y` was assigned to this object. So when `x` or `y` is
-modified, copy-on-modify takes place.
+In the example below, a second name, `y` was assigned to an object,
+which already had an assigned name `x`. So when `x` or `y` is modified,
+copy-on-modify takes place. This will trigger `tracemem()` to print a
+memory change.
 
 ``` r
 y <- x
 y[[4]] <- 4L
 ```
 
-    tracemem[0x0000000022fea588 -> 0x000000002321abc8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7f9bdffcde38 -> 0x7f9bcf4d1b48]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
 `base::untracemem()` is the opposite of `base::tracemem()`
 
@@ -288,11 +294,17 @@ untracemem(x)
 
 Lists do not store values. Instead, they store references to them.
 
-So when you modify a list, you can view how this effects copy-on-modify
-behavior using `lobstr::ref()`.
+When you modify elements of a list, you can view how this effects
+copy-on-modify behavior using `lobstr::ref()`.
 
-The first and fifth references are the lists themselves. The sixth
-references points to the new object, 4.
+Here, we assign a new reference to a list object. We then modify one of
+the elements in the list, triggering copy-on-modify. iwth
+`lobstr::ref()`, we see that a new object was created for the list
+itself and the modified object. The other elements of the list remain
+the same object.
+
+In the output below, the first and fifth references are the lists
+themselves. The sixth references points to the new object, 4.
 
 ``` r
 l1 <- list(1, 2, 3)
@@ -301,15 +313,134 @@ l1[[3]] <- 4
 ref(l1, l2)
 ```
 
-    o [1:0x23512510] <list> 
-    +-[2:0x23967bc0] <dbl> 
-    +-[3:0x23967b88] <dbl> 
-    \-[4:0x2397d5d8] <dbl> 
+    █ [1:0x7f9bbea17928] <list> 
+    ├─[2:0x7f9bcf7f8010] <dbl> 
+    ├─[3:0x7f9bcf7f7fd8] <dbl> 
+    └─[4:0x7f9bcf7f7ec0] <dbl> 
      
-    o [5:0x234b5b28] <list> 
-    +-[2:0x23967bc0] 
-    +-[3:0x23967b88] 
-    \-[6:0x23967b50] <dbl> 
+    █ [5:0x7f9bbe828258] <list> 
+    ├─[2:0x7f9bcf7f8010] 
+    ├─[3:0x7f9bcf7f7fd8] 
+    └─[6:0x7f9bcf7f7fa0] <dbl> 
+
+#### Dataframes
+
+Since dataframes are a list of columns, and those columns are vectors,
+modifiying a column only results in that column being copied:
+
+``` r
+d1 <- data.frame(a = c(1, 2, 3), b = c(4, 5, 6))
+tracemem(d1)
+```
+
+    [1] "<0x7f9bef958008>"
+
+Here, `tracemem()` shows us that the new column was copied to a new
+object in memory.
+
+``` r
+d2 <- d1
+d2[, 2] <- d2[, 2] * 2
+```
+
+    tracemem[0x7f9bef958008 -> 0x7f9bce8911c8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7f9bce8911c8 -> 0x7f9bce8912c8]: [<-.data.frame [<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+
+And with `lobstr::ref()`, we confirm that both the data.frame object and
+the second column were copied.
+
+``` r
+ref(d1, d2)
+```
+
+    tracemem[0x7f9bef958008 -> 0x7f9bf8262808]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7f9bce8912c8 -> 0x7f9bdf82c488]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+
+    █ [1:0x7f9bef958008] <df[,2]> 
+    ├─a = [2:0x7f9befd5d158] <dbl> 
+    └─b = [3:0x7f9befd5d108] <dbl> 
+     
+    █ [4:0x7f9bce8912c8] <df[,2]> 
+    ├─a = [2:0x7f9befd5d158] 
+    └─b = [5:0x7f9bf86f80b8] <dbl> 
+
+Since data.frames are built column-wise, modifying a row results in
+copying every column.
+
+``` r
+d3 <- d1
+d1[1, ] <- d1[1, ] * 2
+```
+
+    tracemem[0x7f9bef958008 -> 0x7f9beeeeafc8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7f9beeeeafc8 -> 0x7f9beeeeaf08]: [<-.data.frame [<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+
+``` r
+untracemem(d1)
+ref(d1, d3)
+```
+
+    tracemem[0x7f9bef958008 -> 0x7f9bbed91248]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+
+    █ [1:0x7f9beeeeaf08] <df[,2]> 
+    ├─a = [2:0x7f9bbf626ff8] <dbl> 
+    └─b = [3:0x7f9bbf626fa8] <dbl> 
+     
+    █ [4:0x7f9bef958008] <df[,2]> 
+    ├─a = [5:0x7f9befd5d158] <dbl> 
+    └─b = [6:0x7f9befd5d108] <dbl> 
+
+#### Character vectors
+
+R uses a global string pool in each session. This means that each
+element of a character vector points to a string in the globally unique
+pool. The references can be viewed in `lobstr::ref()` by setting
+`character` to `TRUE`.
+
+``` r
+x <- letters[1:3]
+ref(x, character = TRUE)
+```
+
+    █ [1:0x7f9bcf4b36d8] <chr> 
+    ├─[2:0x7f9beeafaae8] <string: "a"> 
+    ├─[3:0x7f9bf82b50e8] <string: "b"> 
+    └─[4:0x7f9bee80e0c0] <string: "c"> 
+
+#### Exercises
+
+<b><em>Why is `tracemem(1:10)` not useful?</em></b>
+
+`1:10` is a sequence no name assigned to it, therefore will not be
+traceable after this initial call.
+
+<b><em>Explain why `tracemem()` shows two copies when you run this code.
+Hint: carefully look at the difference between this code and the code
+shown earlier in the section.</em></b>
+
+``` r
+x <- c(1L, 2L, 3L)
+tracemem(x)
+```
+
+    [1] "<0x7f9bbf9aaac8>"
+
+``` r
+x[[3]] <- 4
+```
+
+    tracemem[0x7f9bbf9aaac8 -> 0x7f9bbf9ce248]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7f9bbf9ce248 -> 0x7f9bdffabda8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+
+``` r
+untracemem(x)
+```
+
+In this example, the original object `x` is an integer vector. When the
+third element of the vector is modifed to 4, a double, the vector is
+first modified by being converted to a double vector. Then it is
+modified again when the third element is modified. This results in two
+copies-on-modify, reflected in the `tracemem()` output.
 
 ## Chapter 3 - Vectors
 
