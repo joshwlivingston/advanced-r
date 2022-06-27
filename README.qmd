@@ -58,7 +58,7 @@ obj_addrs(objs)
 ```
 <br>
 
-*3. By default, base R data import functions, like `read.csv()`, will automatically convert non-syntactc names to syntactic ones. Why might this be problematic? What option allows you to supporess this behavior?*
+*3. By default, base R data import functions, like `read.csv()`, will automatically convert non-syntactic names to syntactic ones. Why might this be problematic? What option allows you to suppress this behavior?*
 
 Column names often represent data, so renaming with `make.names` changes underlying data. You can suppress this with `check.names = FALSE`.
 <br><br>
@@ -96,7 +96,7 @@ obj_addr(y)
 ```
 <br>
 
-Modiyfing the object assigned to `y` results in the creation of a new object.
+Modifying the object assigned to `y` results in the creation of a new object.
 ```{r}
 y[[3]] <- 4
 obj_addr(y)
@@ -139,7 +139,7 @@ Lists do not store values. Instead, they store references to them.
 
 When you modify elements of a  list, you can view how this effects copy-on-modify behavior using `lobstr::ref()`.
 
-Here, we assign a new reference to a list object. We then modify one of the elements in the list, triggering copy-on-modify. iwth `lobstr::ref()`, we see that a new object was created for the list itself and the modified object. The other elements of the list remain the same object.
+Here, we assign a new reference to a list object. We then modify one of the elements in the list, triggering copy-on-modify. With `lobstr::ref()`, we see that a new object was created for the list itself and the modified object. The other elements of the list remain the same object.
 
 In the output below, the first and fifth references are the lists themselves. The sixth references points to the new object, 4.
 
@@ -206,7 +206,7 @@ x[[3]] <- 4
 untracemem(x)
 ```
 
-In this example, the original object `x` is an integer vector. When the third element of the vector is modifed to 4, a double, the vector is first modified by being converted to a double vector. Then it is modified again when the third element is modified. This results in two copies-on-modify, reflected in the `tracemem()` output.
+In this example, the original object `x` is an integer vector. When the third element of the vector is modified to 4, a double, the vector is first modified by being converted to a double vector. Then it is modified again when the third element is modified. This results in two copies-on-modify, reflected in the `tracemem()` output.
 
 ## 2.4: Object size
 
@@ -220,7 +220,7 @@ obj_size(c(1, 2, 3))
 
 #### Lists
 
-Because lists store refereneces to objects, a repeated list is smaller than one would imagine. This is because the reference occupies less space in memeory than the object itself.
+Because lists store references to objects, a repeated list is smaller than one would imagine. This is because the reference occupies less space in memory than the object itself.
 
 ```{r}
 l1 <- list(rep(100, 100000))
@@ -291,6 +291,8 @@ There are two exceptions to copy-on-modify:
 - Objects with a single binding
 - Environments
 
+In these exceptions, R executes a modify in place optimization.
+
 #### Objects with a single binding
 
 If an object has only one name assigned to it, R will modify in place.
@@ -307,7 +309,7 @@ a[[3]] <- 4
 ref(a)
 ```
 
-Note that this optimization does *not* apply when modifyins a vector's length.  Here, `z` is assigned to a new object upon "adding" a fourth element to the vector `z`.
+Note that this optimization does *not* apply when modifying a vector's length.  Here, `z` is assigned to a new object upon "adding" a fourth element to the vector `z`.
 
 Before:
 ```{r}
