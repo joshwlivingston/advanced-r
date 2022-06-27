@@ -47,7 +47,7 @@ However, `d` does not occupy the same memory space. Thus, `d` is an is a separat
 obj_addr(d) == obj_addr(a)
 print(obj_addr(d))
 ```
-<br><br>
+<br>
 
 *2. The following code accesses the mean function in multiple ways. Do they all point to the same underlying function object?*
 
@@ -56,7 +56,7 @@ All accessors to the `mean()` function point to the same object in memory.
 objs <- list(mean, base::mean, evalq(mean), match.fun("mean"))
 obj_addrs(objs)
 ```
-<br><br>
+<br>
 
 *3. By default, base R data import functions, like `read.csv()`, will automatically convert non-syntactic names to syntactic ones. Why might this be problematic? What option allows you to suppress this behavior?*
 
@@ -388,7 +388,7 @@ Modified list:
 x[[1]] <- x
 ref(x)
 ```
-<br><br>
+<br>
 *2. Wrap the two methods for subtracting medians into two functions, then use the ‘bench’ package to carefully compare their speeds. How does performance change as the number of columns increase?*
 
 Note: Instead of multiplying columns by 5 to demonstrate the exception to modify-in-place, the book subtracted medians. I'll continue to multiply by 5 below.
@@ -419,7 +419,7 @@ l <- as.list(df)
 bm <- mark(df = mult_five_seq(df), l = mult_five_seq(l))
 knitr::kable(bm[, 1:5])
 ```
-<br><br>
+<br>
 *3. What happens if you attempt to use `tracemem()` on an environment?*
 Modify-in-place always applies to environments, since existing bindings keep their references.
 
