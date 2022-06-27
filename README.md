@@ -33,8 +33,8 @@ c <- b
 d <- 1:10
 ```
 
-`a`, `b`, and `c` all occupy the same space in memory. Thus, they are
-separate references, each of which have been assigned to the same
+<br> `a`, `b`, and `c` all occupy the same space in memory. Thus, they
+are separate references, each of which have been assigned to the same
 object.
 
 ``` r
@@ -48,7 +48,7 @@ obj_addr(a) == obj_addr(b) & obj_addr(b) == obj_addr(c)
 print(obj_addr(a))
 ```
 
-    [1] "0x7f9de29b42e8"
+    [1] "0x7ff3de3b4960"
 
 <br>
 
@@ -66,9 +66,9 @@ obj_addr(d) == obj_addr(a)
 print(obj_addr(d))
 ```
 
-    [1] "0x7f9de1d7d170"
+    [1] "0x7ff3dd48c858"
 
-<br>
+<br><br>
 
 *2. The following code accesses the mean function in multiple ways. Do
 they all point to the same underlying function object?*
@@ -81,17 +81,16 @@ objs <- list(mean, base::mean, evalq(mean), match.fun("mean"))
 obj_addrs(objs)
 ```
 
-    [1] "0x7f9e032cc260" "0x7f9e032cc260" "0x7f9e032cc260" "0x7f9e032cc260"
+    [1] "0x7ff3bd6f6e60" "0x7ff3bd6f6e60" "0x7ff3bd6f6e60" "0x7ff3bd6f6e60"
 
-<br>
+<br><br>
 
 *3. By default, base R data import functions, like `read.csv()`, will
 automatically convert non-syntactic names to syntactic ones. Why might
 this be problematic? What option allows you to suppress this behavior?*
 
 Column names often represent data, so renaming with `make.names` changes
-underlying data. You can suppress this with `check.names = FALSE`.
-<br><br>
+underlying data. You can suppress this with `check.names = FALSE`. <br>
 
 *4. What rules does `make.names()` use to convert non-syntactic names
 into syntactic ones?*
@@ -101,14 +100,14 @@ and the dot or underline characters and starts with a letter or the dot
 not followed by a number.”* Letters are defined by locale, but only
 ASCII digits are used. Invalid characters are translated to “.”. Missing
 is translated to “NA”. And reserved words have a “.” appended to them.
-Then, values are de-duplicated using `make.unique()`. <br><br>
+Then, values are de-duplicated using `make.unique()`. <br>
 
 *5. I slightly simplified the rules that govern syntactic names. Why is
 `.123e1` not a syntactic name?*
 
 Syntactic names may start with a letter, or a dot not followed by a
 number. `.123e1` starts with `.1`, so it is not a syntactically valid
-name. <br><br>
+name. <br>
 
 ## 2.3: Copy-on-modify
 
@@ -140,7 +139,7 @@ This object is located at the following address:
 obj_addr(y)
 ```
 
-    [1] "0x7f9de4c19158"
+    [1] "0x7ff3b892aed8"
 
 <br>
 
@@ -152,9 +151,9 @@ y[[3]] <- 4
 obj_addr(y)
 ```
 
-    [1] "0x7f9de322be08"
+    [1] "0x7ff3ad7a4988"
 
-We see that this is different than the original object’s address
+<br> We see that this is different than the original object’s address
 
 ``` r
 obj_addr(x) == obj_addr(y)
@@ -162,7 +161,7 @@ obj_addr(x) == obj_addr(y)
 
     [1] FALSE
 
-This behavior is called ***copy-on-modify***; i.e., R objects are
+<br> This behavior is called ***copy-on-modify***; i.e., R objects are
 immutable – any changes results in the creation of a new object in
 memory.
 
@@ -175,9 +174,11 @@ x <- c(1, 2, 3)
 cat(tracemem(x), "\n")
 ```
 
-    <0x7f9de2e53058> 
+    <0x7ff3ada3a728> 
 
-In the example below, a second name, `y` was assigned to an object,
+<br>
+
+<br> In the example below, a second name, `y` was assigned to an object,
 which already had an assigned name `x`. So when `x` or `y` is modified,
 copy-on-modify takes place. This will trigger `tracemem()` to print a
 memory change.
@@ -187,15 +188,15 @@ y <- x
 y[[4]] <- 4L
 ```
 
-    tracemem[0x7f9de2e53058 -> 0x7f9de2bde8c8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3ada3a728 -> 0x7ff3dd53f3e8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
-`base::untracemem()` is the opposite of `base::tracemem()`
+<br> `base::untracemem()` is the opposite of `base::tracemem()`
 
 ``` r
 untracemem(x)
 ```
 
-#### Lists
+<br> \#### Lists
 
 Lists do not store values. Instead, they store references to them.
 
@@ -218,17 +219,17 @@ l1[[3]] <- 4
 ref(l1, l2)
 ```
 
-    █ [1:0x7f9de3357028] <list> 
-    ├─[2:0x7f9e03e4bbe0] <dbl> 
-    ├─[3:0x7f9e03e4bba8] <dbl> 
-    └─[4:0x7f9e03e4ba90] <dbl> 
+    █ [1:0x7ff3af367f48] <list> 
+    ├─[2:0x7ff3af1fbea8] <dbl> 
+    ├─[3:0x7ff3af1fbe70] <dbl> 
+    └─[4:0x7ff3af1fbd58] <dbl> 
      
-    █ [5:0x7f9de32f9d98] <list> 
-    ├─[2:0x7f9e03e4bbe0] 
-    ├─[3:0x7f9e03e4bba8] 
-    └─[6:0x7f9e03e4bb70] <dbl> 
+    █ [5:0x7ff3af30e118] <list> 
+    ├─[2:0x7ff3af1fbea8] 
+    ├─[3:0x7ff3af1fbe70] 
+    └─[6:0x7ff3af1fbe38] <dbl> 
 
-#### Data frames
+<br> \#### Data frames
 
 Since data frames are a list of columns, and those columns are vectors,
 modifying a column only results in that column being copied:
@@ -238,9 +239,9 @@ d1 <- data.frame(a = c(1, 2, 3), b = c(4, 5, 6))
 tracemem(d1)
 ```
 
-    [1] "<0x7f9de2ef14c8>"
+    [1] "<0x7ff3de599a48>"
 
-Here, `tracemem()` shows us that the new column was copied to a new
+<br> Here, `tracemem()` shows us that the new column was copied to a new
 object in memory.
 
 ``` r
@@ -248,28 +249,28 @@ d2 <- d1
 d2[, 2] <- d2[, 2] * 2
 ```
 
-    tracemem[0x7f9de2ef14c8 -> 0x7f9de4ef34c8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7f9de4ef34c8 -> 0x7f9de4ef3408]: [<-.data.frame [<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3de599a48 -> 0x7ff3de5e2d48]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3de5e2d48 -> 0x7ff3de5e2c88]: [<-.data.frame [<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
-And with `lobstr::ref()`, we confirm that both the data.frame object and
-the second column were copied.
+<br> And with `lobstr::ref()`, we confirm that both the data.frame
+object and the second column were copied.
 
 ``` r
 ref(d1, d2)
 ```
 
-    tracemem[0x7f9de2ef14c8 -> 0x7f9de254fa08]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7f9de4ef3408 -> 0x7f9de23e2508]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3de599a48 -> 0x7ff3adc4e788]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3de5e2c88 -> 0x7ff3de3dcd48]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
-    █ [1:0x7f9de2ef14c8] <df[,2]> 
-    ├─a = [2:0x7f9de2ef4b28] <dbl> 
-    └─b = [3:0x7f9de2ef4ad8] <dbl> 
+    █ [1:0x7ff3de599a48] <df[,2]> 
+    ├─a = [2:0x7ff3de595088] <dbl> 
+    └─b = [3:0x7ff3de595038] <dbl> 
      
-    █ [4:0x7f9de4ef3408] <df[,2]> 
-    ├─a = [2:0x7f9de2ef4b28] 
-    └─b = [5:0x7f9de4efc018] <dbl> 
+    █ [4:0x7ff3de5e2c88] <df[,2]> 
+    ├─a = [2:0x7ff3de595088] 
+    └─b = [5:0x7ff3de5eb778] <dbl> 
 
-Since data.frames are built column-wise, modifying a row results in
+<br> Since data.frames are built column-wise, modifying a row results in
 copying every column.
 
 ``` r
@@ -277,25 +278,27 @@ d3 <- d1
 d1[1, ] <- d1[1, ] * 2
 ```
 
-    tracemem[0x7f9de2ef14c8 -> 0x7f9de27ea548]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7f9de27ea548 -> 0x7f9de27ea288]: [<-.data.frame [<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3de599a48 -> 0x7ff3ad4be7c8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3ad4be7c8 -> 0x7ff3ad4be548]: [<-.data.frame [<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+
+<br>
 
 ``` r
 untracemem(d1)
 ref(d1, d3)
 ```
 
-    tracemem[0x7f9de2ef14c8 -> 0x7f9e03ca0108]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3de599a48 -> 0x7ff3af27ab88]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
-    █ [1:0x7f9de27ea288] <df[,2]> 
-    ├─a = [2:0x7f9de4245d38] <dbl> 
-    └─b = [3:0x7f9de4245ce8] <dbl> 
+    █ [1:0x7ff3ad4be548] <df[,2]> 
+    ├─a = [2:0x7ff3de4da8d8] <dbl> 
+    └─b = [3:0x7ff3de4da6f8] <dbl> 
      
-    █ [4:0x7f9de2ef14c8] <df[,2]> 
-    ├─a = [5:0x7f9de2ef4b28] <dbl> 
-    └─b = [6:0x7f9de2ef4ad8] <dbl> 
+    █ [4:0x7ff3de599a48] <df[,2]> 
+    ├─a = [5:0x7ff3de595088] <dbl> 
+    └─b = [6:0x7ff3de595038] <dbl> 
 
-#### Character vectors
+<br> \#### Character vectors
 
 R uses a global string pool in each session. This means that each
 element of a character vector points to a string in the globally unique
@@ -307,17 +310,17 @@ x <- letters[1:3]
 ref(x, character = TRUE)
 ```
 
-    █ [1:0x7f9de3244448] <chr> 
-    ├─[2:0x7f9e021684e8] <string: "a"> 
-    ├─[3:0x7f9e01d512e8] <string: "b"> 
-    └─[4:0x7f9e0180e0c0] <string: "c"> 
+    █ [1:0x7ff3ad70fdf8] <chr> 
+    ├─[2:0x7ff3dd2faae8] <string: "a"> 
+    ├─[3:0x7ff3deb07ce8] <string: "b"> 
+    └─[4:0x7ff3dd00e0c0] <string: "c"> 
 
-### Exercises
+<br> \### Exercises
 
 *1. Why is `tracemem(1:10)` not useful?*
 
 `1:10` is a sequence no name assigned to it, therefore will not be
-traceable after this initial call.
+traceable after this initial call. <br>
 
 *2. Explain why `tracemem()` shows two copies when you run this code.
 Hint: carefully look at the difference between this code and the code
@@ -328,22 +331,22 @@ x <- c(1L, 2L, 3L)
 tracemem(x)
 ```
 
-    [1] "<0x7f9de495f848>"
+    [1] "<0x7ff3afea86c8>"
 
 ``` r
 x[[3]] <- 4
 ```
 
-    tracemem[0x7f9de495f848 -> 0x7f9de4997008]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7f9de4997008 -> 0x7f9de318b748]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3afea86c8 -> 0x7ff3afed14c8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3afed14c8 -> 0x7ff3ad61a6a8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
 ``` r
 untracemem(x)
 ```
 
-In this example, the original object `x` is an integer vector. When the
-third element of the vector is modified to 4, a double, the vector is
-first modified by being converted to a double vector. Then it is
+<br> In this example, the original object `x` is an integer vector. When
+the third element of the vector is modified to 4, a double, the vector
+is first modified by being converted to a double vector. Then it is
 modified again when the third element is modified. This results in two
 copies-on-modify, reflected in the `tracemem()` output.
 
@@ -365,7 +368,7 @@ obj_size(c(1, 2, 3))
 
     80 B
 
-#### Lists
+<br> \#### Lists
 
 Because lists store references to objects, a repeated list is smaller
 than one would imagine. This is because the reference occupies less
@@ -385,9 +388,9 @@ obj_size(l2)
 
     800,184 B
 
-A list repeated three times is 80 bytes larger than the original list,
-which was of size 800,104 bytes. 80 bytes is the size of a list of three
-empty objects:
+<br> A list repeated three times is 80 bytes larger than the original
+list, which was of size 800,104 bytes. 80 bytes is the size of a list of
+three empty objects:
 
 ``` r
 obj_size(list(NULL, NULL, NULL))
@@ -395,7 +398,7 @@ obj_size(list(NULL, NULL, NULL))
 
     80 B
 
-#### Character vectors
+<br> \#### Character vectors
 
 Similarly, since character vectors are references to the global string
 pool, a repeated character vector does not increase size dramatically:
@@ -413,7 +416,7 @@ obj_size(rep(s, 10))
 
     256 B
 
-#### Alternative representation
+<br> \#### Alternative representation
 
 Starting in R 3.5.0, alternative representation allowed R to represent
 certain vectors compactly. This is most commonly observed when using `:`
@@ -440,7 +443,7 @@ obj_size(1:1e9)
 
     680 B
 
-### Exercises
+<br> \### Exercises
 
 *1.In the following example, why are object.size(y) and obj_size(y) so
 radically different?*
@@ -459,8 +462,10 @@ obj_size(y)
 
     80,896 B
 
+<br>
+
 Per the documentation, `base::object.size()` measures the size of each
-object, and does not account for shred objects within lists.
+object, and does not account for shred objects within lists. <br>
 
 *2. Take the following list. Why is its size somewhat misleading?*
 
@@ -471,8 +476,9 @@ obj_size(funs)
 
     17,608 B
 
-These objects come shipped with base R, so they are always available. It
-does not represent additional memory allocated to these objects.
+<br> These objects come shipped with base R, so they are always
+available. It does not represent additional memory allocated to these
+objects.
 
 ## 2.5: Modify-in-place
 
@@ -496,20 +502,20 @@ a <- c(1, 2, 3)
 ref(a)
 ```
 
-    [1:0x7f9de4b5b2e8] <dbl> 
+    [1:0x7ff3b88d9f18] <dbl> 
 
-After:
+<br> After:
 
 ``` r
 a[[3]] <- 4
 ref(a)
 ```
 
-    [1:0x7f9de4d66988] <dbl> 
+    [1:0x7ff3af1147d8] <dbl> 
 
-Note that this optimization does *not* apply when modifying a vector’s
-length. Here, `z` is assigned to a new object upon “adding” a fourth
-element to the vector `z`.
+<br> Note that this optimization does *not* apply when modifying a
+vector’s length. Here, `z` is assigned to a new object upon “adding” a
+fourth element to the vector `z`.
 
 Before:
 
@@ -518,7 +524,7 @@ z <- letters[1:3]
 obj_addr(z)
 ```
 
-    [1] "0x7f9de27194b8"
+    [1] "0x7ff3ad7a4168"
 
 <br>
 
@@ -529,10 +535,10 @@ z[[4]] <- "d"
 obj_addr(z)
 ```
 
-    [1] "0x7f9de31c44a8"
+    [1] "0x7ff3af287ff8"
 
-There are two complications in R’s behavior that limit execution of the
-modify-in-place optimization:
+<br> There are two complications in R’s behavior that limit execution of
+the modify-in-place optimization:
 
 1.  R can only count if an object has 0, 1, or many references. That
     means that if an object has one of two bindings removed, the binding
@@ -554,7 +560,7 @@ x <- as.data.frame(matrix(runif(1e3), ncol = 4))
 tracemem(x)
 ```
 
-    [1] "<0x7f9de31af828>"
+    [1] "<0x7ff3ae86ff28>"
 
 ``` r
 for (i in seq_along(x)) {
@@ -562,27 +568,27 @@ for (i in seq_along(x)) {
 }
 ```
 
-    tracemem[0x7f9de31af828 -> 0x7f9de2eeb688]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7f9de2eeb688 -> 0x7f9de2ef0cb8]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7f9de2ef0cb8 -> 0x7f9de2ef0c18]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7f9de2ef0c18 -> 0x7f9de2ef0ad8]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7f9de2ef0ad8 -> 0x7f9de2ef09e8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7f9de2ef09e8 -> 0x7f9de2ef08f8]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7f9de2ef08f8 -> 0x7f9de2ef0858]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7f9de2ef0858 -> 0x7f9de2ef0768]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3ae86ff28 -> 0x7ff3de5b5bd8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3de5b5bd8 -> 0x7ff3de596208]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3de596208 -> 0x7ff3de596168]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3de596168 -> 0x7ff3de596028]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3de596028 -> 0x7ff3de595f38]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3de595f38 -> 0x7ff3de595e48]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3de595e48 -> 0x7ff3de595da8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3de595da8 -> 0x7ff3de595cb8]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
 ``` r
 untracemem(x)
 ```
 
-Then a list:
+<br> Then a list:
 
 ``` r
 l <- as.list(x)
 tracemem(l)
 ```
 
-    [1] "<0x7f9de3259768>"
+    [1] "<0x7ff3ae989ad8>"
 
 ``` r
 for (i in seq_along(l)) {
@@ -590,28 +596,28 @@ for (i in seq_along(l)) {
 }
 ```
 
-    tracemem[0x7f9de3259768 -> 0x7f9e03956278]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7ff3ae989ad8 -> 0x7ff3aef0b4d8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
 ``` r
 untracemem(l)
 ```
 
-#### Environments
+<br> \#### Environments
 
 Environments are always modified-in-place, since existing bindings in
 that environment continue to have the same reference.
 
 ### Exercises
 
-*1.Explain why the following code doesn’t create a circular list.*
+*1. Explain why the following code doesn’t create a circular list.*
 
 ``` r
 x <- list()
 x[[1]] <- x
 ```
 
-In the first line of code, an empty list is created, and the name `x`
-assigned to it.
+<br> In the first line of code, an empty list is created, and the name
+`x` assigned to it.
 
 The next line of code modifies the length of `x`, so copy-on-modify
 takes place to create a new list of length one, with the first element
@@ -626,21 +632,21 @@ x <- list()
 ref(x)
 ```
 
-    █ [1:0x7f9de23f6f08] <list> 
+    █ [1:0x7ff3dd6e8590] <list> 
 
-Modified list:
+<br> Modified list:
 
 ``` r
 x[[1]] <- x
 ref(x)
 ```
 
-    █ [1:0x7f9de2173348] <list> 
-    └─█ [2:0x7f9de23f6f08] <list> 
+    █ [1:0x7ff3bd50db68] <list> 
+    └─█ [2:0x7ff3dd6e8590] <list> 
 
-*2. Wrap the two methods for subtracting medians into two functions,
-then use the ‘bench’ package to carefully compare their speeds. How does
-performance change as the number of columns increase?*
+<br><br> *2. Wrap the two methods for subtracting medians into two
+functions, then use the ‘bench’ package to carefully compare their
+speeds. How does performance change as the number of columns increase?*
 
 Note: Instead of multiplying columns by 5 to demonstrate the exception
 to modify-in-place, the book subtracted medians. I’ll continue to
@@ -663,12 +669,12 @@ bm <- mark(df = mult_five_seq(df), l = mult_five_seq(l))
 knitr::kable(bm[, 1:5])
 ```
 
-| expression |     min |  median |   itr/sec | mem_alloc |
-|:-----------|--------:|--------:|----------:|----------:|
-| df         | 45.29µs | 48.75µs |  18912.73 |    99.9KB |
-| l          |  4.04µs |  5.29µs | 176810.95 |    78.3KB |
+| expression |     min | median |   itr/sec | mem_alloc |
+|:-----------|--------:|-------:|----------:|----------:|
+| df         | 45.46µs | 48.8µs |  18718.27 |    99.9KB |
+| l          |  3.71µs |    5µs | 187384.00 |    78.3KB |
 
-With a 250 x 400 data set, the differences in both speed and memory
+<br> With a 250 x 400 data set, the differences in both speed and memory
 allocation are much more pronounced. Here, 70x faster and a quarter of
 the memory used.
 
@@ -680,14 +686,14 @@ bm <- mark(df = mult_five_seq(df), l = mult_five_seq(l))
 knitr::kable(bm[, 1:5])
 ```
 
-| expression |    min |   median |   itr/sec | mem_alloc |
-|:-----------|-------:|---------:|----------:|----------:|
-| df         | 7.83ms |   8.02ms |  123.2784 |    3.26MB |
-| l          |  105µs | 112.83µs | 8322.7996 |  803.17KB |
+| expression |     min |   median |   itr/sec | mem_alloc |
+|:-----------|--------:|---------:|----------:|----------:|
+| df         |  7.77ms |   7.97ms |  123.6432 |    3.26MB |
+| l          | 97.29µs | 103.79µs | 8977.1741 |  803.17KB |
 
-*3. What happens if you attempt to use `tracemem()` on an environment?*
-Modify-in-place always applies to environments, since existing bindings
-keep their references.
+<br><br> *3. What happens if you attempt to use `tracemem()` on an
+environment?* Modify-in-place always applies to environments, since
+existing bindings keep their references.
 
 ## 2.6: Unbinding the garbage collector
 
@@ -705,7 +711,7 @@ x <- 2:4
 rm(x)
 ```
 
-Two objects were created above as a result of the original object
+<br> Two objects were created above as a result of the original object
 creation and the copy-on-modify behavior. Then, the name `x` was
 removed, but the objects remained. R’s garbage collector will remove
 these objects when necessary. You can have the collector print a message
