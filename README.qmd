@@ -3,8 +3,6 @@ title: Advanced R - Exercises and Notes
 author: Josh Livingston | 
 date: today
 date-format: long
-toc: true
-toc-depth: 4
 format: 
   gfm:
     include-in-header: 
@@ -12,7 +10,6 @@ format:
         <p>This repository stores all of my notes and exercise work-throughs from <a href="https://adv-r.hadley.nz/">Advanced R</a>. This uses the 2nd edition of Hadley Wickham's book.</p>
         <p>Source code is organized at the chapter-section level. In each section, notes appear before the exercises. Exercise text is noted with <em><b>bold and italicized text</b></em>.</p>
         <p>This README was rendered using <a href="https::quarto.org">quarto</a>.</p>
-        <h2>Table of Contents</h2>
 ---
 
 # I - Foundations
