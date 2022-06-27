@@ -3,8 +3,6 @@ title: Advanced R - Exercises and Notes
 author: Josh Livingston | 
 date: today
 date-format: long
-toc: true
-toc-depth: 4
 format: 
   gfm:
     include-in-header: 
