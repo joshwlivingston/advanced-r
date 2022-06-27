@@ -107,7 +107,7 @@ We see that this is different than the original object's address
 obj_addr(x) == obj_addr(y)
 ```
 
-This behavior is called <em>copy-on-modify</em>; i.e., R objects are immutable -- any changes results in the creation of a new object in memory.
+This behavior is called <b><em>copy-on-modify</em></b>; i.e., R objects are immutable -- any changes results in the creation of a new object in memory.
 
 Copy-on-modify also applies when an object with one standalone reference is modified.  Here, `z` is assigned to a new object upon modification of the original `z`. We see this by looking at the location in memory before and after the modificaiton.
 
@@ -124,7 +124,7 @@ z[[4]] <- "d"
 obj_addr(z)
 ```
 
-<em>tracemem()
+#### tracemem()
 
 `base::tracemem()` will track an object's location in memory.
 
@@ -148,7 +148,7 @@ y[[4]] <- 4L
 untracemem(x)
 ```
 
-<em>Lists
+#### Lists
 
 Lists do not store values. Instead, they store references to them.
 
@@ -165,9 +165,9 @@ l1[[3]] <- 4
 ref(l1, l2)
 ```
 
-<em>Dataframes
+#### Data frames
 
-Since dataframes are a list of columns, and those columns are vectors, modifiying a column only results in that column being copied:
+Since data frames are a list of columns, and those columns are vectors, modifying a column only results in that column being copied:
 ```{r}
 d1 <- data.frame(a = c(1, 2, 3), b = c(4, 5, 6))
 tracemem(d1)
@@ -196,7 +196,7 @@ untracemem(d1)
 ref(d1, d3)
 ```
 
-<em>Character vectors
+#### Character vectors
 
 R uses a global string pool in each session. This means that each element of a character vector points to a string in the globally unique pool. The references can be viewed in `lobstr::ref()` by setting `character` to `TRUE`.
 
