@@ -25,7 +25,7 @@ format:
 
 ### Exercises
 
-<em>1. Explain the relationship between `a`, `b`, `c`, and `d` in the following code:*
+*1. Explain the relationship between `a`, `b`, `c`, and `d` in the following code:*
 ```{r}
 a <- 1:10
 b <- a
