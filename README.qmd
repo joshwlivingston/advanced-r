@@ -223,6 +223,80 @@ untracemem(x)
 
 In this example, the original object `x` is an integer vector. When the third element of the vector is modifed to 4, a double, the vector is first modified by being converted to a double vector. Then it is modified again when the third element is modified. This results in two copies-on-modify, reflected in the `tracemem()` output.
 
+## 2.4 - Object size
+
+### Notes
+
+`lobstr::obj_size()` shows you the size of an object in memory.
+```{r}
+obj_size(iris)
+obj_size(c(1, 2, 3))
+```
+
+#### Lists
+
+Because lists store refereneces to objects, a repeated list is smaller than one would imagine. This is because the reference occupies less space in memeory than the object itself.
+
+```{r}
+l1 <- list(rep(100, 100000))
+obj_size(l1)
+
+l2 <- list(l1, l1, l1)
+obj_size(l2)
+```
+
+A list repeated three times is 80 bytes larger than the original list, which was of size 800,104 bytes. 80 bytes is the size of a list of three empty objects:
+
+```{r}
+obj_size(list(NULL, NULL, NULL))
+```
+
+#### Character vectors
+
+Similarly, since character vectors are references to the global string pool, a repeated character vector does not increase size dramatically:
+
+```{r}
+s <- "ask me about my sentence"
+obj_size(s)
+
+obj_size(rep(s, 10))
+```
+
+#### Alternative representation
+
+Starting in R 3.5.0, alternative representation allowed R to represent certain vectors compactly. This is most commonly observed when using `:` to create a sequence.
+
+Because of ALTREP, every sequence in R has the same size, regardless of the sequence length:
+
+```{r}
+obj_size(1:2)
+obj_size(1:10)
+obj_size(1:1e9)
+```
+
+### Exercises
+
+<em>1.In the following example, why are object.size(y) and obj_size(y) so radically different?</em>
+
+```{r}
+y <- rep(list(runif(1e4)), 100)
+
+object.size(y)
+obj_size(y)
+```
+
+
+Per the documentation, `base::object.size()` measures the size of each object, and does not account for shred objects within lists.
+
+<em>2. Take the following list. Why is its size somewhat misleading?</em>
+
+```{r}
+funs <- list(mean, sd, var)
+obj_size(funs)
+```
+
+These objects come shipped with base R, so they are always available. It does not represent additional memory allocated to these objects.
+
 # Chapter 3 - Vectors
 
 # Chapter 4 - Subsetting
