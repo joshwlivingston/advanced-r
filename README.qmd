@@ -8,22 +8,24 @@ format:
     include-in-header: 
       text: |
         <p>This repository stores all of my notes and exercise work-throughs from <a href="https://adv-r.hadley.nz/">Advanced R</a>. This uses the 2nd edition of Hadley Wickham's book.</p>
-        <p>Source code is organized at the chapter-section level. In each section, notes appear before the exercises. Exercise text is noted with <em><b>bold and italicized text</b></em>.</p>
+        <p>Source code is organized at the chapter-section level. In each section, notes appear first, followed by the exercises. Exercise question text are written in <em>italics</em>.</p>
         <p>This README was rendered using <a href="https::quarto.org">quarto</a>.</p>
 ---
 
-# I - Foundations
+# Chapter 2 - Names and values
 
-## Chapter 2 - Names and values
+## 2.2 - Binding basics
 
-### 2.2 - Binding basics
+### Notes
 
 - A value does not have a name; a name has a value.
 - That is, a name gets bound to a value as a reference to that value.
 - Assigning a second name to that object does not change the object or copy it. It simply assigns a new name as reference to that object.
 - Names have to be pretty. See `?make.names` for rules governing syntactically valid names.
 
-<b><em>1. Explain the relationship between `a`, `b`, `c`, and `d` in the following code:</em></b>
+### Exercises
+
+<em>1. Explain the relationship between `a`, `b`, `c`, and `d` in the following code:</em>
 ```{r}
 a <- 1:10
 b <- a
@@ -47,7 +49,7 @@ print(obj_addr(d))
 ```
 <br>
 
-<b><em>2. The following code accesses the mean function in multiple ways. Do they all point to the same underlying function object?</em></b>
+<em>2. The following code accesses the mean function in multiple ways. Do they all point to the same underlying function object?</em>
 
 All accessors to the `mean()` function point to the same object in memory.
 ```{r}
@@ -56,22 +58,24 @@ obj_addrs(objs)
 ```
 <br>
 
-<b><em>3. By default, base R data import functions, like `read.csv()`, will automatically convert non-syntactc names to syntactic ones. Why might this be problematic? What option allows you to supporess this behavior?</em></b>
+<em>3. By default, base R data import functions, like `read.csv()`, will automatically convert non-syntactc names to syntactic ones. Why might this be problematic? What option allows you to supporess this behavior?</em>
 
 Column names often represent data, so renaming with `make.names` changes underlying data. You can suppress this with `check.names = FALSE`.
 <br><br>
 
-<b><em>4. What rules does `make.names()` use to convert non-syntactic names into syntactic ones?</em></b>
+<em>4. What rules does `make.names()` use to convert non-syntactic names into syntactic ones?</em>
 
 From the docs, <em>"A syntactically valid name consists of letters, numbers and the dot or underline characters and starts with a letter or the dot not followed by a number."</em> Letters are defined by locale, but only ASCII digits are used. Invalid characters are translated to ".". Missing is translated to "NA". And reserved words have a "." appended to them. Then, values are de-duplicated using `make.unique()`.
 <br><br>
 
-<b><em>5. I slightly simplified the rules that govern syntactic names. Why is `.123e1` not a syntactic name?</em></b>
+<em>5. I slightly simplified the rules that govern syntactic names. Why is `.123e1` not a syntactic name?</em>
 
 Syntactic names may start with a letter, or a dot not followed by a number. `.123e1` starts with `.1`, so it is not a syntactically valid name.
 <br><br>
 
-### 2.3 - Copy-on-modify
+## 2.3 - Copy-on-modify
+
+### Notes
 
 Consider the following two variables
 ```{r}
@@ -103,7 +107,7 @@ We see that this is different than the original object's address
 obj_addr(x) == obj_addr(y)
 ```
 
-This behavior is called <em>copy-on-modify</em>; i.e., R objects are immutable -- any changes results in the creation of a new object in memory.
+This behavior is called <b><em>copy-on-modify</em></b>; i.e., R objects are immutable -- any changes results in the creation of a new object in memory.
 
 Copy-on-modify also applies when an object with one standalone reference is modified.  Here, `z` is assigned to a new object upon modification of the original `z`. We see this by looking at the location in memory before and after the modificaiton.
 
@@ -161,9 +165,9 @@ l1[[3]] <- 4
 ref(l1, l2)
 ```
 
-#### Dataframes
+#### Data frames
 
-Since dataframes are a list of columns, and those columns are vectors, modifiying a column only results in that column being copied:
+Since data frames are a list of columns, and those columns are vectors, modifying a column only results in that column being copied:
 ```{r}
 d1 <- data.frame(a = c(1, 2, 3), b = c(4, 5, 6))
 tracemem(d1)
@@ -201,13 +205,13 @@ x <- letters[1:3]
 ref(x, character = TRUE)
 ```
 
-#### Exercises
+### Exercises
 
-<b><em>Why is `tracemem(1:10)` not useful?</em></b>
+<em>1. Why is `tracemem(1:10)` not useful?</em>
 
 `1:10` is a sequence no name assigned to it, therefore will not be traceable after this initial call.
 
-<b><em>Explain why `tracemem()` shows two copies when you run this code. Hint: carefully look at the difference between this code and the code shown earlier in the section.</em></b>
+<em>2. Explain why `tracemem()` shows two copies when you run this code. Hint: carefully look at the difference between this code and the code shown earlier in the section.</em>
 
 ```{r}
 x <- c(1L, 2L, 3L)
@@ -219,56 +223,48 @@ untracemem(x)
 
 In this example, the original object `x` is an integer vector. When the third element of the vector is modifed to 4, a double, the vector is first modified by being converted to a double vector. Then it is modified again when the third element is modified. This results in two copies-on-modify, reflected in the `tracemem()` output.
 
-## Chapter 3 - Vectors
+# Chapter 3 - Vectors
 
-## Chapter 4 - Subsetting
+# Chapter 4 - Subsetting
 
-## Chapter 5 - Control Flow
+# Chapter 5 - Control Flow
 
-## Chapter 6 - Functions
+# Chapter 6 - Functions
 
-## Chapter 7 - Environments
+# Chapter 7 - Environments
 
-## Chapter 8 - Conditions
+# Chapter 8 - Conditions
 
-# II - Functional programming
+# Chapter 9 - Functionals
 
-## Chapter 9 - Functionals
+# Chapter 10 - Function factories
 
-## Chapter 10 - Function factories
+# Chapter 11 - Function operators
 
-## Chapter 11 - Function operators
+# Chapter 12 - Base types
 
-# III Object-oriented programming
+# Chapter 13 - S3
 
-## Chapter 12 - Base types
+# Chapter 14 - R6
 
-## Chapter 13 - S3
+# Chapter 15 - S4
 
-## Chapter 14 - R6
+# Chapter 16 - Trade-offs
 
-## Chapter 15 - S4
+# Chapter 17 - Big picture
 
-## Chapter 16 - Trade-offs
+# Chapter 18 - Expressions
 
-# IV - Metaprogramming
+# Chapter 19 - Quasiquotation
 
-## Chapter 17 - Big picture
+# Chapter 20 - Evaluation
 
-## Chapter 18 - Expressions
+# Chapter 21 - Translating R code
 
-## Chapter 19 - Quasiquotation
+# Chapter 22 - Debugging
 
-## Chapter 20 - Evaluation
+# Chapter 23 - Measuring performance
 
-## Chapter 21 - Translating R code
+# Chapter 24 - Improving performance
 
-# V - Techniques
-
-## Chapter 22 - Debugging
-
-## Chapter 23 - Measuring performance
-
-## Chapter 24 - Improving performance
-
-## Chapter 25 - Rewriting R code in C++
+# Chapter 25 - Rewriting R code in C++
