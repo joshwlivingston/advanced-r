@@ -195,7 +195,7 @@ x <- c(1, 2, 3)
 cat(tracemem(x), "\n")
 ```
 
-    <0x7fd1d7300c38> 
+    <0x7fd1d7300c38>
 
 In the example below, a second name, `y` was assigned to an object,
 which already had an assigned name `x`. So when `x` or `y` is modified,
@@ -207,7 +207,7 @@ y <- x
 y[[4]] <- 4L
 ```
 
-    tracemem[0x7fd1d7300c38 -> 0x7fd1f6e5bb98]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fd1d7300c38 -> 0x7fd1f6e5bb98]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main
 
 `base::untracemem()` is the opposite of `base::tracemem()`
 
