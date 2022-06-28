@@ -63,12 +63,12 @@ obj_addrs(objs)
 *3. By default, base R data import functions, like `read.csv()`, will automatically convert non-syntactic names to syntactic ones. Why might this be problematic? What option allows you to suppress this behavior?*
 
 Column names often represent data, so renaming with `make.names` changes underlying data. You can suppress this with `check.names = FALSE`.
-<br>
+<br><br>
 
 *4. What rules does `make.names()` use to convert non-syntactic names into syntactic ones?*
 
 From the docs, *"A syntactically valid name consists of letters, numbers and the dot or underline characters and starts with a letter or the dot not followed by a number."* Letters are defined by locale, but only ASCII digits are used. Invalid characters are translated to ".". Missing is translated to "NA". And reserved words have a "." appended to them. Then, values are de-duplicated using `make.unique()`.
-<br>
+<br><br>
 
 *5. I slightly simplified the rules that govern syntactic names. Why is `.123e1` not a syntactic name?*
 
@@ -197,7 +197,7 @@ ref(x, character = TRUE)
 *1. Why is `tracemem(1:10)` not useful?*
 
 `1:10` is a sequence no name assigned to it, therefore will not be traceable after this initial call.
-<br>
+<br><br>
 
 *2. Explain why `tracemem()` shows two copies when you run this code. Hint: carefully look at the difference between this code and the code shown earlier in the section.*
 
@@ -275,7 +275,7 @@ obj_size(y)
 <br>
 
 Per the documentation, `base::object.size()` measures the size of each object, and does not account for shred objects within lists.
-<br>
+<br><br>
 
 *2. Take the following list. Why is its size somewhat misleading?*
 
@@ -562,7 +562,7 @@ Raw vectors are created with `raw()`, specifying the single `length` argument. R
 r <- raw(2)
 r
 ```
-<br>
+<br><br>
 
 Complex vectors are created with `complex()` specifying either the length (via the `length.out` argument), or both the real and imaginary parts as numeric vectors.
 <br>
@@ -602,10 +602,12 @@ Per the documentation for `==`, atomic vectors that are of different types are c
 *3.3. Why is `"one" < 2` false?*
 
 Per the documentation for `<`, string comparison is done at the locale level. The locale in use can be viewed with `Sys.getlocale()` and similarly set with `Sys.setlocale()`. Because numbers come before letters in this sequence, the coerced inequality, `"one" < "2"` is evaluated as `FALSE`.
+<br><br>
 
 *4. Why is the default missing value, `NA`, a logical vector? What’s special about logical vectors? (Hint: think about `c(FALSE, NA_character_)`.)*
 
 Logical vectors are lowest on the type hierarchy. When they are combined with another primary type, logicals will always be coerced into the other type.
+<br><br>
 
 *5. Precisely what do is.atomic(), is.numeric(), and is.vector() test for?*
 
