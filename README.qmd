@@ -49,7 +49,7 @@ However, `d` does not occupy the same memory space. Thus, `d` is an is a separat
 obj_addr(d) == obj_addr(a)
 print(obj_addr(d))
 ```
-<br>
+<br><br>
 
 *2. The following code accesses the mean function in multiple ways. Do they all point to the same underlying function object?*
 
@@ -58,7 +58,7 @@ All accessors to the `mean()` function point to the same object in memory.
 objs <- list(mean, base::mean, evalq(mean), match.fun("mean"))
 obj_addrs(objs)
 ```
-<br>
+<br><br>
 
 *3. By default, base R data import functions, like `read.csv()`, will automatically convert non-syntactic names to syntactic ones. Why might this be problematic? What option allows you to suppress this behavior?*
 
@@ -390,7 +390,8 @@ Modified list:
 x[[1]] <- x
 ref(x)
 ```
-<br>
+<br><br>
+
 *2. Wrap the two methods for subtracting medians into two functions, then use the ‘bench’ package to carefully compare their speeds. How does performance change as the number of columns increase?*
 
 Note: Instead of multiplying columns by 5 to demonstrate the exception to modify-in-place, the book subtracted medians. I'll continue to multiply by 5 below.
@@ -589,7 +590,7 @@ Coerced to `c(1L, 1L)` per the type coercion hierarchy.
 x <- c(TRUE, 1L)
 cat(x, " | ", typeof(x))
 ```
-<br>
+<br><br>
 
 *3.1. Why is `1 == "1"` true?*
 
@@ -609,11 +610,116 @@ Per the documentation for `<`, string comparison is done at the locale level. Th
 Logical vectors are lowest on the type hierarchy. When they are combined with another primary type, logicals will always be coerced into the other type.
 <br><br>
 
-*5. Precisely what do is.atomic(), is.numeric(), and is.vector() test for?*
+*5. Precisely what do `is.atomic()`, `is.numeric()`, and `is.vector()` test for?*
 
 - `is.atomic()` checks if the vector is of type "logical", "integer", "numeric", "complex", "character" or "raw"
 - `is.numeric()` checks if the vector is a double or integer and *not* a factor.
 - `is.vector()` is a generalized `is.*()` function for all vectors. The `mode` argument can be specified to check for a specific type, or it can be left as `"any"`, the default, to check is the object is a vector. `mode` can also be specified as `"numeric"`, running the same check as `is.numeric()`.
+
+## 3.3: Attributes
+
+### Notes
+
+#### Getting and setting
+
+- Attributes are name-value pairs that attach metadata to an R object.
+- Individual attributes can be get and set with `attr()`
+- Attributes en masse are retrieved with `attributes()` and set with `structure()`
+- Most attributes, other than **dim** and **names** are lost by most operations
+  - To preserve other attributes, create an S3 class, discussed in Chapter 13
+  
+#### Names
+
+- Names can be set in three ways:
+```{r}
+# When creating it: 
+x <- c(a = 1, b = 2, c = 3)
+
+# By assigning a character vector to names()
+x <- 1:3
+names(x) <- c("a", "b", "c")
+
+# Inline, with setNames():
+x <- setNames(1:3, c("a", "b", "c"))
+```
+<br>
+
+- Names should be unique and non-missing, though this is not enforced in R
+
+#### Dimensions
+
+- Adding the **dim** attribute allows a vector to behave like a 2-d **matrix** or multi-dimensional **array**
+  - You can also create matrices and arrays with `matrix()` and `array()`
+- If a vector has no `dim` attribute set, that is equivalent to a vector with `NULL` dimensions
+- Many functions for working with vectors have generalizations for working with matrices and arrays
+
+### Exercises
+
+*1. How is `setNames()` implemented? How is `unname()` implemented? Read the source code.*
+
+```{r}
+setNames
+```
+<br>
+
+- `setNames()` assigns names to the object by calling `names()<-`
+
+```{r}
+unname
+```
+<br>
+
+- `unname()` sets names to `NULL` using `names()<-`. If the object is a data frame, or `force` is set to `TRUE`, the dimension names are set to `NULL` using `dimnames()<-`.
+<br>
+
+*2.1 What does dim() return when applied to a 1-dimensional vector?*
+
+The dimensions of a 1-d vector are `NULL`, so `dim()` returns `NULL`.
+```{r}
+x <- c(1, 2, 3)
+dim(x)
+```
+<br><br>
+
+*2.2 When might you use NROW() or NCOL()?*
+
+The difference between `NROW()` and `nrow()` (and `NCOL()` and `ncol()`) is that the capitalized forms return values for one dimensional vectors.
+
+- `NROW()` returns the length of the vector in the one dimensional case
+- `NCOL()` returns `1L` in the one dimensional case
+<br>><br>
+
+*3. How would you describe the following three objects? What makes them different from `1:5`?*
+```{r}
+x1 <- array(1:5, c(1, 1, 5))
+x2 <- array(1:5, c(1, 5, 1))
+x3 <- array(1:5, c(5, 1, 1))
+```
+<br>
+
+`x1`, `x2`, and `x3` are all one dimensional arrays in a 3 dimensional space. Each has a numeric vector of length 3 as the `dim` attribute. `1:5`, being a 1 dimensional vector, does not have a `dim` attribute - `dim()` returns `NULL`.
+<br><br>
+
+*4. An early draft used this code to illustrate `structure()`:*
+```{r}
+structure(1:5, comment = "my attribute")
+```
+<br>
+
+*But when you print that object you don’t see the comment attribute. Why? Is the attribute missing, or is there something else special about it? (Hint: try using help.)*
+
+Checking the documentation for the default method for `print()`,  (`?print.default`), we see that attributes are printed for the object's class(es).
+
+```{r}
+class(1:5)
+```
+<br>
+
+Since there is no `print` method defined for `integer`, `print.default` will be used and no attributes printed.
+
+If we wanted the attribute `comment` to be printed with the output, we would have to create an S3 class with and attribute `comment` and define a `print` method for that class that includes the `comment` attribute.
+
+## 3.4: S3 atomic vectors
 
 # 4: Subsetting
 
