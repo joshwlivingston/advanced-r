@@ -49,7 +49,7 @@ However, `d` does not occupy the same memory space. Thus, `d` is an is a separat
 obj_addr(d) == obj_addr(a)
 print(obj_addr(d))
 ```
-<br><br>
+<br>
 
 *2. The following code accesses the mean function in multiple ways. Do they all point to the same underlying function object?*
 
@@ -58,7 +58,7 @@ All accessors to the `mean()` function point to the same object in memory.
 objs <- list(mean, base::mean, evalq(mean), match.fun("mean"))
 obj_addrs(objs)
 ```
-<br><br>
+<br>
 
 *3. By default, base R data import functions, like `read.csv()`, will automatically convert non-syntactic names to syntactic ones. Why might this be problematic? What option allows you to suppress this behavior?*
 
@@ -73,7 +73,7 @@ From the docs, *"A syntactically valid name consists of letters, numbers and the
 *5. I slightly simplified the rules that govern syntactic names. Why is `.123e1` not a syntactic name?*
 
 Syntactic names may start with a letter, or a dot not followed by a number. `.123e1` starts with `.1`, so it is not a syntactically valid name.
-<br>
+<br><br>
 
 ## 2.3: Copy-on-modify
 
@@ -118,10 +118,6 @@ This behavior is called ***copy-on-modify***; i.e., R objects are immutable -- a
 ```{r}
 x <- c(1, 2, 3)
 cat(tracemem(x), "\n")
-```
-<br>
-```{r}
-
 ```
 <br>
 In the example below, a second name, `y` was assigned to an object, which already had an assigned name `x`. So when `x` or `y` is modified, copy-on-modify takes place. This will trigger `tracemem()` to print a memory change.
@@ -210,6 +206,7 @@ untracemem(x)
 ```
 <br>
 In this example, the original object `x` is an integer vector. When the third element of the vector is modified to 4, a double, the vector is first modified by being converted to a double vector. Then it is modified again when the third element is modified. This results in two copies-on-modify, reflected in the `tracemem()` output.
+<br><br>
 
 ## 2.4: Object size
 
@@ -285,6 +282,7 @@ obj_size(funs)
 ```
 <br>
 These objects come shipped with base R, so they are always available. It does not represent additional memory allocated to these objects.
+<br><br>
 
 ## 2.5: Modify-in-place
 
@@ -390,7 +388,7 @@ Modified list:
 x[[1]] <- x
 ref(x)
 ```
-<br><br>
+<br>
 
 *2. Wrap the two methods for subtracting medians into two functions, then use the ‘bench’ package to carefully compare their speeds. How does performance change as the number of columns increase?*
 
@@ -425,6 +423,7 @@ knitr::kable(bm[, 1:5])
 <br>
 *3. What happens if you attempt to use `tracemem()` on an environment?*
 Modify-in-place always applies to environments, since existing bindings keep their references.
+<br><br>
 
 ## 2.6: Unbinding the garbage collector
 
@@ -440,6 +439,7 @@ rm(x)
 ```
 <br>
 Two objects were created above as a result of the original object creation and the copy-on-modify behavior. Then, the name `x` was removed, but the objects remained. R's garbage collector will remove these objects when necessary. You can have the collector print a message every time it runs with `gcinfo(TRUE)`.
+<br><br>
 
 # 3: Vectors
 
@@ -590,7 +590,7 @@ Coerced to `c(1L, 1L)` per the type coercion hierarchy.
 x <- c(TRUE, 1L)
 cat(x, " | ", typeof(x))
 ```
-<br><br>
+<br>
 
 *3.1. Why is `1 == "1"` true?*
 
@@ -679,7 +679,7 @@ The dimensions of a 1-d vector are `NULL`, so `dim()` returns `NULL`.
 x <- c(1, 2, 3)
 dim(x)
 ```
-<br><br>
+<br>
 
 *2.2 When might you use NROW() or NCOL()?*
 
@@ -718,6 +718,7 @@ class(1:5)
 Since there is no `print` method defined for `integer`, `print.default` will be used and no attributes printed.
 
 If we wanted the attribute `comment` to be printed with the output, we would have to create an S3 class with and attribute `comment` and define a `print` method for that class that includes the `comment` attribute.
+<br><br>
 
 ## 3.4: S3 atomic vectors
 
