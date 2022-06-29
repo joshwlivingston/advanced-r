@@ -1236,7 +1236,10 @@ attr(x, a) <- 1L
 
 ```{r, echo=FALSE}
 tryCatch(
-  {attr(x, a) <- 1L}, 
+  {
+    x <- NULL
+    attr(x, a) <- 1L
+  }, 
   error = function(e) {
     msg <- paste0("Error in attr(x, a) <- 1L : ", e$message)
     print(writeLines(msg))
