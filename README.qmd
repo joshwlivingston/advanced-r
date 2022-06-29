@@ -995,7 +995,7 @@ Tibbles do not support row names for three main reasons
 - they only work when rows can be identified via a single string
 - they *must* be unique, so repetition/resampling results in new row names
 
-Row names can be onverted to a column in a tibble using `rownames_to_column()` or the `rownames` argument in `as_tibble()`
+Row names can be converted to a column in a tibble using `rownames_to_column()` or the `rownames` argument in `as_tibble()`
 <br><br>
 
 #### Printing
@@ -1037,6 +1037,222 @@ str(df2$x)
 
 - Check with `is.data.frame()` or `is_tibble()`
 - Coerce with `as.data.frame()` or `as_tibble()`
+<br><br>
+
+#### List columns
+
+Since data frames are lists of vectors, a data frame can have a column as a list.
+
+Adding a list column involves an extra step in data frames:
+```{r}
+# Either after the data frame is created
+d <- data.frame(a = 1:3)
+d$b <- list(4:6)
+```
+<br>
+
+Lists are fully supported in tibbles
+```{r}
+d <- tibble(
+  a = 1:3,
+  b = list(4:6)
+)
+```
+<br>
+
+#### Matrix and data frame columns
+
+Extending the length requirement for data frames, it's actually the `NROW()` of each column that needs to match, not the `length()`. Because of this, data frames and matrices can be included as columns in a data frame.
+
+Just as with list columns, it must be added after creation or wrapped in `I()`. Note that wrapping it in `I()` adds a `class` "AsIs"
+```{r}
+d0 <- data.frame(a = 1:3, b = 4:6)
+d <- data.frame(x = -2:0, y = I(d0))
+str(d)
+```
+<br>
+
+Many functions that work with columns assume that all columns are vectors, so use with caution.
+<br><br>
+
+### Exercises
+
+*1. Can you have a data frame with zero rows? What about zero columns?*
+
+You can create an empty data frame with zero rows and zero columns.
+```{r}
+d <- data.frame()
+str(d)
+```
+<br>
+
+You can add an empty row, but its value is inaccessible
+```{r}
+d[1, ] <- 1L
+d[1, ]
+```
+<br>
+
+Same outcome for row without a column in a tibble
+```{r}
+d <- tibble()
+d[1, ] <- 1L
+d[1, ]
+```
+<br>
+
+You can add an empty columns during or after creation
+```{r}
+d <- data.frame(x = character())
+d$y <- vector("list")
+str(d)
+```
+<br>
+
+*2. What happens if you attempt to set rownames that are not unique?*
+
+R will throw an error
+```{r, eval=FALSE}
+data.frame(a = 1:3, row.names = rep("x", 3))
+```
+
+```{r, echo=FALSE}
+tryCatch(
+  data.frame(a = 1:3, row.names = rep("x", 3)), 
+  error = function(e) {
+    msg <- paste0("Error in data.frame(a = 1:3, row.names = rep(\"x\", 3)) :\n  ", e$message)
+    writeLines(msg)
+    invisible(NULL)
+  }
+)
+```
+
+<br>
+
+*3. If `df` is a data frame, what can you say about `t(df)`, and `t(t(df))`? Perform some experiments, making sure to try different column types.*
+
+If `df` can behave like a matrix, `t()` will operate as expected
+```{r}
+d <- data.frame(a = 1:2, b = 3:4)
+t(d)
+t(t(d))
+```
+<br>
+
+Prior to transposing, `t()` coerces `df` to a matrix. Non-atomic vectors are coerced by `as.vector()`. For lists, `as.vector()` returns the list, so transposition occurs at the list-element level.
+
+Looking at the matrix object created as a first step, we see that the matrix preserved all variable types when coercing to a matrix.
+```{r}
+d <- data.frame(a = 1:3, b = I(list("4", 5, 6L)))
+str(as.matrix(d))
+```
+<br>
+
+So `t()` works as "expected" with list columns
+```{r}
+t(d)
+t(t(d))
+```
+<br>
+
+For data frame columns, `as.matrix()` will combine the data frame columns (and any nested data frame columns) with the containing data frame.
+```{r}
+d <- data.frame(a = 1:3, b = 4:6)
+d$c <- data.frame(x = 101:103, y = 104:106)
+d0 <- data.frame(z = 1001:1003)
+d0$zz <- data.frame(z0 = 1:3, z1 = 4:6)
+d$d <- d0
+as.matrix(d)
+```
+<br>
+
+`t()` works with data frame columns as expected once combined together
+```{r}
+t(d)
+t(t(d))
+```
+<br>
+
+*4. What does `as.matrix()` do when applied to a data frame with columns of different types? How does it differ from `data.matrix()`?*
+
+The behavior for `as.matrix()` is described in answer 3.
+
+`data.matrix()` converts all variables in a data frame to numeric via `as.numeric()` prior to combining them, so I would expect odd behavior when converting non numeric variable types
+
+
+Logical and factor columns are coerced to integers. Character columns are converted first to factors, then to integers.
+```{r}
+a <- letters[1:3]
+as.integer(as.factor(a))
+```
+<br>
+
+So `data.matrix()` will use the resulting integer column for the resulting matrix
+```{r}
+b <- c(TRUE, TRUE, FALSE)
+c <- factor(LETTERS[1:3])
+d <- data.frame(a, b, c)
+data.matrix(d)
+```
+
+<br>
+
+Any non numeric column that is *not* a logical, factor, or character column is converted to a numeric column via `as.numeric()`. `as.numeric()` only works on atomic vectors, so will convert each list element at the atomic level
+```{r}
+b <- list(a = 1, b = "2", c = 3L)
+d <- data.frame(b = b)
+data.matrix(d)
+```
+<br>
+
+Similar application for data frames, being lists themselves
+```{r}
+c <- data.frame(c1 = 4:6, c2 = 7:9)
+d <- data.frame(a = 1:3, c = c)
+data.matrix(d)
+```
+<br><br>
+
+## 3.7: NULL
+
+### Notes
+
+- `NULL` is a data structure with a unique type, "NULL"
+```{r}
+typeof(NULL)
+```
+<br>
+
+- `NULL` is always length zero
+```{r}
+length(NULL)
+```
+<br>
+
+- `NULL` cannot have any attributes
+```{r, eval=FALSE}
+x <- NULL
+attr(x, a) <- 1L
+```
+
+```{r, echo=FALSE}
+tryCatch(
+  {attr(x, a) <- 1L}, 
+  error = function(e) {
+    msg <- paste0("Error in attr(x, a) <- 1L : ", e$message)
+    writeLines(msg)
+    invisible(NULL)
+  }
+)
+```
+
+<br>
+
+Two common uses of `NULL`:
+- To represent an empty vector
+- To represent an absent vector
+  - `NULL` is often used as a default function value, to signify that the vector is not needed in the function -- it can be absent.
+  - `NA`, in contrast, signified that the element of a vector is absent, not the vector itself
 <br><br>
 
 # 4: Subsetting
