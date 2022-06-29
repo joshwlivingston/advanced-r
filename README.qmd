@@ -1121,8 +1121,7 @@ tryCatch(
   data.frame(a = 1:3, row.names = rep("x", 3)), 
   error = function(e) {
     msg <- paste0("Error in data.frame(a = 1:3, row.names = rep(\"x\", 3)) :\n  ", e$message)
-    writeLines(msg)
-    invisible(NULL)
+    print(writeLines(msg))
   }
 )
 ```
@@ -1240,8 +1239,7 @@ tryCatch(
   {attr(x, a) <- 1L}, 
   error = function(e) {
     msg <- paste0("Error in attr(x, a) <- 1L : ", e$message)
-    writeLines(msg)
-    invisible(NULL)
+    print(writeLines(msg))
   }
 )
 ```
