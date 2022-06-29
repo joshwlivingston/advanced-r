@@ -585,7 +585,7 @@ r
 <br>
 
 Complex vectors are created with `complex()` specifying either the length (via the `length.out` argument), or both the real and imaginary parts as numeric vectors.
-<br>
+<br><br>
 
 *2. Test your knowledge of the vector coercion rules by predicting the output of the following uses of `c()`*
 
@@ -634,6 +634,7 @@ Logical vectors are lowest on the type hierarchy. When they are combined with an
 - `is.atomic()` checks if the vector is of type "logical", "integer", "numeric", "complex", "character" or "raw"
 - `is.numeric()` checks if the vector is a double or integer and *not* a factor.
 - `is.vector()` is a generalized `is.*()` function for all vectors. The `mode` argument can be specified to check for a specific type, or it can be left as `"any"`, the default, to check is the object is a vector. `mode` can also be specified as `"numeric"`, running the same check as `is.numeric()`.
+<br><br>
 
 ## 3.3: Attributes
 
@@ -692,7 +693,7 @@ unname
 <br>
 
 - `unname()` sets names to `NULL` using `names()<-`. If the object is a data frame, or `force` is set to `TRUE`, the dimension names are set to `NULL` using `dimnames()<-`.
-<br>
+<br><br>
 
 *2.1 What does dim() return when applied to a 1-dimensional vector?*
 
@@ -743,6 +744,300 @@ If we wanted the attribute `comment` to be printed with the output, we would hav
 <br><br>
 
 ## 3.4: S3 atomic vectors
+
+### Notes
+
+Discussed more in Chapter 13, S3 objects have a `class` attribute, which means it will have special behavior for generic functions.
+
+There are four important S3 vectors in base R:
+- Categorical data in **factor** vectors, an integer
+- Dates in **Date** vectors, a double
+- Date-times in **POSIXct** vectors, a double
+- Durations in **difftime** vectors, a double
+<br><br>
+
+#### Factors
+
+Factors are useful when looking at categorical data, as you can see when data for a category is not present. Factors sit on top of integers with two attributes:
+
+- `class`: "factor"
+- `levels`: defines factor's categories
+
+Ordered factors are just like factors, except that the order of the factors is meaningful/
+<br><br>
+
+#### Dates
+
+Dates are built on double vectors with a `class` attribute "Date".
+
+The value of the double represents the number of days since 1970-01-01.
+
+```{r}
+d <- as.Date("1971-01-01")
+unclass(d)
+```
+<br>
+
+#### Date-times
+R stores date-time data in two ways, POSIXct, and POSIXlt. POSIX stands for Portable Operating System Interface, ct for calendar time, and lt for local time. POSIXct is the simplest usage.
+
+POSIXct variables are built on top of double variables, with two attributes: 
+
+- `class`: "POSIXct"
+- `tzone`: "UTC", "GMT", "" for local, or a [timezone name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+
+The `tzone` attributes controls the timezone, and can be modified using `attr()` or `structure()`. See [this Wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for a list of the timezone names and `?timezones` for the system specific location of the tz database.
+<br><br>
+
+#### Durations
+
+Durations, representing the time between two dates or date-times, are stored in **difftimes**.
+
+Difftimes are built on doubles with a `units` attribute that determines how the duration should be calculated.
+<br><br>
+
+### Exercises
+
+*1. What sort of object does `table()` return? What is its type? What attributes does it have? How does the dimensional change as you tabulate more variables?*
+
+From viewing its structure with `str()`, we see that `t` is a built on an integer, appearing to be a 1-dimensional array. It has an additional attribute `dimnames` containing the factor levels.
+```{r}
+x <- c("cat", "dog", "dog")
+f <- factor(x, levels = c("cat", "dog", "horse"))
+t <- table(f)
+str(t)
+```
+<br>
+
+Looking at `dim(t)` we confirm that this is a 1 dimensional array.
+```{r}
+dim(t)
+```
+<br>
+
+`attributes()` also provides a clean look at `t`
+```{r}
+attributes(t)
+```
+<br>
+
+For each variable added to the tabulation, the dimensional increases by 1. Here with two variables, we note that `t2` is a two dimensional array.
+```{r}
+y <- c("female", "male", "female")
+g <- factor(y)
+t2 <- table(f, g)
+attributes(t2)
+```
+<br>
+
+And `t3`, with three tabulated variables, is a three dimensional array.
+```{r}
+z <- c("black", "black", "brown")
+h <- factor(z)
+t3 <- table(f, g, h)
+attributes(t3)
+```
+<br>
+
+*2. What happens to a factor when you modify its levels?*
+
+Using `tracemem()`, we see that this is considered a modification, so copy-on-modify takes place.
+```{r}
+f1 <- factor(letters)
+tracemem(f1)
+levels(f1) <- rev(levels(f1))
+```
+<br>
+
+*3. What does this code do? How do `f2` and `f3` differ from `f1`?*
+```{r}
+f2 <- rev(factor(letters))
+f3 <- factor(letters, levels = rev(letters))
+```
+<br>
+
+The key difference here is the order of the levels in each output. Since `rev()` reverses the vector's values, not the values the `levels` attributes the levels for `f2`, are in alphabetical order:
+```{r}
+levels(f2)[1:5]
+```
+<br>
+
+For `f3`, the levels are in reverse alphabetical order, as `rev()` was called on the levels themselves when it was created.
+```{r}
+levels(f3)[1:5]
+```
+<br><br>
+
+## 3.5: Lists
+
+### Notes
+
+#### Creating
+
+Lists can be created using `list()`.
+
+- Lists contain references to other objects 
+- A list's those objects can be of any type, including other lists
+- Because a list can contain a list, lists are sometimes called **recursive** vectors.
+- `c()` combines multiple lists into one. If some of the inputs to `c()` are atomic vectors and others lists, R will coerce the vectors to lists prior to combining
+<br><br>
+
+#### Testing and coercion
+
+- `typeof()` returns "list" for lists
+- Check if a list with `is.list()` and coerce to a list with `as.list()`
+- You can also coerce a list to an atomic vector with `unlist()`
+  - From the book, *The rules for the resulting type are complex, not well documented, and not always equivalent to what you’d get with `c()`.*
+<br><br>
+
+#### Matrices and arrays
+
+Similarly to atomic vectors, you *can* add a `dim` attribute to lists to create list-matrices or list-arrays, if you want to.
+
+### Exercises
+
+*1. List all the ways that a list differs from an atomic vector.*
+
+- Because a list contains references, the list's elements can be of any type
+- A list stores references to other objects in memory, while a vector only stores one object in memory
+
+Here, the vector is seen occupying one location in memory
+```{r}
+x <- letters
+ref(x)
+```
+<br>
+
+While the list occupies several locations. Note also that `x` and `letters` are references to the same object in memory
+```{r}
+l <- list(x, LETTERS, letters)
+ref(l)
+```
+<br>
+
+*2. Why do you need to use `unlist()` to convert a list to an atomic vector? Why doesn’t `as.vector()` work?*
+
+Since lists are types of vectors, the list itself will be returned when passed to `as.vector()`. This is confirmed per the documentation at `?as.vector`.
+<br><br>
+
+*3. Compare and contrast `c()` and `unlist()` when combining a date and date-time into a single vector.*
+```{r}
+d <- Sys.Date()
+dt <- Sys.time()
+```
+
+- `c()` coerces into a Date or POSIXct variable, whichever is called first.
+
+Date first:
+```{r}
+x1 <- c(d, dt)
+str(x1)
+```
+<br>
+
+POSIXct first:
+```{r}
+x2 <- c(dt, d)
+str(x2)
+```
+<br>
+
+- `unlist()` takes a list and returns the atomic components only, so it coerces both elements into a double and returns the resulting atomic vector.
+```{r}
+y <- unlist(list(d, dt))
+str(y)
+```
+<br><br>
+
+## 3.6: Data frames and tibbles
+
+### Notes
+
+Data frames and tibbles are the two most important S3 vectors built on lists
+
+- Data frames are a named list of vectors with three attributes:
+  - `names` for column names
+  - `row.names` for row names
+  - `class`, "data.frame"
+- Unlike regular lists, data frames have a requirement that all vector elements are of the same length
+  - Gives data frames the same properties as matrices
+  
+- Tibbles are a modern "equivalent" to a data.frame, provided by the `tibble` package.
+```{r}
+library(tibble)
+t <- tibble()
+attributes(t)
+```
+<br>
+
+#### Creating
+
+- `data.frame()` to create data frames
+- `tibble::tibble()` to create tibbles
+
+Differences in creation between tibbles and data frames:
+- Tibbles never coerce vectors. 
+  - A common need is to suppress in `data.frame()` by setting `stringsAsFactors` to `FALSE`
+- Tibbles surround non-syntactic names with `` ` `` rather than transforming them
+- Data frames recycle inputs that are an integer multiple of the longest vector, while tibbles only recycle vectors that are of length 1
+- Tibbles allow you to refer to created variables during construction
+<br><br>
+
+#### Row names
+
+A character vector can be supplied to label the "rows" of a data frame, in two ways:
+
+- the `row.names` argument in `data.frame()`
+- by calling `rownames()`
+
+Tibbles do not support row names for three main reasons
+- they are stored differently from data
+- they only work when rows can be identified via a single string
+- they *must* be unique, so repetition/resampling results in new row names
+
+Row names can be onverted to a column in a tibble using `rownames_to_column()` or the `rownames` argument in `as_tibble()`
+<br><br>
+
+#### Printing
+
+Four main differences between the `print()` output for a data frames and for tibbles:
+
+- Tibbles show the first 10 rows and all columns that fit on screen
+- Columns are labelled with its abbreviated type
+- Wide columns are truncated
+- Color is used when supported to (de)emphasize information
+<br><br>
+
+#### Subsetting
+
+Discussed more in Chapter 4, you can subset data frames and tibbles like a 1D list or a 2D matrix.
+
+Tibbles modify two undesirable properties of data frames:
+
+- Data frames will return a vector for `df[, x]` if x is a length one vector, and a data frame is x is of length > 1. To avoid this, use `df[, x, drop = FALSE]`
+  - This can cause an issue with legacy code that uses `df[, "col"]` to return a column as an atomic vector. Using `df[["col"]]` returns the desired vector whether subsetting a data frame or tibble
+```{r}
+df1 <- data.frame(xyz = "a")
+df2 <- tibble(xyz = "a")
+x <- "xyz"
+df1[, x]
+df1[, x, drop = FALSE]
+df2[, x]
+```
+<br>
+
+- When using `$` data frames will return any variable that starts with the input
+```{r}
+str(df1$x)
+str(df2$x)
+```
+<br>
+
+#### Testing and coercing
+
+- Check with `is.data.frame()` or `is_tibble()`
+- Coerce with `as.data.frame()` or `as_tibble()`
+<br><br>
 
 # 4: Subsetting
 
