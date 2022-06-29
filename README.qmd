@@ -483,7 +483,7 @@ Scalars, aka individual values, are created in special ways for each of the four
 | Type      | Value                                                         |
 |:----------|:--------------------------------------------------------------|
 | Logical   | `TRUE` or `FALSE` (or `T` or `F`)                             |
-| Character | surrounded by `"` or `'`. see `?Quotes` for escapes           |
+| Character | surrounded by `"` or `'`. see `?Quotes` for escape characters |
 | Double    | decimal (`0.123`), scientific (`1.23e3`), or hexadecimal form |
 | Integer   | similar to doubles, ending with `L` (`123L`)                  |
 
@@ -589,22 +589,21 @@ Complex vectors are created with `complex()` specifying either the length (via t
 
 *2. Test your knowledge of the vector coercion rules by predicting the output of the following uses of `c()`*
 
-Per the type coercion hierarchy, this will be converted to a double,  `c(1, 0)`. 1's are coerced to `TRUE` (and 0 to `FALSE`), and vice versa. 
-
+Per the type coercion hierarchy, `c(1, FALSE)` will be converted to a double, `c(1, 0)`. 1's are coerced to `TRUE` (and 0 to `FALSE`), and vice versa
 ```{r}
 x <- c(1, FALSE)
 cat(x, " | ", typeof(x))
 ```
 <br>
 
-Coerced to `c("a", "1")` as the character type is determined by the first value, `"a"`.
+`c("a", 1)`, will be coerced to `c("a", "1")` as the character type is about double in the type coversion hierarchy
 ```{r}
 x <- c("a", 1)
 cat(x, " | ", typeof(x))
 ```
 <br>
 
-Coerced to `c(1L, 1L)` per the type coercion hierarchy.
+`c(TRUE, 1L)`, will b coerced to `c(1L, 1L)` per the type coercion hierarchy
 ```{r}
 x <- c(TRUE, 1L)
 cat(x, " | ", typeof(x))
@@ -680,19 +679,16 @@ x <- setNames(1:3, c("a", "b", "c"))
 
 *1. How is `setNames()` implemented? How is `unname()` implemented? Read the source code.*
 
+`setNames()` assigns names to the object by calling `names()<-`
 ```{r}
 setNames
 ```
 <br>
 
-- `setNames()` assigns names to the object by calling `names()<-`
-
+`unname()` sets names to `NULL` using `names()<-`. If the object is a data frame, or `force` is set to `TRUE`, the dimension names are set to `NULL` using `dimnames()<-`
 ```{r}
 unname
 ```
-<br>
-
-- `unname()` sets names to `NULL` using `names()<-`. If the object is a data frame, or `force` is set to `TRUE`, the dimension names are set to `NULL` using `dimnames()<-`.
 <br><br>
 
 *2.1 What does dim() return when applied to a 1-dimensional vector?*
@@ -706,10 +702,11 @@ dim(x)
 
 *2.2 When might you use NROW() or NCOL()?*
 
-The difference between `NROW()` and `nrow()` (and `NCOL()` and `ncol()`) is that the capitalized forms return values for one dimensional vectors.
+The difference between `NROW()` and `nrow()` (and `NCOL()` and `ncol()`) is that the capitalized forms return values for one dimensional vectors. Both functions return the same value for matrices, arrays, and data frames.
 
-- `NROW()` returns the length of the vector in the one dimensional case
-- `NCOL()` returns `1L` in the one dimensional case
+For one dimeensional objects:
+- `NROW()` returns the length of the vector
+- `NCOL()` returns `1L`
 <br>><br>
 
 *3. How would you describe the following three objects? What makes them different from `1:5`?*
@@ -720,8 +717,11 @@ x3 <- array(1:5, c(5, 1, 1))
 ```
 <br>
 
-`x1`, `x2`, and `x3` are all one dimensional arrays in a 3 dimensional space. Each has a numeric vector of length 3 as the `dim` attribute. `1:5`, being a 1 dimensional vector, does not have a `dim` attribute - `dim()` returns `NULL`.
-<br><br>
+`x1`, `x2`, and `x3` are all one dimensional arrays in a 3 dimensional space. Each has a numeric vector of length 3 as the `dim` attribute. `1:5`, being a 1 dimensional vector, does not have a `dim` attribute.
+```{r}
+dim(1:5)
+```
+<br>
 
 *4. An early draft used this code to illustrate `structure()`:*
 ```{r}
@@ -738,7 +738,7 @@ class(1:5)
 ```
 <br>
 
-Since there is no `print` method defined for `integer`, `print.default` will be used and no attributes printed.
+Since there is no `print` method defined for integer`, `print.default` will be used and no attributes printed.
 
 If we wanted the attribute `comment` to be printed with the output, we would have to create an S3 class with and attribute `comment` and define a `print` method for that class that includes the `comment` attribute.
 <br><br>
@@ -750,6 +750,7 @@ If we wanted the attribute `comment` to be printed with the output, we would hav
 Discussed more in Chapter 13, S3 objects have a `class` attribute, which means it will have special behavior for generic functions.
 
 There are four important S3 vectors in base R:
+
 - Categorical data in **factor** vectors, an integer
 - Dates in **Date** vectors, a double
 - Date-times in **POSIXct** vectors, a double
@@ -893,6 +894,7 @@ Lists can be created using `list()`.
 #### Matrices and arrays
 
 Similarly to atomic vectors, you *can* add a `dim` attribute to lists to create list-matrices or list-arrays, if you want to.
+<br><br>
 
 ### Exercises
 
