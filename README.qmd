@@ -617,7 +617,7 @@ Per the documentation for `==`, atomic vectors that are of different types are c
 
 *3.2. Why is `-1 < FALSE` true?*
 
-`<`, like `==` and most operations, also coerce types prior to evaluation. So after coercion, the call here becomes `-1 < 0`, which is false.
+`<`, like `==` and most operations, also coerces types prior to evaluation. So after coercion, the call here becomes `-1 < 0`, which is false.
 
 *3.3. Why is `"one" < 2` false?*
 
@@ -644,9 +644,9 @@ Logical vectors are lowest on the type hierarchy. When they are combined with an
 
 - Attributes are name-value pairs that attach metadata to an R object.
 - Individual attributes can be get and set with `attr()`
-- Attributes en masse are retrieved with `attributes()` and set with `structure()`
+- Attributes are retrieved en masse with `attributes()` and set with `structure()`
 - Most attributes, other than **dim** and **names** are lost by most operations
-  - To preserve other attributes, create an S3 class, discussed in Chapter 13
+  - To define and preserve attributes, create an S3 class, discussed in Chapter 13
 <br><br>
   
 #### Names
@@ -738,7 +738,7 @@ class(1:5)
 ```
 <br>
 
-Since there is no `print` method defined for `integer`, `print.default` will be used and no attributes printed.
+Since there is no `print` method defined for "integer", `print.default()` will be used and no attributes printed.
 
 If we wanted the attribute `comment` to be printed with the output, we would have to create an S3 class with and attribute `comment` and define a `print` method for that class that includes the `comment` attribute.
 <br><br>
@@ -758,7 +758,7 @@ There are four important S3 vectors in base R:
 
 #### Factors
 
-Factors are useful when looking at categorical data, as you can see when data for a category is not present. Factors sit on top of integers with two attributes:
+Factors are useful when looking at categorical data. They sit on top of integers with two attributes:
 
 - `class`: "factor"
 - `levels`: defines factor's categories
@@ -821,7 +821,7 @@ attributes(t)
 ```
 <br>
 
-For each variable added to the tabulation, the dimensional increases by 1. Here with two variables, we note that `t2` is a two dimensional array.
+For each variable added to the tabulation, the dimensionality increases by 1. Here with two variables, we note that `t2` is a two dimensional array.
 ```{r}
 y <- c("female", "male", "female")
 g <- factor(y)
@@ -887,7 +887,7 @@ Lists can be created using `list()`.
 - `typeof()` returns "list" for lists
 - Check if a list with `is.list()` and coerce to a list with `as.list()`
 - You can also coerce a list to an atomic vector with `unlist()`
-  - From the book, *The rules for the resulting type are complex, not well documented, and not always equivalent to what you’d get with `c()`.*
+  - From the book, The rules for the type resulting from `unlist()` are *"complex, not well documented, and not always equivalent to what you’d get with `c()`."*
 <br><br>
 
 #### Matrices and arrays
@@ -953,13 +953,14 @@ str(y)
 
 ### Notes
 
-Data frames and tibbles are the two most important S3 vectors built on lists
+Data frames and tibbles are two important S3 vectors built on lists
 
 - Data frames are a named list of vectors with three attributes:
   - `names` for column names
   - `row.names` for row names
   - `class`, "data.frame"
-- Unlike regular lists, data frames have a requirement that all vector elements are of the same length
+- Unlike regular lists, data frames have a requirement that all vector elements have the same `NROW()`
+  - Most of the time, this is equivalent to saying all columns must have the same length. However, as we'll see later, data frames can be columns, so stating the requirement in terms of `NROW()` is necessary to accommodate these cases.
   - Gives data frames the same properties as matrices
   
 - Tibbles are a modern "equivalent" to a data.frame, provided by the `tibble` package.
@@ -976,6 +977,7 @@ attributes(t)
 - `tibble::tibble()` to create tibbles
 
 Differences in creation between tibbles and data frames:
+
 - Tibbles never coerce vectors. 
   - A common need is to suppress in `data.frame()` by setting `stringsAsFactors` to `FALSE`
 - Tibbles surround non-syntactic names with `` ` `` rather than transforming them
@@ -987,13 +989,13 @@ Differences in creation between tibbles and data frames:
 
 A character vector can be supplied to label the "rows" of a data frame, in two ways:
 
-- the `row.names` argument in `data.frame()`
-- by calling `rownames()`
+- The `row.names` argument in `data.frame()`
+- By calling `rownames()`
 
 Tibbles do not support row names for three main reasons
-- they are stored differently from data
-- they only work when rows can be identified via a single string
-- they *must* be unique, so repetition/resampling results in new row names
+- They are stored differently from data
+- They only work when rows can be identified via a single string
+- They *must* be unique, so repetition/resampling results in new row names
 
 Row names can be converted to a column in a tibble using `rownames_to_column()` or the `rownames` argument in `as_tibble()`
 <br><br>
@@ -1010,12 +1012,12 @@ Four main differences between the `print()` output for a data frames and for tib
 
 #### Subsetting
 
-Discussed more in Chapter 4, you can subset data frames and tibbles like a 1D list or a 2D matrix.
+Discussed more in Chapter 4, you can subset data frames and tibbles like a 1-D list or a 2-D matrix.
 
 Tibbles modify two undesirable properties of data frames:
 
 - Data frames will return a vector for `df[, x]` if x is a length one vector, and a data frame is x is of length > 1. To avoid this, use `df[, x, drop = FALSE]`
-  - This can cause an issue with legacy code that uses `df[, "col"]` to return a column as an atomic vector. Using `df[["col"]]` returns the desired vector whether subsetting a data frame or tibble
+  - Subsetting a single column from a tibble using `[` can cause an issue with legacy code that uses `df[, "col"]` to return a column as an atomic vector. Using `df[["col"]]` returns the desired vector whether subsetting a data frame or tibble
 ```{r}
 df1 <- data.frame(xyz = "a")
 df2 <- tibble(xyz = "a")
@@ -1140,7 +1142,7 @@ t(t(d))
 
 Prior to transposing, `t()` coerces `df` to a matrix. Non-atomic vectors are coerced by `as.vector()`. For lists, `as.vector()` returns the list, so transposition occurs at the list-element level.
 
-Looking at the matrix object created as a first step, we see that the matrix preserved all variable types when coercing to a matrix.
+Looking at the matrix object created as a first step, we see that the matrix preserved all variable types when coercing a list column into a matrix column. Remember that matrices are two dimensional vectors
 ```{r}
 d <- data.frame(a = 1:3, b = I(list("4", 5, 6L)))
 str(as.matrix(d))
@@ -1178,7 +1180,6 @@ The behavior for `as.matrix()` is described in answer 3.
 
 `data.matrix()` converts all variables in a data frame to numeric via `as.numeric()` prior to combining them, so I would expect odd behavior when converting non numeric variable types
 
-
 Logical and factor columns are coerced to integers. Character columns are converted first to factors, then to integers.
 ```{r}
 a <- letters[1:3]
@@ -1196,7 +1197,7 @@ data.matrix(d)
 
 <br>
 
-Any non numeric column that is *not* a logical, factor, or character column is converted to a numeric column via `as.numeric()`. `as.numeric()` only works on atomic vectors, so will convert each list element at the atomic level
+Any non numeric column that is *not* a logical, factor, or character column is converted to a numeric column via `as.numeric()`. `as.numeric()` only works on atomic vectors, so it will convert each list element at the atomic level
 ```{r}
 b <- list(a = 1, b = "2", c = 3L)
 d <- data.frame(b = b)
@@ -1250,6 +1251,7 @@ tryCatch(
 <br>
 
 Two common uses of `NULL`:
+
 - To represent an empty vector
 - To represent an absent vector
   - `NULL` is often used as a default function value, to signify that the vector is not needed in the function -- it can be absent.
