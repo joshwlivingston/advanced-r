@@ -1035,6 +1035,11 @@ df2[, x]
 - When using `$` data frames will return any variable that starts with the input
 ```{r}
 str(df1$x)
+```
+<br>
+
+Tibbles only return exact matches with `$`
+```{r}
 str(df2$x)
 ```
 <br>
