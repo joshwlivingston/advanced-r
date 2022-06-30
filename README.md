@@ -1,7 +1,7 @@
 Advanced R - Exercises and Notes
 ================
 Josh Livingston \|
-June 29, 2022
+June 30, 2022
 
 <p>This repository stores all of my notes and exercise work-throughs from <a href="https://adv-r.hadley.nz/">Advanced R</a>. This uses the 2nd edition of Hadley Wickham's book.</p>
 <p>Source code is organized at the chapter-section level. In each section, notes appear first, followed by the exercises. Exercise question text are written in <em>italics</em>.</p>
@@ -50,7 +50,7 @@ obj_addr(a) == obj_addr(b) & obj_addr(b) == obj_addr(c)
 print(obj_addr(a))
 ```
 
-    [1] "0x7fe9778de5e8"
+    [1] "0x7fe918146e70"
 
 <br>
 
@@ -68,7 +68,7 @@ obj_addr(d) == obj_addr(a)
 print(obj_addr(d))
 ```
 
-    [1] "0x7fe99156b040"
+    [1] "0x7fe9186dbda0"
 
 <br>
 
@@ -83,7 +83,7 @@ objs <- list(mean, base::mean, evalq(mean), match.fun("mean"))
 obj_addrs(objs)
 ```
 
-    [1] "0x7fe99155e260" "0x7fe99155e260" "0x7fe99155e260" "0x7fe99155e260"
+    [1] "0x7fe90ffd3c60" "0x7fe90ffd3c60" "0x7fe90ffd3c60" "0x7fe90ffd3c60"
 
 <br>
 
@@ -142,7 +142,7 @@ This object is located at the following address:
 obj_addr(y)
 ```
 
-    [1] "0x7fe97305f578"
+    [1] "0x7fe8ff50c908"
 
 <br>
 
@@ -154,7 +154,7 @@ y[[3]] <- 4
 obj_addr(y)
 ```
 
-    [1] "0x7fe9906c3968"
+    [1] "0x7fe90f089318"
 
 <br> We see that this is different than the original object’s address
 
@@ -177,7 +177,7 @@ x <- c(1, 2, 3)
 cat(tracemem(x), "\n")
 ```
 
-    <0x7fe9908ecdb8> 
+    <0x7fe918794338> 
 
 <br> In the example below, a second name, `y` was assigned to an object,
 which already had an assigned name `x`. So when `x` or `y` is modified,
@@ -189,7 +189,7 @@ y <- x
 y[[4]] <- 4L
 ```
 
-    tracemem[0x7fe9908ecdb8 -> 0x7fe9907aa548]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe918794338 -> 0x7fe8ff152208]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
 <br> `base::untracemem()` is the opposite of `base::tracemem()`
 
@@ -222,15 +222,15 @@ l1[[3]] <- 4
 ref(l1, l2)
 ```
 
-    █ [1:0x7fe9a0856998] <list> 
-    ├─[2:0x7fe987ed0b58] <dbl> 
-    ├─[3:0x7fe987ed0b20] <dbl> 
-    └─[4:0x7fe987ed0a08] <dbl> 
+    █ [1:0x7fe8ff5f7b08] <list> 
+    ├─[2:0x7fe8ff8b1600] <dbl> 
+    ├─[3:0x7fe8ff8b15c8] <dbl> 
+    └─[4:0x7fe8ff8b1478] <dbl> 
      
-    █ [5:0x7fe98033c858] <list> 
-    ├─[2:0x7fe987ed0b58] 
-    ├─[3:0x7fe987ed0b20] 
-    └─[6:0x7fe987ed0ae8] <dbl> 
+    █ [5:0x7fe8ff4309f8] <list> 
+    ├─[2:0x7fe8ff8b1600] 
+    ├─[3:0x7fe8ff8b15c8] 
+    └─[6:0x7fe8ff8b1590] <dbl> 
 
 <br>
 
@@ -244,7 +244,7 @@ d1 <- data.frame(a = c(1, 2, 3), b = c(4, 5, 6))
 tracemem(d1)
 ```
 
-    [1] "<0x7fe9903660c8>"
+    [1] "<0x7fe918bed1c8>"
 
 <br> Here, `tracemem()` shows us that the new column was copied to a new
 object in memory.
@@ -254,8 +254,8 @@ d2 <- d1
 d2[, 2] <- d2[, 2] * 2
 ```
 
-    tracemem[0x7fe9903660c8 -> 0x7fe977b29348]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7fe977b29348 -> 0x7fe977b29648]: [<-.data.frame [<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe918bed1c8 -> 0x7fe918b61748]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe918b61748 -> 0x7fe92f5c2448]: [<-.data.frame [<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
 <br> And with `lobstr::ref()`, we confirm that both the data.frame
 object and the second column were copied.
@@ -264,16 +264,16 @@ object and the second column were copied.
 ref(d1, d2)
 ```
 
-    tracemem[0x7fe9903660c8 -> 0x7fe9a0cdd688]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7fe977b29648 -> 0x7fe990735048]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe918bed1c8 -> 0x7fe91876c488]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe92f5c2448 -> 0x7fe8ff08dc48]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
-    █ [1:0x7fe9903660c8] <df[,2]> 
-    ├─a = [2:0x7fe9a0979028] <dbl> 
-    └─b = [3:0x7fe9a0979078] <dbl> 
+    █ [1:0x7fe918bed1c8] <df[,2]> 
+    ├─a = [2:0x7fe918d11698] <dbl> 
+    └─b = [3:0x7fe918d116e8] <dbl> 
      
-    █ [4:0x7fe977b29648] <df[,2]> 
-    ├─a = [2:0x7fe9a0979028] 
-    └─b = [5:0x7fe9a0ce3ff8] <dbl> 
+    █ [4:0x7fe92f5c2448] <df[,2]> 
+    ├─a = [2:0x7fe918d11698] 
+    └─b = [5:0x7fe9187945b8] <dbl> 
 
 <br> Since data.frames are built column-wise, modifying a row results in
 copying every column.
@@ -283,8 +283,8 @@ d3 <- d1
 d1[1, ] <- d1[1, ] * 2
 ```
 
-    tracemem[0x7fe9903660c8 -> 0x7fe98029f108]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7fe98029f108 -> 0x7fe98029f048]: [<-.data.frame [<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe918bed1c8 -> 0x7fe918cc1708]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe918cc1708 -> 0x7fe918cc1648]: [<-.data.frame [<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
 <br>
 
@@ -293,15 +293,15 @@ untracemem(d1)
 ref(d1, d3)
 ```
 
-    tracemem[0x7fe9903660c8 -> 0x7fe990a054c8]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe918bed1c8 -> 0x7fe918f177c8]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
-    █ [1:0x7fe98029f048] <df[,2]> 
-    ├─a = [2:0x7fe990a326e8] <dbl> 
-    └─b = [3:0x7fe990a32698] <dbl> 
+    █ [1:0x7fe918cc1648] <df[,2]> 
+    ├─a = [2:0x7fe918693838] <dbl> 
+    └─b = [3:0x7fe9186937e8] <dbl> 
      
-    █ [4:0x7fe9903660c8] <df[,2]> 
-    ├─a = [5:0x7fe9a0979028] <dbl> 
-    └─b = [6:0x7fe9a0979078] <dbl> 
+    █ [4:0x7fe918bed1c8] <df[,2]> 
+    ├─a = [5:0x7fe918d11698] <dbl> 
+    └─b = [6:0x7fe918d116e8] <dbl> 
 
 <br>
 
@@ -317,10 +317,10 @@ x <- letters[1:3]
 ref(x, character = TRUE)
 ```
 
-    █ [1:0x7fe9909dc2e8] <chr> 
-    ├─[2:0x7fe997afaae8] <string: "a"> 
-    ├─[3:0x7fe9a092fee8] <string: "b"> 
-    └─[4:0x7fe99780e0c0] <string: "c"> 
+    █ [1:0x7fe8ff6b9658] <chr> 
+    ├─[2:0x7fe92f0944e8] <string: "a"> 
+    ├─[3:0x7fe9283bf0e8] <string: "b"> 
+    └─[4:0x7fe92f00e0c0] <string: "c"> 
 
 <br>
 
@@ -340,14 +340,14 @@ x <- c(1L, 2L, 3L)
 tracemem(x)
 ```
 
-    [1] "<0x7fe971c5c288>"
+    [1] "<0x7fe9091c5f88>"
 
 ``` r
 x[[3]] <- 4
 ```
 
-    tracemem[0x7fe971c5c288 -> 0x7fe971cc1ac8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7fe971cc1ac8 -> 0x7fe9730f5888]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe9091c5f88 -> 0x7fe90922f0c8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe90922f0c8 -> 0x7fe8ff4fb0e8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
 ``` r
 untracemem(x)
@@ -519,7 +519,7 @@ a <- c(1, 2, 3)
 ref(a)
 ```
 
-    [1:0x7fe990abef58] <dbl> 
+    [1:0x7fe8ff4b0058] <dbl> 
 
 <br> After:
 
@@ -528,7 +528,7 @@ a[[3]] <- 4
 ref(a)
 ```
 
-    [1:0x7fe9909d6608] <dbl> 
+    [1:0x7fe8ff7ccdc8] <dbl> 
 
 <br> Note that this optimization does *not* apply when modifying a
 vector’s length. Here, `z` is assigned to a new object upon “adding” a
@@ -541,7 +541,7 @@ z <- letters[1:3]
 obj_addr(z)
 ```
 
-    [1] "0x7fe9730d1fb8"
+    [1] "0x7fe8ff695578"
 
 <br>
 
@@ -552,7 +552,7 @@ z[[4]] <- "d"
 obj_addr(z)
 ```
 
-    [1] "0x7fe9730f56f8"
+    [1] "0x7fe8ff5b0d58"
 
 <br> There are two complications in R’s behavior that limit execution of
 the modify-in-place optimization:
@@ -577,7 +577,7 @@ x <- as.data.frame(matrix(runif(1e3), ncol = 4))
 tracemem(x)
 ```
 
-    [1] "<0x7fe98052e978>"
+    [1] "<0x7fe8ff4c9a28>"
 
 ``` r
 for (i in seq_along(x)) {
@@ -585,14 +585,14 @@ for (i in seq_along(x)) {
 }
 ```
 
-    tracemem[0x7fe98052e978 -> 0x7fe9803c7e78]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7fe9803c7e78 -> 0x7fe9803c7568]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7fe9803c7568 -> 0x7fe9803c74c8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7fe9803c74c8 -> 0x7fe9803c7388]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7fe9803c7388 -> 0x7fe9803c7298]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7fe9803c7298 -> 0x7fe9803c71a8]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7fe9803c71a8 -> 0x7fe9803c7108]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
-    tracemem[0x7fe9803c7108 -> 0x7fe9803c7018]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe8ff4c9a28 -> 0x7fe8ff5db978]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe8ff5db978 -> 0x7fe8ff5db018]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe8ff5db018 -> 0x7fe8ff5daf78]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe8ff5daf78 -> 0x7fe8ff5dade8]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe8ff5dade8 -> 0x7fe8ff5dacf8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe8ff5dacf8 -> 0x7fe8ff5dac08]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe8ff5dac08 -> 0x7fe8ff5dea58]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe8ff5dea58 -> 0x7fe8ff5de968]: [[<-.data.frame [[<- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
 ``` r
 untracemem(x)
@@ -605,7 +605,7 @@ l <- as.list(x)
 tracemem(l)
 ```
 
-    [1] "<0x7fe9731042d8>"
+    [1] "<0x7fe92f796138>"
 
 ``` r
 for (i in seq_along(l)) {
@@ -613,7 +613,7 @@ for (i in seq_along(l)) {
 }
 ```
 
-    tracemem[0x7fe9731042d8 -> 0x7fe9a09783a8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe92f796138 -> 0x7fe918d14138]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
 ``` r
 untracemem(l)
@@ -651,7 +651,7 @@ x <- list()
 ref(x)
 ```
 
-    █ [1:0x7fe997d98d70] <list> 
+    █ [1:0x7fe9280f9038] <list> 
 
 <br> Modified list:
 
@@ -660,8 +660,8 @@ x[[1]] <- x
 ref(x)
 ```
 
-    █ [1:0x7fe9678d5628] <list> 
-    └─█ [2:0x7fe997d98d70] <list> 
+    █ [1:0x7fe8ff21d710] <list> 
+    └─█ [2:0x7fe9280f9038] <list> 
 
 <br>
 
@@ -692,8 +692,8 @@ knitr::kable(bm[, 1:5])
 
 | expression |     min |  median |   itr/sec | mem_alloc |
 |:-----------|--------:|--------:|----------:|----------:|
-| df         | 45.38µs | 50.17µs |  18169.95 |    99.9KB |
-| l          |  3.79µs |  5.17µs | 166853.36 |    78.3KB |
+| df         | 45.33µs | 48.75µs |  19202.58 |    99.9KB |
+| l          |  3.79µs |  4.88µs | 191106.43 |    78.3KB |
 
 <br> With a 250 x 400 data set, the differences in both speed and memory
 allocation are much more pronounced. Here, 70x faster and a quarter of
@@ -709,8 +709,8 @@ knitr::kable(bm[, 1:5])
 
 | expression |     min |   median |   itr/sec | mem_alloc |
 |:-----------|--------:|---------:|----------:|----------:|
-| df         |  7.61ms |   7.76ms |  127.9332 |    3.26MB |
-| l          | 94.04µs | 101.54µs | 9128.7361 |  803.17KB |
+| df         |  7.83ms |   8.07ms |  123.7044 |    3.26MB |
+| l          | 94.04µs | 100.71µs | 9296.3862 |  803.17KB |
 
 <br> *3. What happens if you attempt to use `tracemem()` on an
 environment?* Modify-in-place always applies to environments, since
@@ -860,7 +860,7 @@ The primary types can be checked with the appropriate `is.*()` function:
 | Double    | `is.double()`     |
 | Integer   | `is.integer()`    |
 
-<br><br>
+<br>
 
 #### Coercion
 
@@ -907,8 +907,8 @@ r
 
 <br>
 
-Complex vectors are created with `complex()` specifying either the
-length (via the `length.out` argument), or both the real and imaginary
+Complex vectors are created with `complex()`, specifying either the
+length (via the `length.out` argument) or both the real and imaginary
 parts as numeric vectors. <br><br>
 
 *2. Test your knowledge of the vector coercion rules by predicting the
@@ -920,10 +920,11 @@ vice versa
 
 ``` r
 x <- c(1, FALSE)
-cat(x, " | ", typeof(x))
+cat(x, "\n", typeof(x))
 ```
 
-    1 0  |  double
+    1 0 
+     double
 
 <br>
 
@@ -932,10 +933,11 @@ about double in the type coversion hierarchy
 
 ``` r
 x <- c("a", 1)
-cat(x, " | ", typeof(x))
+cat(x, "\n", typeof(x))
 ```
 
-    a 1  |  character
+    a 1 
+     character
 
 <br>
 
@@ -944,10 +946,11 @@ hierarchy
 
 ``` r
 x <- c(TRUE, 1L)
-cat(x, " | ", typeof(x))
+cat(x, "\n", typeof(x))
 ```
 
-    1 1  |  integer
+    1 1 
+     integer
 
 <br>
 
@@ -961,9 +964,8 @@ true.
 
 *3.2. Why is `-1 < FALSE` true?*
 
-`<`, like `==` and most operations, also coerces types prior to
-evaluation. So after coercion, the call here becomes `-1 < 0`, which is
-false.
+`<`, like `==`, also coerces types prior to evaluation. So after
+coercion, the call here becomes `-1 < 0`, which is true.
 
 *3.3. Why is `"one" < 2` false?*
 
@@ -984,15 +986,15 @@ other type. <br><br>
 *5. Precisely what do `is.atomic()`, `is.numeric()`, and `is.vector()`
 test for?*
 
--   `is.atomic()` checks if the vector is of type “logical”, “integer”,
+-   `is.atomic()` checks if an object is of type “logical”, “integer”,
     “numeric”, “complex”, “character” or “raw”
--   `is.numeric()` checks if the vector is a double or integer and *not*
-    a factor.
+-   `is.numeric()` checks if an object is a double or integer vector and
+    *not* a factor.
 -   `is.vector()` is a generalized `is.*()` function for all vectors.
     The `mode` argument can be specified to check for a specific type,
-    or it can be left as `"any"`, the default, to check is the object is
-    a vector. `mode` can also be specified as `"numeric"`, running the
-    same check as `is.numeric()`. <br><br>
+    including lists. It can also be left as “any”, the default, to check
+    is the object is a vector. `mode` can also be specified as
+    “numeric”, running the same check as `is.numeric()`. <br><br>
 
 ## 3.3: Attributes
 
@@ -1000,7 +1002,7 @@ test for?*
 
 #### Getting and setting
 
--   Attributes are name-value pairs that attach metadata to an R object.
+-   Attributes are name-value pairs that attach metadata to an R object
 -   Individual attributes can be get and set with `attr()`
 -   Attributes are retrieved en masse with `attributes()` and set with
     `structure()`
@@ -1057,7 +1059,7 @@ setNames
         names(object) <- nm
         object
     }
-    <bytecode: 0x7fe991782ce8>
+    <bytecode: 0x7fe918a00ae8>
     <environment: namespace:stats>
 
 <br>
@@ -1078,10 +1080,10 @@ unname
             dimnames(obj) <- NULL
         obj
     }
-    <bytecode: 0x7fe977c5b5c8>
+    <bytecode: 0x7fe91813dbc8>
     <environment: namespace:base>
 
-<br><br>
+<br>
 
 *2.1 What does dim() return when applied to a 1-dimensional vector?*
 
@@ -1103,7 +1105,7 @@ is that the capitalized forms return values for one dimensional vectors.
 Both functions return the same value for matrices, arrays, and data
 frames.
 
-For one dimeensional objects: - `NROW()` returns the length of the
+For one dimensional objects: - `NROW()` returns the length of the
 vector - `NCOL()` returns `1L` <br>\><br>
 
 *3. How would you describe the following three objects? What makes them
@@ -1144,8 +1146,10 @@ Why? Is the attribute missing, or is there something else special about
 it? (Hint: try using help.)*
 
 Checking the documentation for the default method for `print()`,
-(`?print.default`), we see that attributes are printed for the object’s
-class(es).
+(`?print.default`), we see that attributes are printed depending on an
+object’s class(es).
+
+`1:5` is stored as an “integer”
 
 ``` r
 class(1:5)
@@ -1186,7 +1190,7 @@ integers with two attributes:
 -   `levels`: defines factor’s categories
 
 Ordered factors are just like factors, except that the order of the
-factors is meaningful/ <br><br>
+factors is meaningful <br><br>
 
 #### Dates
 
@@ -1219,8 +1223,8 @@ attributes:
 The `tzone` attributes controls the timezone, and can be modified using
 `attr()` or `structure()`. See [this Wikipedia
 page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for
-a list of the timezone names and `?timezones` for the system specific
-location of the tz database. <br><br>
+a list of the timezone names and `?timezones` for where to locate the tz
+database on your system. <br><br>
 
 #### Durations
 
@@ -1347,13 +1351,13 @@ f1 <- factor(letters)
 tracemem(f1)
 ```
 
-    [1] "<0x7fe971c2b398>"
+    [1] "<0x7fe91865ec78>"
 
 ``` r
 levels(f1) <- rev(levels(f1))
 ```
 
-    tracemem[0x7fe971c2b398 -> 0x7fe971c2a948]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
+    tracemem[0x7fe91865ec78 -> 0x7fe91865e2d8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call <Anonymous> evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file <Anonymous> <Anonymous> execute .main 
 
 <br>
 
@@ -1399,8 +1403,8 @@ Lists can be created using `list()`.
 
 -   Lists contain references to other objects
 -   A list’s those objects can be of any type, including other lists
--   Because a list can contain a list, lists are sometimes called
-    **recursive** vectors.
+-   Because a list can contain another list, lists are sometimes called
+    **recursive** vectors
 -   `c()` combines multiple lists into one. If some of the inputs to
     `c()` are atomic vectors and others lists, R will coerce the vectors
     to lists prior to combining <br><br>
@@ -1413,7 +1417,7 @@ Lists can be created using `list()`.
 -   You can also coerce a list to an atomic vector with `unlist()`
     -   From the book, The rules for the type resulting from `unlist()`
         are *“complex, not well documented, and not always equivalent to
-        what you’d get with `c()`.”* <br><br>
+        what you’d get with `c()`”* <br><br>
 
 #### Matrices and arrays
 
@@ -1436,7 +1440,7 @@ x <- letters
 ref(x)
 ```
 
-    [1:0x600002b54c00] <chr> 
+    [1:0x60000297d300] <chr> 
 
 <br>
 
@@ -1448,10 +1452,10 @@ l <- list(x, LETTERS, letters)
 ref(l)
 ```
 
-    █ [1:0x7fe971d0c778] <list> 
-    ├─[2:0x600002b54c00] <chr> 
-    ├─[3:0x600002b54500] <chr> 
-    └─[2:0x600002b54c00] 
+    █ [1:0x7fe8ff5ab4d8] <list> 
+    ├─[2:0x60000297d300] <chr> 
+    ├─[3:0x600002978e00] <chr> 
+    └─[2:0x60000297d300] 
 
 <br>
 
@@ -1480,7 +1484,7 @@ x1 <- c(d, dt)
 str(x1)
 ```
 
-     Date[1:2], format: "2022-06-29" "2022-06-29"
+     Date[1:2], format: "2022-06-30" "2022-06-30"
 
 <br>
 
@@ -1491,7 +1495,7 @@ x2 <- c(dt, d)
 str(x2)
 ```
 
-     POSIXct[1:2], format: "2022-06-29 16:52:37" "2022-06-28 20:00:00"
+     POSIXct[1:2], format: "2022-06-30 19:00:52" "2022-06-29 20:00:00"
 
 <br>
 
@@ -1552,9 +1556,9 @@ attributes(t)
 
 Differences in creation between tibbles and data frames:
 
--   Tibbles never coerce vectors.
-    -   A common need is to suppress in `data.frame()` by setting
-        `stringsAsFactors` to `FALSE`
+-   Tibbles never coerce vectors
+    -   A common need is to suppress string to factor coercion in
+        `data.frame()` by setting `stringsAsFactors` to `FALSE`
 -   Tibbles surround non-syntactic names with `` ` `` rather than
     transforming them
 -   Data frames recycle inputs that are an integer multiple of the
@@ -1571,7 +1575,7 @@ in two ways:
 -   The `row.names` argument in `data.frame()`
 -   By calling `rownames()`
 
-Tibbles do not support row names for three main reasons - They are
+Tibbles do not support row names for three main reasons - Row names are
 stored differently from data - They only work when rows can be
 identified via a single string - They *must* be unique, so
 repetition/resampling results in new row names
@@ -1598,12 +1602,14 @@ a 1-D list or a 2-D matrix.
 Tibbles modify two undesirable properties of data frames:
 
 -   Data frames will return a vector for `df[, x]` if x is a length one
-    vector, and a data frame is x is of length \> 1. To avoid this, use
+    vector, and a data frame if x is of length \> 1, unless you specify
     `df[, x, drop = FALSE]`
-    -   Subsetting a single column from a tibble using `[` can cause an
-        issue with legacy code that uses `df[, "col"]` to return a
-        column as an atomic vector. Using `df[["col"]]` returns the
-        desired vector whether subsetting a data frame or tibble
+    -   Tibbles always return another tibble when using `[`
+    -   Subsetting a single column from a tibble using `[`, however, can
+        cause an issue with some legacy code that expects an atomic
+        vector when calling `df[, "col"]`. Use `df[["col"]]` to
+        unambiguously return the desired column as an atomic vector
+        whether subsetting a data frame or tibble
 
 ``` r
 df1 <- data.frame(xyz = "a")
@@ -1640,6 +1646,10 @@ str(df1$x)
 ```
 
      chr "a"
+
+<br>
+
+Tibbles only return exact matches with `$`
 
 ``` r
 str(df2$x)
@@ -1684,10 +1694,10 @@ d <- tibble(
 
 #### Matrix and data frame columns
 
-Extending the length requirement for data frames, it’s actually the
-`NROW()` of each column that needs to match, not the `length()`. Because
-of this, data frames and matrices can be included as columns in a data
-frame.
+Extending the length requirement for data frames (that all columns must
+be of the same length), it’s actually the `NROW()` of each column that
+needs to match. Because of this, data frames and matrices can be
+included as columns in a data frame.
 
 Just as with list columns, it must be added after creation or wrapped in
 `I()`. Note that wrapping it in `I()` adds a `class` “AsIs”
@@ -1868,7 +1878,7 @@ as.matrix(d)
 
 <br>
 
-`t()` works with data frame columns as expected once combined together
+`t()` works with data frame columns normally after combining
 
 ``` r
 t(d)
@@ -1904,7 +1914,7 @@ The behavior for `as.matrix()` is described in answer 3.
 when converting non numeric variable types
 
 Logical and factor columns are coerced to integers. Character columns
-are converted first to factors, then to integers.
+are converted first to factors, then to integers
 
 ``` r
 a <- letters[1:3]
@@ -2004,9 +2014,8 @@ Two common uses of `NULL`:
 -   To represent an empty vector
 -   To represent an absent vector
     -   `NULL` is often used as a default function value, to signify
-        that the vector is not needed in the function – it can be
-        absent.
-    -   `NA`, in contrast, signified that the element of a vector is
+        that that value is not needed in the function.
+    -   `NA`, in contrast, signifies that the element of a vector is
         absent, not the vector itself <br><br>
 
 # 4: Subsetting
