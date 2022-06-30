@@ -551,7 +551,7 @@ The primary types can be checked with the appropriate `is.*()` function:
 | Character | `is.character()`  |
 | Double    | `is.double()`     |
 | Integer   | `is.integer()`    |
-<br><br>
+<br>
 
 #### Coercion
 
@@ -584,7 +584,7 @@ r
 ```
 <br>
 
-Complex vectors are created with `complex()` specifying either the length (via the `length.out` argument), or both the real and imaginary parts as numeric vectors.
+Complex vectors are created with `complex()`, specifying either the length (via the `length.out` argument) or both the real and imaginary parts as numeric vectors.
 <br><br>
 
 *2. Test your knowledge of the vector coercion rules by predicting the output of the following uses of `c()`*
@@ -592,21 +592,21 @@ Complex vectors are created with `complex()` specifying either the length (via t
 Per the type coercion hierarchy, `c(1, FALSE)` will be converted to a double, `c(1, 0)`. 1's are coerced to `TRUE` (and 0 to `FALSE`), and vice versa
 ```{r}
 x <- c(1, FALSE)
-cat(x, " | ", typeof(x))
+cat(x, "\n", typeof(x))
 ```
 <br>
 
 `c("a", 1)`, will be coerced to `c("a", "1")` as the character type is about double in the type coversion hierarchy
 ```{r}
 x <- c("a", 1)
-cat(x, " | ", typeof(x))
+cat(x, "\n", typeof(x))
 ```
 <br>
 
 `c(TRUE, 1L)`, will b coerced to `c(1L, 1L)` per the type coercion hierarchy
 ```{r}
 x <- c(TRUE, 1L)
-cat(x, " | ", typeof(x))
+cat(x, "\n", typeof(x))
 ```
 <br>
 
@@ -616,7 +616,7 @@ Per the documentation for `==`, atomic vectors that are of different types are c
 
 *3.2. Why is `-1 < FALSE` true?*
 
-`<`, like `==` and most operations, also coerces types prior to evaluation. So after coercion, the call here becomes `-1 < 0`, which is false.
+`<`, like `==`, also coerces types prior to evaluation. So after coercion, the call here becomes `-1 < 0`, which is true.
 
 *3.3. Why is `"one" < 2` false?*
 
@@ -630,9 +630,9 @@ Logical vectors are lowest on the type hierarchy. When they are combined with an
 
 *5. Precisely what do `is.atomic()`, `is.numeric()`, and `is.vector()` test for?*
 
-- `is.atomic()` checks if the vector is of type "logical", "integer", "numeric", "complex", "character" or "raw"
-- `is.numeric()` checks if the vector is a double or integer and *not* a factor.
-- `is.vector()` is a generalized `is.*()` function for all vectors. The `mode` argument can be specified to check for a specific type, or it can be left as `"any"`, the default, to check is the object is a vector. `mode` can also be specified as `"numeric"`, running the same check as `is.numeric()`.
+- `is.atomic()` checks if an object is of type "logical", "integer", "numeric", "complex", "character" or "raw"
+- `is.numeric()` checks if an object is a double or integer vector and *not* a factor.
+- `is.vector()` is a generalized `is.*()` function for all vectors. The `mode` argument can be specified to check for a specific type, including lists. It can also be left as "any", the default, to check is the object is a vector. `mode` can also be specified as "numeric", running the same check as `is.numeric()`.
 <br><br>
 
 ## 3.3: Attributes
@@ -641,7 +641,7 @@ Logical vectors are lowest on the type hierarchy. When they are combined with an
 
 #### Getting and setting
 
-- Attributes are name-value pairs that attach metadata to an R object.
+- Attributes are name-value pairs that attach metadata to an R object
 - Individual attributes can be get and set with `attr()`
 - Attributes are retrieved en masse with `attributes()` and set with `structure()`
 - Most attributes, other than **dim** and **names** are lost by most operations
@@ -689,7 +689,7 @@ setNames
 ```{r}
 unname
 ```
-<br><br>
+<br>
 
 *2.1 What does dim() return when applied to a 1-dimensional vector?*
 
@@ -704,7 +704,7 @@ dim(x)
 
 The difference between `NROW()` and `nrow()` (and `NCOL()` and `ncol()`) is that the capitalized forms return values for one dimensional vectors. Both functions return the same value for matrices, arrays, and data frames.
 
-For one dimeensional objects:
+For one dimensional objects:
 - `NROW()` returns the length of the vector
 - `NCOL()` returns `1L`
 <br>><br>
@@ -731,8 +731,9 @@ structure(1:5, comment = "my attribute")
 
 *But when you print that object you don’t see the comment attribute. Why? Is the attribute missing, or is there something else special about it? (Hint: try using help.)*
 
-Checking the documentation for the default method for `print()`,  (`?print.default`), we see that attributes are printed for the object's class(es).
+Checking the documentation for the default method for `print()`,  (`?print.default`), we see that attributes are printed depending on an object's class(es).
 
+`1:5` is stored as an "integer"
 ```{r}
 class(1:5)
 ```
@@ -764,7 +765,7 @@ Factors are useful when looking at categorical data. They sit on top of integers
 - `class`: "factor"
 - `levels`: defines factor's categories
 
-Ordered factors are just like factors, except that the order of the factors is meaningful/
+Ordered factors are just like factors, except that the order of the factors is meaningful
 <br><br>
 
 #### Dates
@@ -787,7 +788,7 @@ POSIXct variables are built on top of double variables, with two attributes:
 - `class`: "POSIXct"
 - `tzone`: "UTC", "GMT", "" for local, or a [timezone name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 
-The `tzone` attributes controls the timezone, and can be modified using `attr()` or `structure()`. See [this Wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for a list of the timezone names and `?timezones` for the system specific location of the tz database.
+The `tzone` attributes controls the timezone, and can be modified using `attr()` or `structure()`. See [this Wikipedia page](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for a list of the timezone names and `?timezones` for where to locate the tz database on your system.
 <br><br>
 
 #### Durations
@@ -879,7 +880,7 @@ Lists can be created using `list()`.
 
 - Lists contain references to other objects 
 - A list's those objects can be of any type, including other lists
-- Because a list can contain a list, lists are sometimes called **recursive** vectors.
+- Because a list can contain another list, lists are sometimes called **recursive** vectors
 - `c()` combines multiple lists into one. If some of the inputs to `c()` are atomic vectors and others lists, R will coerce the vectors to lists prior to combining
 <br><br>
 
@@ -888,7 +889,7 @@ Lists can be created using `list()`.
 - `typeof()` returns "list" for lists
 - Check if a list with `is.list()` and coerce to a list with `as.list()`
 - You can also coerce a list to an atomic vector with `unlist()`
-  - From the book, The rules for the type resulting from `unlist()` are *"complex, not well documented, and not always equivalent to what you’d get with `c()`."*
+  - From the book, The rules for the type resulting from `unlist()` are *"complex, not well documented, and not always equivalent to what you’d get with `c()`"*
 <br><br>
 
 #### Matrices and arrays
@@ -980,8 +981,8 @@ attributes(t)
 
 Differences in creation between tibbles and data frames:
 
-- Tibbles never coerce vectors. 
-  - A common need is to suppress in `data.frame()` by setting `stringsAsFactors` to `FALSE`
+- Tibbles never coerce vectors
+  - A common need is to suppress string to factor coercion in `data.frame()` by setting `stringsAsFactors` to `FALSE`
 - Tibbles surround non-syntactic names with `` ` `` rather than transforming them
 - Data frames recycle inputs that are an integer multiple of the longest vector, while tibbles only recycle vectors that are of length 1
 - Tibbles allow you to refer to created variables during construction
@@ -995,7 +996,7 @@ A character vector can be supplied to label the "rows" of a data frame, in two w
 - By calling `rownames()`
 
 Tibbles do not support row names for three main reasons
-- They are stored differently from data
+- Row names are stored differently from data
 - They only work when rows can be identified via a single string
 - They *must* be unique, so repetition/resampling results in new row names
 
@@ -1018,8 +1019,9 @@ Discussed more in Chapter 4, you can subset data frames and tibbles like a 1-D l
 
 Tibbles modify two undesirable properties of data frames:
 
-- Data frames will return a vector for `df[, x]` if x is a length one vector, and a data frame is x is of length > 1. To avoid this, use `df[, x, drop = FALSE]`
-  - Subsetting a single column from a tibble using `[` can cause an issue with legacy code that uses `df[, "col"]` to return a column as an atomic vector. Using `df[["col"]]` returns the desired vector whether subsetting a data frame or tibble
+- Data frames will return a vector for `df[, x]` if x is a length one vector, and a data frame if x is of length > 1, unless you specify `df[, x, drop = FALSE]`
+  - Tibbles always return another tibble when using `[`
+  - Subsetting a single column from a tibble using `[`, however, can cause an issue with some legacy code that expects an atomic vector when calling `df[, "col"]`. Use `df[["col"]]` to unambiguously return the desired column as an atomic vector whether subsetting a data frame or tibble
 ```{r}
 df1 <- data.frame(xyz = "a")
 df2 <- tibble(xyz = "a")
@@ -1066,7 +1068,7 @@ d <- tibble(
 
 #### Matrix and data frame columns
 
-Extending the length requirement for data frames, it's actually the `NROW()` of each column that needs to match, not the `length()`. Because of this, data frames and matrices can be included as columns in a data frame.
+Extending the length requirement for data frames (that all columns must be of the same length), it's actually the `NROW()` of each column that needs to match. Because of this, data frames and matrices can be included as columns in a data frame.
 
 Just as with list columns, it must be added after creation or wrapped in `I()`. Note that wrapping it in `I()` adds a `class` "AsIs"
 ```{r}
@@ -1129,7 +1131,6 @@ tryCatch(
   }
 )
 ```
-
 <br>
 
 *3. If `df` is a data frame, what can you say about `t(df)`, and `t(t(df))`? Perform some experiments, making sure to try different column types.*
@@ -1169,7 +1170,7 @@ as.matrix(d)
 ```
 <br>
 
-`t()` works with data frame columns as expected once combined together
+`t()` works with data frame columns normally after combining
 ```{r}
 t(d)
 t(t(d))
@@ -1182,7 +1183,7 @@ The behavior for `as.matrix()` is described in answer 3.
 
 `data.matrix()` converts all variables in a data frame to numeric via `as.numeric()` prior to combining them, so I would expect odd behavior when converting non numeric variable types
 
-Logical and factor columns are coerced to integers. Character columns are converted first to factors, then to integers.
+Logical and factor columns are coerced to integers. Character columns are converted first to factors, then to integers
 ```{r}
 a <- letters[1:3]
 as.integer(as.factor(a))
@@ -1196,7 +1197,6 @@ c <- factor(LETTERS[1:3])
 d <- data.frame(a, b, c)
 data.matrix(d)
 ```
-
 <br>
 
 Any non numeric column that is *not* a logical, factor, or character column is converted to a numeric column via `as.numeric()`. `as.numeric()` only works on atomic vectors, so it will convert each list element at the atomic level
@@ -1256,8 +1256,8 @@ Two common uses of `NULL`:
 
 - To represent an empty vector
 - To represent an absent vector
-  - `NULL` is often used as a default function value, to signify that the vector is not needed in the function -- it can be absent.
-  - `NA`, in contrast, signified that the element of a vector is absent, not the vector itself
+  - `NULL` is often used as a default function value, to signify that that value is not needed in the function.
+  - `NA`, in contrast, signifies that the element of a vector is absent, not the vector itself
 <br><br>
 
 # 4: Subsetting
