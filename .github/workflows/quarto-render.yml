@@ -1,22 +1,26 @@
-name: Render README.qmd file to gfm
-
+# https://github.com/pommevilla/quarto-render
+name: Render and Push Quarto File
 on:
   push:
   pull_request:
 
 jobs:
-  quarto-render-readme:
-inputs:
-  to:
-    description: 'gfm'
-    required: false
-  path:
-    description: 'README.qmd'
-    required: false
-    default: "README.qmd"
-runs:
-  using: 'composite'
-  steps:
-    - name: 'Render'
-      run: 'quarto render ${{ inputs.path }} --to ${{ inputs.to }}'
-      shell: bash
+  quarto-render-and-push
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Quarto
+      uses: quarto-dev/quarto-actions/setup@v2
+
+    - name: Render .qmd
+      uses: quarto-dev/quarto-actions/render@v2
+      with:
+        path: README.qmd
+
+    - name: Push rendered .md
+    - run: |
+      git config --global user.name 'joshwlivingston'
+      git config --global user.name 'joshwlivingston@gmail.com'
+      git commit -am "render README"
+      git push
