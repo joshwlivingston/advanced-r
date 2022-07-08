@@ -1,4 +1,4 @@
-# https://github.com/pommevilla/quarto-render
+# https://github.com/quarto-dev/quarto-actions
 name: Render and Push Quarto File
 on:
   push:
@@ -15,8 +15,6 @@ jobs:
 
     - name: Render .qmd
       uses: quarto-dev/quarto-actions/render@v2
-      with:
-        path: README.qmd
 
     - name: Add & Commit
       uses: EndBug/add-and-commit@v9.0.1
