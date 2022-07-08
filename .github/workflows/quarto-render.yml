@@ -17,9 +17,7 @@ jobs:
       run: quarto create-project
 
     - name: Render .qmd
-      uses: quarto-dev/quarto-actions/render@v2
-      with:
-        to: gfm
+      run: quarto render README.qmd
 
     - name: Rename to README
       run: mv advanced-r.md README.md
