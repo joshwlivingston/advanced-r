@@ -2,7 +2,6 @@
 name: Render and Push Quarto File
 on:
   push:
-  pull_request:
 
 jobs:
   quarto-render-and-push:
