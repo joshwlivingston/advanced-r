@@ -18,8 +18,9 @@ jobs:
 
     - name: Render .qmd
       uses: quarto-dev/quarto-actions/render@v2
-      with:
-        to: gfm
+
+    - name: Rename to README
+      run: mv advanced-r.md README.md
 
     - name: Add & Commit
       uses: EndBug/add-and-commit@v9.0.1
