@@ -18,9 +18,10 @@ jobs:
       with:
         path: README.qmd
 
-    - name: Push rendered .md
-    - run: |
-      git config --global user.name 'joshwlivingston'
-      git config --global user.name 'joshwlivingston@gmail.com'
-      git commit -am "render README"
-      git push
+    - name: Add & Commit
+      uses: EndBug/add-and-commit@v9.0.1
+      with:
+        author_name: joshwlivingston
+        author_email: joshwlivingston@gmail.com
+        message: 'Render README'
+
