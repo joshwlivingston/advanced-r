@@ -1,0 +1,22 @@
+name: Render README.qmd file to gfm
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  quarto-render-readme:
+inputs:
+  to:
+    description: 'gfm'
+    required: false
+  path:
+    description: 'README.qmd'
+    required: false
+    default: "README.qmd"
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Render'
+      run: 'quarto render ${{ inputs.path }} --to ${{ inputs.to }}'
+      shell: bash
