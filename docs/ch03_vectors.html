@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.5">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>advanced-r - 2&nbsp; Advanced R Chapter 3 - Vectors</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch02_namesvalues.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Advanced R Chapter 3 - Vectors</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">advanced-r</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Introduction</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02_namesvalues.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Advanced R Chapter 2 - Names and Values</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03_vectors.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Advanced R Chapter 3 - Vectors</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#atomic-vectors" id="toc-atomic-vectors" class="nav-link active" data-scroll-target="#atomic-vectors"> <span class="header-section-number">2.1</span> 3.2: Atomic Vectors</a>
+  <ul class="collapse">
+  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes"> <span class="header-section-number">2.1.1</span> Notes</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"> <span class="header-section-number">2.1.2</span> Exercises</a></li>
+  </ul></li>
+  <li><a href="#attributes" id="toc-attributes" class="nav-link" data-scroll-target="#attributes"> <span class="header-section-number">2.2</span> 3.3: Attributes</a>
+  <ul class="collapse">
+  <li><a href="#notes-1" id="toc-notes-1" class="nav-link" data-scroll-target="#notes-1"> <span class="header-section-number">2.2.1</span> Notes</a></li>
+  <li><a href="#exercises-1" id="toc-exercises-1" class="nav-link" data-scroll-target="#exercises-1"> <span class="header-section-number">2.2.2</span> Exercises</a></li>
+  </ul></li>
+  <li><a href="#s3-atomic-vectors" id="toc-s3-atomic-vectors" class="nav-link" data-scroll-target="#s3-atomic-vectors"> <span class="header-section-number">2.3</span> 3.4: S3 atomic vectors</a>
+  <ul class="collapse">
+  <li><a href="#notes-2" id="toc-notes-2" class="nav-link" data-scroll-target="#notes-2"> <span class="header-section-number">2.3.1</span> Notes</a></li>
+  <li><a href="#exercises-2" id="toc-exercises-2" class="nav-link" data-scroll-target="#exercises-2"> <span class="header-section-number">2.3.2</span> Exercises</a></li>
+  </ul></li>
+  <li><a href="#lists" id="toc-lists" class="nav-link" data-scroll-target="#lists"> <span class="header-section-number">2.4</span> 3.5: Lists</a>
+  <ul class="collapse">
+  <li><a href="#notes-3" id="toc-notes-3" class="nav-link" data-scroll-target="#notes-3"> <span class="header-section-number">2.4.1</span> Notes</a></li>
+  <li><a href="#exercises-3" id="toc-exercises-3" class="nav-link" data-scroll-target="#exercises-3"> <span class="header-section-number">2.4.2</span> Exercises</a></li>
+  </ul></li>
+  <li><a href="#data-frames-and-tibbles" id="toc-data-frames-and-tibbles" class="nav-link" data-scroll-target="#data-frames-and-tibbles"> <span class="header-section-number">2.5</span> 3.6: Data frames and tibbles</a>
+  <ul class="collapse">
+  <li><a href="#notes-4" id="toc-notes-4" class="nav-link" data-scroll-target="#notes-4"> <span class="header-section-number">2.5.1</span> Notes</a></li>
+  <li><a href="#exercises-4" id="toc-exercises-4" class="nav-link" data-scroll-target="#exercises-4"> <span class="header-section-number">2.5.2</span> Exercises</a></li>
+  </ul></li>
+  <li><a href="#null" id="toc-null" class="nav-link" data-scroll-target="#null"> <span class="header-section-number">2.6</span> 3.7: NULL</a>
+  <ul class="collapse">
+  <li><a href="#notes-5" id="toc-notes-5" class="nav-link" data-scroll-target="#notes-5"> <span class="header-section-number">2.6.1</span> Notes</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Advanced R Chapter 3 - Vectors</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p><a href="https://adv-r.hadley.nz/vectors-chap.html#vectors-chap">Book Link</a></p>
+<ul>
+<li>Vectors, an important R data type, have two types: <em>atomic vectors</em> and <em>lists</em> (generic vectors)</li>
+<li>Vectors also have metadata in the form of <em>attributes</em></li>
+</ul>
+<section id="atomic-vectors" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="atomic-vectors"><span class="header-section-number">2.1</span> 3.2: Atomic Vectors</h2>
+<section id="notes" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="notes"><span class="header-section-number">2.1.1</span> Notes</h3>
+<ul>
+<li>Four primary types of atomic vectors
+<ul>
+<li>logical</li>
+<li>character</li>
+<li>double</li>
+<li>integer
+<ul>
+<li>Together, double and integer are numeric vectors</li>
+</ul></li>
+</ul></li>
+<li>Two rare types:
+<ul>
+<li>complex</li>
+<li>raw <br><br></li>
+</ul></li>
+</ul>
+<section id="scalars" class="level4" data-number="2.1.1.1">
+<h4 data-number="2.1.1.1" class="anchored" data-anchor-id="scalars"><span class="header-section-number">2.1.1.1</span> Scalars</h4>
+<p>Scalars, aka individual values, are created in special ways for each of the four primary types:</p>
+<table class="table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 85%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Logical</td>
+<td style="text-align: left;"><code>TRUE</code> or <code>FALSE</code> (or <code>T</code> or <code>F</code>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Character</td>
+<td style="text-align: left;">surrounded by <code>"</code> or <code>'</code>. see <code>?Quotes</code> for escape characters</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Double</td>
+<td style="text-align: left;">decimal (<code>0.123</code>), scientific (<code>1.23e3</code>), or hexadecimal form</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Integer</td>
+<td style="text-align: left;">similar to doubles, ending with <code>L</code> (<code>123L</code>)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>There are three special values unique to doubles: <code>Inf</code>, <code>-Inf</code>, and <code>NaN</code> (not a number) <br><br></li>
+</ul>
+</section>
+<section id="c" class="level4" data-number="2.1.1.2">
+<h4 data-number="2.1.1.2" class="anchored" data-anchor-id="c"><span class="header-section-number">2.1.1.2</span> c()</h4>
+<ul>
+<li><code>c()</code>, short for combine, is used to create longer vectors</li>
+<li>Determine the vector type with <code>typeof()</code></li>
+<li>If the inputs to <code>c()</code> are other atomic vectors, R will flatten them into one atomic vector.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(x1, x2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="missing-values" class="level4" data-number="2.1.1.3">
+<h4 data-number="2.1.1.3" class="anchored" data-anchor-id="missing-values"><span class="header-section-number">2.1.1.3</span> Missing values</h4>
+<ul>
+<li>Missing values are represented with <code>NA</code>
+<ul>
+<li>Each primary type has its own missing value (R usually converts to correct type)</li>
+</ul></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Missing Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Logical</td>
+<td style="text-align: left;"><code>NA</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Character</td>
+<td style="text-align: left;"><code>NA_character</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Double</td>
+<td style="text-align: left;"><code>NA_real_</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Integer</td>
+<td style="text-align: left;"><code>NA_integer_</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Most computations involving missing values will return a missing value, with a few exceptions:</li>
+</ul>
+<p>The 0 power identity</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cn">NA</span> <span class="sc">^</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Boolean logic (or TRUE):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cn">NA</span> <span class="sc">|</span> <span class="cn">TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Boolean logic (and FALSE):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cn">NA</span> <span class="sc">&amp;</span> <span class="cn">FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p><br></p>
+<ul>
+<li>Use <code>is.na()</code> to check for missingness in vectors</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="cn">NA</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  TRUE FALSE FALSE  TRUE</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="testing" class="level4" data-number="2.1.1.4">
+<h4 data-number="2.1.1.4" class="anchored" data-anchor-id="testing"><span class="header-section-number">2.1.1.4</span> Testing</h4>
+<p>The primary types can be checked with the appropriate <code>is.*()</code> function:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;"><code>is.*()</code> function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Logical</td>
+<td style="text-align: left;"><code>is.logical()</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Character</td>
+<td style="text-align: left;"><code>is.character()</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Double</td>
+<td style="text-align: left;"><code>is.double()</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Integer</td>
+<td style="text-align: left;"><code>is.integer()</code></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</section>
+<section id="coercion" class="level4" data-number="2.1.1.5">
+<h4 data-number="2.1.1.5" class="anchored" data-anchor-id="coercion"><span class="header-section-number">2.1.1.5</span> Coercion</h4>
+<p>Coercion to a different type often happens automatically as a result of a computation. To deliberately coerce, use the appropriate <code>as.*()</code> function:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;"><code>as.*()</code> function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Logical</td>
+<td style="text-align: left;"><code>as.logical()</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Character</td>
+<td style="text-align: left;"><code>as.character()</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Double</td>
+<td style="text-align: left;"><code>as.double()</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Integer</td>
+<td style="text-align: left;"><code>as.integer()</code></td>
+</tr>
+</tbody>
+</table>
+<p>Failed coercion generates a warning and returns <code>NA</code> for that value.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>(<span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"2.5"</span>, <span class="st">"bike"</span>, <span class="st">"7"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: NAs introduced by coercion</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  1  2 NA  7</code></pre>
+</div>
+</div>
+<p>Per <code>?c</code>, the hierarchy of types when coercing is NULL &lt; raw &lt; logical &lt; integer &lt; double &lt; complex &lt; character &lt; list &lt; expression <br><br></p>
+</section>
+</section>
+<section id="exercises" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="exercises"><span class="header-section-number">2.1.2</span> Exercises</h3>
+<p><em>1. How do you create raw and complex scalars? (See <code>?raw</code> and <code>?complex</code>.)</em></p>
+<p>Raw vectors are created with <code>raw()</code>, specifying the single <code>length</code> argument. Raw vectors also have a specific <code>is.raw()</code> for checking and <code>as.raw()</code> for coercion.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">raw</span>(<span class="dv">2</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>r</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 00 00</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Complex vectors are created with <code>complex()</code>, specifying either the length (via the <code>length.out</code> argument) or both the real and imaginary parts as numeric vectors. <br><br></p>
+<p><em>2. Test your knowledge of the vector coercion rules by predicting the output of the following uses of <code>c()</code></em></p>
+<p>Per the type coercion hierarchy, <code>c(1, FALSE)</code> will be converted to a double, <code>c(1, 0)</code>. 1’s are coerced to <code>TRUE</code> (and 0 to <code>FALSE</code>), and vice versa</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(x, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">typeof</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1 0 
+ double</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><code>c("a", 1)</code>, will be coerced to <code>c("a", "1")</code> as the character type is about double in the type coversion hierarchy</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="dv">1</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(x, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">typeof</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>a 1 
+ character</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><code>c(TRUE, 1L)</code>, will b coerced to <code>c(1L, 1L)</code> per the type coercion hierarchy</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, 1L)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(x, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">typeof</span>(x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1 1 
+ integer</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><em>3.1. Why is <code>1 == "1"</code> true?</em></p>
+<p>Per the documentation for <code>==</code>, atomic vectors that are of different types are coerced prior to evaluation. So, the left hand of the equality, <code>1</code>, will be coerced to a character vector prior to evaluation. Once coerced, the call is <code>"1" == "1"</code>, which is clearly true.</p>
+<p><em>3.2. Why is <code>-1 &lt; FALSE</code> true?</em></p>
+<p><code>&lt;</code>, like <code>==</code>, also coerces types prior to evaluation. So after coercion, the call here becomes <code>-1 &lt; 0</code>, which is true.</p>
+<p><em>3.3. Why is <code>"one" &lt; 2</code> false?</em></p>
+<p>Per the documentation for <code>&lt;</code>, string comparison is done at the locale level. The locale in use can be viewed with <code>Sys.getlocale()</code> and similarly set with <code>Sys.setlocale()</code>. Because numbers come before letters in this sequence, the coerced inequality, <code>"one" &lt; "2"</code> is evaluated as <code>FALSE</code>. <br><br></p>
+<p><em>4. Why is the default missing value, <code>NA</code>, a logical vector? What’s special about logical vectors? (Hint: think about <code>c(FALSE, NA_character_)</code>.)</em></p>
+<p>Logical vectors are lowest on the type hierarchy. When they are combined with another primary type, logicals will always be coerced into the other type. <br><br></p>
+<p><em>5. Precisely what do <code>is.atomic()</code>, <code>is.numeric()</code>, and <code>is.vector()</code> test for?</em></p>
+<ul>
+<li><code>is.atomic()</code> checks if an object is of type “logical”, “integer”, “numeric”, “complex”, “character” or “raw”</li>
+<li><code>is.numeric()</code> checks if an object is a double or integer vector and <em>not</em> a factor.</li>
+<li><code>is.vector()</code> is a generalized <code>is.*()</code> function for all vectors. The <code>mode</code> argument can be specified to check for a specific type, including lists. It can also be left as “any”, the default, to check is the object is a vector. <code>mode</code> can also be specified as “numeric”, running the same check as <code>is.numeric()</code>. <br><br></li>
+</ul>
+</section>
+</section>
+<section id="attributes" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="attributes"><span class="header-section-number">2.2</span> 3.3: Attributes</h2>
+<section id="notes-1" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="notes-1"><span class="header-section-number">2.2.1</span> Notes</h3>
+<section id="getting-and-setting" class="level4" data-number="2.2.1.1">
+<h4 data-number="2.2.1.1" class="anchored" data-anchor-id="getting-and-setting"><span class="header-section-number">2.2.1.1</span> Getting and setting</h4>
+<ul>
+<li>Attributes are name-value pairs that attach metadata to an R object</li>
+<li>Individual attributes can be get and set with <code>attr()</code></li>
+<li>Attributes are retrieved en masse with <code>attributes()</code> and set with <code>structure()</code></li>
+<li>Most attributes, other than <strong>dim</strong> and <strong>names</strong> are lost by most operations
+<ul>
+<li>To define and preserve attributes, create an S3 class, discussed in Chapter 13 <br><br></li>
+</ul></li>
+</ul>
+</section>
+<section id="names" class="level4" data-number="2.2.1.2">
+<h4 data-number="2.2.1.2" class="anchored" data-anchor-id="names"><span class="header-section-number">2.2.1.2</span> Names</h4>
+<ul>
+<li>Names can be set in three ways:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># When creating it: </span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="dv">3</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># By assigning a character vector to names()</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(x) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Inline, with setNames():</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<ul>
+<li>Names should be unique and non-missing, though this is not enforced in R <br><br></li>
+</ul>
+</section>
+<section id="dimensions" class="level4" data-number="2.2.1.3">
+<h4 data-number="2.2.1.3" class="anchored" data-anchor-id="dimensions"><span class="header-section-number">2.2.1.3</span> Dimensions</h4>
+<ul>
+<li>Adding the <strong>dim</strong> attribute allows a vector to behave like a 2-d <strong>matrix</strong> or multi-dimensional <strong>array</strong>
+<ul>
+<li>You can also create matrices and arrays with <code>matrix()</code> and <code>array()</code></li>
+</ul></li>
+<li>If a vector has no <code>dim</code> attribute set, that is equivalent to a vector with <code>NULL</code> dimensions</li>
+<li>Many functions for working with vectors have generalizations for working with matrices and arrays <br><br></li>
+</ul>
+</section>
+</section>
+<section id="exercises-1" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="exercises-1"><span class="header-section-number">2.2.2</span> Exercises</h3>
+<p><em>1. How is <code>setNames()</code> implemented? How is <code>unname()</code> implemented? Read the source code.</em></p>
+<p><code>setNames()</code> assigns names to the object by calling <code>names()&lt;-</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>setNames</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (object = nm, nm) 
+{
+    names(object) &lt;- nm
+    object
+}
+&lt;bytecode: 0x7fad77242a08&gt;
+&lt;environment: namespace:stats&gt;</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><code>unname()</code> sets names to <code>NULL</code> using <code>names()&lt;-</code>. If the object is a data frame, or <code>force</code> is set to <code>TRUE</code>, the dimension names are set to <code>NULL</code> using <code>dimnames()&lt;-</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>unname</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (obj, force = FALSE) 
+{
+    if (!is.null(names(obj))) 
+        names(obj) &lt;- NULL
+    if (!is.null(dimnames(obj)) &amp;&amp; (force || !is.data.frame(obj))) 
+        dimnames(obj) &lt;- NULL
+    obj
+}
+&lt;bytecode: 0x7fad95b6a598&gt;
+&lt;environment: namespace:base&gt;</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><em>2.1 What does dim() return when applied to a 1-dimensional vector?</em></p>
+<p>The dimensions of a 1-d vector are <code>NULL</code>, so <code>dim()</code> returns <code>NULL</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><em>2.2 When might you use NROW() or NCOL()?</em></p>
+<p>The difference between <code>NROW()</code> and <code>nrow()</code> (and <code>NCOL()</code> and <code>ncol()</code>) is that the capitalized forms return values for one dimensional vectors. Both functions return the same value for matrices, arrays, and data frames.</p>
+<p>For one dimensional objects: - <code>NROW()</code> returns the length of the vector - <code>NCOL()</code> returns <code>1L</code> <br>&gt;<br></p>
+<p><em>3. How would you describe the following three objects? What makes them different from <code>1:5</code>?</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">1</span>))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>x3 <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p><code>x1</code>, <code>x2</code>, and <code>x3</code> are all one dimensional arrays in a 3 dimensional space. Each has a numeric vector of length 3 as the <code>dim</code> attribute. <code>1:5</code>, being a 1 dimensional vector, does not have a <code>dim</code> attribute.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><em>4. An early draft used this code to illustrate <code>structure()</code>:</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">structure</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">comment =</span> <span class="st">"my attribute"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4 5</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><em>But when you print that object you don’t see the comment attribute. Why? Is the attribute missing, or is there something else special about it? (Hint: try using help.)</em></p>
+<p>Checking the documentation for the default method for <code>print()</code>, (<code>?print.default</code>), we see that attributes are printed depending on an object’s class(es).</p>
+<p><code>1:5</code> is stored as an “integer”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer"</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Since there is no <code>print</code> method defined for “integer”, <code>print.default()</code> will be used and no attributes printed.</p>
+<p>If we wanted the attribute <code>comment</code> to be printed with the output, we would have to create an S3 class with and attribute <code>comment</code> and define a <code>print</code> method for that class that includes the <code>comment</code> attribute. <br><br></p>
+</section>
+</section>
+<section id="s3-atomic-vectors" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="s3-atomic-vectors"><span class="header-section-number">2.3</span> 3.4: S3 atomic vectors</h2>
+<section id="notes-2" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="notes-2"><span class="header-section-number">2.3.1</span> Notes</h3>
+<p>Discussed more in Chapter 13, S3 objects have a <code>class</code> attribute, which means it will have special behavior for generic functions.</p>
+<p>There are four important S3 vectors in base R:</p>
+<ul>
+<li>Categorical data in <strong>factor</strong> vectors, an integer</li>
+<li>Dates in <strong>Date</strong> vectors, a double</li>
+<li>Date-times in <strong>POSIXct</strong> vectors, a double</li>
+<li>Durations in <strong>difftime</strong> vectors, a double <br><br></li>
+</ul>
+<section id="factors" class="level4" data-number="2.3.1.1">
+<h4 data-number="2.3.1.1" class="anchored" data-anchor-id="factors"><span class="header-section-number">2.3.1.1</span> Factors</h4>
+<p>Factors are useful when looking at categorical data. They sit on top of integers with two attributes:</p>
+<ul>
+<li><code>class</code>: “factor”</li>
+<li><code>levels</code>: defines factor’s categories</li>
+</ul>
+<p>Ordered factors are just like factors, except that the order of the factors is meaningful <br><br></p>
+</section>
+<section id="dates" class="level4" data-number="2.3.1.2">
+<h4 data-number="2.3.1.2" class="anchored" data-anchor-id="dates"><span class="header-section-number">2.3.1.2</span> Dates</h4>
+<p>Dates are built on double vectors with a <code>class</code> attribute “Date”.</p>
+<p>The value of the double represents the number of days since 1970-01-01.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">"1971-01-01"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">unclass</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 365</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="date-times" class="level4" data-number="2.3.1.3">
+<h4 data-number="2.3.1.3" class="anchored" data-anchor-id="date-times"><span class="header-section-number">2.3.1.3</span> Date-times</h4>
+<p>R stores date-time data in two ways, POSIXct, and POSIXlt. POSIX stands for Portable Operating System Interface, ct for calendar time, and lt for local time. POSIXct is the simplest usage.</p>
+<p>POSIXct variables are built on top of double variables, with two attributes:</p>
+<ul>
+<li><code>class</code>: “POSIXct”</li>
+<li><code>tzone</code>: “UTC”, “GMT”, “” for local, or a <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">timezone name</a></li>
+</ul>
+<p>The <code>tzone</code> attributes controls the timezone, and can be modified using <code>attr()</code> or <code>structure()</code>. See <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">this Wikipedia page</a> for a list of the timezone names and <code>?timezones</code> for where to locate the tz database on your system. <br><br></p>
+</section>
+<section id="durations" class="level4" data-number="2.3.1.4">
+<h4 data-number="2.3.1.4" class="anchored" data-anchor-id="durations"><span class="header-section-number">2.3.1.4</span> Durations</h4>
+<p>Durations, representing the time between two dates or date-times, are stored in <strong>difftimes</strong>.</p>
+<p>Difftimes are built on doubles with a <code>units</code> attribute that determines how the duration should be calculated. <br><br></p>
+</section>
+</section>
+<section id="exercises-2" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="exercises-2"><span class="header-section-number">2.3.2</span> Exercises</h3>
+<p><em>1. What sort of object does <code>table()</code> return? What is its type? What attributes does it have? How does the dimensional change as you tabulate more variables?</em></p>
+<p>From viewing its structure with <code>str()</code>, we see that <code>t</code> is a built on an integer, appearing to be a 1-dimensional array. It has an additional attribute <code>dimnames</code> containing the factor levels.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"cat"</span>, <span class="st">"dog"</span>, <span class="st">"dog"</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">factor</span>(x, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"cat"</span>, <span class="st">"dog"</span>, <span class="st">"horse"</span>))</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">table</span>(f)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> 'table' int [1:3(1d)] 1 2 0
+ - attr(*, "dimnames")=List of 1
+  ..$ f: chr [1:3] "cat" "dog" "horse"</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Looking at <code>dim(t)</code> we confirm that this is a 1 dimensional array.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><code>attributes()</code> also provides a clean look at <code>t</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$dim
+[1] 3
+
+$dimnames
+$dimnames$f
+[1] "cat"   "dog"   "horse"
+
+
+$class
+[1] "table"</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>For each variable added to the tabulation, the dimensionality increases by 1. Here with two variables, we note that <code>t2</code> is a two dimensional array.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"male"</span>, <span class="st">"female"</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">factor</span>(y)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>t2 <span class="ot">&lt;-</span> <span class="fu">table</span>(f, g)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(t2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$dim
+[1] 3 2
+
+$dimnames
+$dimnames$f
+[1] "cat"   "dog"   "horse"
+
+$dimnames$g
+[1] "female" "male"  
+
+
+$class
+[1] "table"</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>And <code>t3</code>, with three tabulated variables, is a three dimensional array.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"black"</span>, <span class="st">"black"</span>, <span class="st">"brown"</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">factor</span>(z)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>t3 <span class="ot">&lt;-</span> <span class="fu">table</span>(f, g, h)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(t3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$dim
+[1] 3 2 2
+
+$dimnames
+$dimnames$f
+[1] "cat"   "dog"   "horse"
+
+$dimnames$g
+[1] "female" "male"  
+
+$dimnames$h
+[1] "black" "brown"
+
+
+$class
+[1] "table"</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><em>2. What happens to a factor when you modify its levels?</em></p>
+<p>Using <code>tracemem()</code>, we see that this is considered a modification, so copy-on-modify takes place.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tracemem</span>(f1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "&lt;0x7fad9090c488&gt;"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(f1) <span class="ot">&lt;-</span> <span class="fu">rev</span>(<span class="fu">levels</span>(f1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tracemem[0x7fad9090c488 -&gt; 0x7fad9090b198]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
+</div>
+</div>
+<p><br></p>
+<p><em>3. What does this code do? How do <code>f2</code> and <code>f3</code> differ from <code>f1</code>?</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="fu">rev</span>(<span class="fu">factor</span>(letters))</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>f3 <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters, <span class="at">levels =</span> <span class="fu">rev</span>(letters))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>The key difference here is the order of the levels in each output. Since <code>rev()</code> reverses the vector’s values, not the values the <code>levels</code> attributes the levels for <code>f2</code>, are in alphabetical order:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(f2)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "a" "b" "c" "d" "e"</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>For <code>f3</code>, the levels are in reverse alphabetical order, as <code>rev()</code> was called on the levels themselves when it was created.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(f3)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "z" "y" "x" "w" "v"</code></pre>
+</div>
+</div>
+<p><br><br></p>
+</section>
+</section>
+<section id="lists" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="lists"><span class="header-section-number">2.4</span> 3.5: Lists</h2>
+<section id="notes-3" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="notes-3"><span class="header-section-number">2.4.1</span> Notes</h3>
+<section id="creating" class="level4" data-number="2.4.1.1">
+<h4 data-number="2.4.1.1" class="anchored" data-anchor-id="creating"><span class="header-section-number">2.4.1.1</span> Creating</h4>
+<p>Lists can be created using <code>list()</code>.</p>
+<ul>
+<li>Lists contain references to other objects</li>
+<li>A list’s those objects can be of any type, including other lists</li>
+<li>Because a list can contain another list, lists are sometimes called <strong>recursive</strong> vectors</li>
+<li><code>c()</code> combines multiple lists into one. If some of the inputs to <code>c()</code> are atomic vectors and others lists, R will coerce the vectors to lists prior to combining <br><br></li>
+</ul>
+</section>
+<section id="testing-and-coercion" class="level4" data-number="2.4.1.2">
+<h4 data-number="2.4.1.2" class="anchored" data-anchor-id="testing-and-coercion"><span class="header-section-number">2.4.1.2</span> Testing and coercion</h4>
+<ul>
+<li><code>typeof()</code> returns “list” for lists</li>
+<li>Check if a list with <code>is.list()</code> and coerce to a list with <code>as.list()</code></li>
+<li>You can also coerce a list to an atomic vector with <code>unlist()</code>
+<ul>
+<li>From the book, The rules for the type resulting from <code>unlist()</code> are <em>“complex, not well documented, and not always equivalent to what you’d get with <code>c()</code>”</em> <br><br></li>
+</ul></li>
+</ul>
+</section>
+<section id="matrices-and-arrays" class="level4" data-number="2.4.1.3">
+<h4 data-number="2.4.1.3" class="anchored" data-anchor-id="matrices-and-arrays"><span class="header-section-number">2.4.1.3</span> Matrices and arrays</h4>
+<p>Similarly to atomic vectors, you <em>can</em> add a <code>dim</code> attribute to lists to create list-matrices or list-arrays, if you want to. <br><br></p>
+</section>
+</section>
+<section id="exercises-3" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="exercises-3"><span class="header-section-number">2.4.2</span> Exercises</h3>
+<p><em>1. List all the ways that a list differs from an atomic vector.</em></p>
+<ul>
+<li>Because a list contains references, the list’s elements can be of any type</li>
+<li>A list stores references to other objects in memory, while a vector only stores one object in memory</li>
+</ul>
+<p>Here, the vector is seen occupying one location in memory</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lobstr)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> letters</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ref</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1:0x600001018f00] &lt;chr&gt; </code></pre>
+</div>
+</div>
+<p><br></p>
+<p>While the list occupies several locations. Note also that <code>x</code> and <code>letters</code> are references to the same object in memory</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">list</span>(x, LETTERS, letters)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ref</span>(l)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>█ [1:0x7fad76f40ac8] &lt;list&gt; 
+├─[2:0x600001018f00] &lt;chr&gt; 
+├─[3:0x600001018e00] &lt;chr&gt; 
+└─[2:0x600001018f00] </code></pre>
+</div>
+</div>
+<p><br></p>
+<p><em>2. Why do you need to use <code>unlist()</code> to convert a list to an atomic vector? Why doesn’t <code>as.vector()</code> work?</em></p>
+<p>Since lists are types of vectors, the list itself will be returned when passed to <code>as.vector()</code>. This is confirmed per the documentation at <code>?as.vector</code>. <br><br></p>
+<p><em>3. Compare and contrast <code>c()</code> and <code>unlist()</code> when combining a date and date-time into a single vector.</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">Sys.Date</span>()</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>c()</code> coerces into a Date or POSIXct variable, whichever is called first.</li>
+</ul>
+<p>Date first:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">c</span>(d, dt)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(x1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Date[1:2], format: "2022-07-09" "2022-07-09"</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>POSIXct first:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">c</span>(dt, d)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(x2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> POSIXct[1:2], format: "2022-07-09 10:50:35" "2022-07-08 20:00:00"</code></pre>
+</div>
+</div>
+<p><br></p>
+<ul>
+<li><code>unlist()</code> takes a list and returns the atomic components only, so it coerces both elements into a double and returns the resulting atomic vector.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">list</span>(d, dt))</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> num [1:2] 1.92e+04 1.66e+09</code></pre>
+</div>
+</div>
+<p><br><br></p>
+</section>
+</section>
+<section id="data-frames-and-tibbles" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="data-frames-and-tibbles"><span class="header-section-number">2.5</span> 3.6: Data frames and tibbles</h2>
+<section id="notes-4" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="notes-4"><span class="header-section-number">2.5.1</span> Notes</h3>
+<p>Data frames and tibbles are two important S3 vectors built on lists</p>
+<ul>
+<li>Data frames are a named list of vectors with three attributes:
+<ul>
+<li><code>names</code> for column names</li>
+<li><code>row.names</code> for row names</li>
+<li><code>class</code>, “data.frame”</li>
+</ul></li>
+<li>Unlike regular lists, data frames have a requirement that all vector elements have the same <code>NROW()</code>
+<ul>
+<li>Most of the time, this is equivalent to saying all columns must have the same length. However, as we’ll see later, data frames can be columns, so stating the requirement in terms of <code>NROW()</code> is necessary to accommodate these cases.</li>
+<li>Gives data frames the same properties as matrices</li>
+</ul></li>
+<li>Tibbles are a modern “equivalent” to a data.frame, provided by the <code>tibble</code> package.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$class
+[1] "tbl_df"     "tbl"        "data.frame"
+
+$row.names
+integer(0)
+
+$names
+character(0)</code></pre>
+</div>
+</div>
+<p><br></p>
+<section id="creating-1" class="level4" data-number="2.5.1.1">
+<h4 data-number="2.5.1.1" class="anchored" data-anchor-id="creating-1"><span class="header-section-number">2.5.1.1</span> Creating</h4>
+<ul>
+<li><code>data.frame()</code> to create data frames</li>
+<li><code>tibble::tibble()</code> to create tibbles</li>
+</ul>
+<p>Differences in creation between tibbles and data frames:</p>
+<ul>
+<li>Tibbles never coerce vectors
+<ul>
+<li>A common need is to suppress string to factor coercion in <code>data.frame()</code> by setting <code>stringsAsFactors</code> to <code>FALSE</code></li>
+</ul></li>
+<li>Tibbles surround non-syntactic names with <code>`</code> rather than transforming them</li>
+<li>Data frames recycle inputs that are an integer multiple of the longest vector, while tibbles only recycle vectors that are of length 1</li>
+<li>Tibbles allow you to refer to created variables during construction <br><br></li>
+</ul>
+</section>
+<section id="row-names" class="level4" data-number="2.5.1.2">
+<h4 data-number="2.5.1.2" class="anchored" data-anchor-id="row-names"><span class="header-section-number">2.5.1.2</span> Row names</h4>
+<p>A character vector can be supplied to label the “rows” of a data frame, in two ways:</p>
+<ul>
+<li>The <code>row.names</code> argument in <code>data.frame()</code></li>
+<li>By calling <code>rownames()</code></li>
+</ul>
+<p>Tibbles do not support row names for three main reasons - Row names are stored differently from data - They only work when rows can be identified via a single string - They <em>must</em> be unique, so repetition/resampling results in new row names</p>
+<p>Row names can be converted to a column in a tibble using <code>rownames_to_column()</code> or the <code>rownames</code> argument in <code>as_tibble()</code> <br><br></p>
+</section>
+<section id="printing" class="level4" data-number="2.5.1.3">
+<h4 data-number="2.5.1.3" class="anchored" data-anchor-id="printing"><span class="header-section-number">2.5.1.3</span> Printing</h4>
+<p>Four main differences between the <code>print()</code> output for a data frames and for tibbles:</p>
+<ul>
+<li>Tibbles show the first 10 rows and all columns that fit on screen</li>
+<li>Columns are labelled with its abbreviated type</li>
+<li>Wide columns are truncated</li>
+<li>Color is used when supported to (de)emphasize information <br><br></li>
+</ul>
+</section>
+<section id="subsetting" class="level4" data-number="2.5.1.4">
+<h4 data-number="2.5.1.4" class="anchored" data-anchor-id="subsetting"><span class="header-section-number">2.5.1.4</span> Subsetting</h4>
+<p>Discussed more in Chapter 4, you can subset data frames and tibbles like a 1-D list or a 2-D matrix.</p>
+<p>Tibbles modify two undesirable properties of data frames:</p>
+<ul>
+<li>Data frames will return a vector for <code>df[, x]</code> if x is a length one vector, and a data frame if x is of length &gt; 1, unless you specify <code>df[, x, drop = FALSE]</code>
+<ul>
+<li>Tibbles always return another tibble when using <code>[</code></li>
+<li>Subsetting a single column from a tibble using <code>[</code>, however, can cause an issue with some legacy code that expects an atomic vector when calling <code>df[, "col"]</code>. Use <code>df[["col"]]</code> to unambiguously return the desired column as an atomic vector whether subsetting a data frame or tibble</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">xyz =</span> <span class="st">"a"</span>)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">xyz =</span> <span class="st">"a"</span>)</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">"xyz"</span></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>df1[, x]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "a"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>df1[, x, drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  xyz
+1   a</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>df2[, x]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  xyz  
+  &lt;chr&gt;
+1 a    </code></pre>
+</div>
+</div>
+<p><br></p>
+<ul>
+<li>When using <code>$</code> data frames will return any variable that starts with the input</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df1<span class="sc">$</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> chr "a"</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Tibbles only return exact matches with <code>$</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df2<span class="sc">$</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Unknown or uninitialised column: `x`.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> NULL</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="testing-and-coercing" class="level4" data-number="2.5.1.5">
+<h4 data-number="2.5.1.5" class="anchored" data-anchor-id="testing-and-coercing"><span class="header-section-number">2.5.1.5</span> Testing and coercing</h4>
+<ul>
+<li>Check with <code>is.data.frame()</code> or <code>is_tibble()</code></li>
+<li>Coerce with <code>as.data.frame()</code> or <code>as_tibble()</code> <br><br></li>
+</ul>
+</section>
+<section id="list-columns" class="level4" data-number="2.5.1.6">
+<h4 data-number="2.5.1.6" class="anchored" data-anchor-id="list-columns"><span class="header-section-number">2.5.1.6</span> List columns</h4>
+<p>Since data frames are lists of vectors, a data frame can have a column as a list.</p>
+<p>Adding a list column involves an extra step in data frames:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Either after the data frame is created</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>b <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Lists are fully supported in tibbles</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">b =</span> <span class="fu">list</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>)</span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+</section>
+<section id="matrix-and-data-frame-columns" class="level4" data-number="2.5.1.7">
+<h4 data-number="2.5.1.7" class="anchored" data-anchor-id="matrix-and-data-frame-columns"><span class="header-section-number">2.5.1.7</span> Matrix and data frame columns</h4>
+<p>Extending the length requirement for data frames (that all columns must be of the same length), it’s actually the <code>NROW()</code> of each column that needs to match. Because of this, data frames and matrices can be included as columns in a data frame.</p>
+<p>Just as with list columns, it must be added after creation or wrapped in <code>I()</code>. Note that wrapping it in <code>I()</code> adds a <code>class</code> “AsIs”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>d0 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">b =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>)</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="sc">-</span><span class="dv">2</span><span class="sc">:</span><span class="dv">0</span>, <span class="at">y =</span> <span class="fu">I</span>(d0))</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   3 obs. of  2 variables:
+ $ x: int  -2 -1 0
+ $ y:Classes 'AsIs' and 'data.frame':   3 obs. of  2 variables:
+  ..$ a: int  1 2 3
+  ..$ b: int  4 5 6</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Many functions that work with columns assume that all columns are vectors, so use with caution. <br><br></p>
+</section>
+</section>
+<section id="exercises-4" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="exercises-4"><span class="header-section-number">2.5.2</span> Exercises</h3>
+<p><em>1. Can you have a data frame with zero rows? What about zero columns?</em></p>
+<p>You can create an empty data frame with zero rows and zero columns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   0 obs. of  0 variables</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>You can add an empty row, but its value is inaccessible</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>d[<span class="dv">1</span>, ] <span class="ot">&lt;-</span> 1L</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>d[<span class="dv">1</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>data frame with 0 columns and 1 row</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Same outcome for row without a column in a tibble</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>d[<span class="dv">1</span>, ] <span class="ot">&lt;-</span> 1L</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>d[<span class="dv">1</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 0</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>You can add an empty columns during or after creation</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">character</span>())</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>y <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>)</span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   0 obs. of  2 variables:
+ $ x: chr 
+ $ y: list()</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><em>2. What happens if you attempt to set rownames that are not unique?</em></p>
+<p>R will throw an error</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">row.names =</span> <span class="fu">rep</span>(<span class="st">"x"</span>, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Error in data.frame(a = 1:3, row.names = rep("x", 3)) :
+  duplicate row.names: x
+NULL</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><em>3. If <code>df</code> is a data frame, what can you say about <code>t(df)</code>, and <code>t(t(df))</code>? Perform some experiments, making sure to try different column types.</em></p>
+<p>If <code>df</code> can behave like a matrix, <code>t()</code> will operate as expected</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">b =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [,1] [,2]
+a    1    2
+b    3    4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">t</span>(d))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     a b
+[1,] 1 3
+[2,] 2 4</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Prior to transposing, <code>t()</code> coerces <code>df</code> to a matrix. Non-atomic vectors are coerced by <code>as.vector()</code>. For lists, <code>as.vector()</code> returns the list, so transposition occurs at the list-element level.</p>
+<p>Looking at the matrix object created as a first step, we see that the matrix preserved all variable types when coercing a list column into a matrix column. Remember that matrices are two dimensional vectors</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">b =</span> <span class="fu">I</span>(<span class="fu">list</span>(<span class="st">"4"</span>, <span class="dv">5</span>, 6L)))</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(<span class="fu">as.matrix</span>(d))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 6
+ $ : int 1
+ $ : int 2
+ $ : int 3
+ $ : chr "4"
+ $ : num 5
+ $ : int 6
+ - attr(*, "dim")= int [1:2] 3 2
+ - attr(*, "dimnames")=List of 2
+  ..$ : NULL
+  ..$ : chr [1:2] "a" "b"</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>So <code>t()</code> works as “expected” with list columns</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [,1] [,2] [,3]
+a 1    2    3   
+b "4"  5    6   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">t</span>(d))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     a b  
+[1,] 1 "4"
+[2,] 2 5  
+[3,] 3 6  </code></pre>
+</div>
+</div>
+<p><br></p>
+<p>For data frame columns, <code>as.matrix()</code> will combine the data frame columns (and any nested data frame columns) with the containing data frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">b =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>)</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>c <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">101</span><span class="sc">:</span><span class="dv">103</span>, <span class="at">y =</span> <span class="dv">104</span><span class="sc">:</span><span class="dv">106</span>)</span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>d0 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">z =</span> <span class="dv">1001</span><span class="sc">:</span><span class="dv">1003</span>)</span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>d0<span class="sc">$</span>zz <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">z0 =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">z1 =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>)</span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>d <span class="ot">&lt;-</span> d0</span>
+<span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a><span class="fu">as.matrix</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     a b c.x c.y  d.z d.zz.z0 d.zz.z1
+[1,] 1 4 101 104 1001       1       4
+[2,] 2 5 102 105 1002       2       5
+[3,] 3 6 103 106 1003       3       6</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><code>t()</code> works with data frame columns normally after combining</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        [,1] [,2] [,3]
+a          1    2    3
+b          4    5    6
+c.x      101  102  103
+c.y      104  105  106
+d.z     1001 1002 1003
+d.zz.z0    1    2    3
+d.zz.z1    4    5    6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">t</span>(d))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     a b c.x c.y  d.z d.zz.z0 d.zz.z1
+[1,] 1 4 101 104 1001       1       4
+[2,] 2 5 102 105 1002       2       5
+[3,] 3 6 103 106 1003       3       6</code></pre>
+</div>
+</div>
+<p><br></p>
+<p><em>4. What does <code>as.matrix()</code> do when applied to a data frame with columns of different types? How does it differ from <code>data.matrix()</code>?</em></p>
+<p>The behavior for <code>as.matrix()</code> is described in answer 3.</p>
+<p><code>data.matrix()</code> converts all variables in a data frame to numeric via <code>as.numeric()</code> prior to combining them, so I would expect odd behavior when converting non numeric variable types</p>
+<p>Logical and factor columns are coerced to integers. Character columns are converted first to factors, then to integers</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>(<span class="fu">as.factor</span>(a))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>So <code>data.matrix()</code> will use the resulting integer column for the resulting matrix</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">factor</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(a, b, c)</span>
+<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data.matrix</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     a b c
+[1,] 1 1 1
+[2,] 2 1 2
+[3,] 3 0 3</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Any non numeric column that is <em>not</em> a logical, factor, or character column is converted to a numeric column via <code>as.numeric()</code>. <code>as.numeric()</code> only works on atomic vectors, so it will convert each list element at the atomic level</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="st">"2"</span>, <span class="at">c =</span> 3L)</span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">b =</span> b)</span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data.matrix</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     b.a b.b b.c
+[1,]   1   1   3</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Similar application for data frames, being lists themselves</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">c1 =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">c2 =</span> <span class="dv">7</span><span class="sc">:</span><span class="dv">9</span>)</span>
+<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">c =</span> c)</span>
+<span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data.matrix</span>(d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     a c.c1 c.c2
+[1,] 1    4    7
+[2,] 2    5    8
+[3,] 3    6    9</code></pre>
+</div>
+</div>
+<p><br><br></p>
+</section>
+</section>
+<section id="null" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="null"><span class="header-section-number">2.6</span> 3.7: NULL</h2>
+<section id="notes-5" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="notes-5"><span class="header-section-number">2.6.1</span> Notes</h3>
+<ul>
+<li><code>NULL</code> is a data structure with a unique type, “NULL”</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(<span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "NULL"</code></pre>
+</div>
+</div>
+<p><br></p>
+<ul>
+<li><code>NULL</code> is always length zero</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p><br></p>
+<ul>
+<li><code>NULL</code> cannot have any attributes</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(x, a) <span class="ot">&lt;-</span> 1L</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Error in attr(x, a) &lt;- 1L : attempt to set an attribute on NULL
+NULL</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>Two common uses of <code>NULL</code>:</p>
+<ul>
+<li>To represent an empty vector</li>
+<li>To represent an absent vector
+<ul>
+<li><code>NULL</code> is often used as a default function value, to signify that that value is not needed in the function.</li>
+<li><code>NA</code>, in contrast, signifies that the element of a vector is absent, not the vector itself <br><br></li>
+</ul></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch02_namesvalues.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Advanced R Chapter 2 - Names and Values</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

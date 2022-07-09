@@ -1,5 +1,5 @@
 # https://github.com/quarto-dev/quarto-actions
-name: Render and Push Quarto File
+name: Render and Publish Quarto Files
 on:
   push:
 
@@ -14,13 +14,15 @@ jobs:
     - name: Install Quarto
       uses: quarto-dev/quarto-actions/setup@v2
 
-    - name: Render .qmd
+    - name: Render README
       run: quarto render README.qmd
 
-    - name: Add & Commit
+    - name: Render Book
+      uses: quarto-dev/quarto-actions/render@v2
+
+    - name: Add & Commit changes
       uses: EndBug/add-and-commit@v9.0.1
       with:
         author_name: joshwlivingston
         author_email: joshwlivingston@gmail.com
-        add: 'README.md'
-        message: 'Render README'
+        message: 'GH actions document render'
