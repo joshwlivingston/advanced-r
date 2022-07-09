@@ -23,9 +23,18 @@ jobs:
     - name: Render Book
       uses: quarto-dev/quarto-actions/render@v2
 
-    - name: Add & Commit changes
+    - name: Add & Commit README
       uses: EndBug/add-and-commit@v9.0.1
       with:
         author_name: joshwlivingston
         author_email: joshwlivingston@gmail.com
+        add: 'README.md'
+        message: 'GH actions document render'
+
+      - name: Add & Commit Book
+      uses: EndBug/add-and-commit@v9.0.1
+      with:
+        author_name: joshwlivingston
+        author_email: joshwlivingston@gmail.com
+        add: 'docs -f'
         message: 'GH actions document render'
