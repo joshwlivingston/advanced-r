@@ -251,7 +251,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">obj_addr</span>(a))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x7f89c680ed68"</code></pre>
+<pre><code>[1] "0x55f1e1eaffe8"</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -263,7 +263,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">obj_addr</span>(d))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x7f89c690f4a0"</code></pre>
+<pre><code>[1] "0x55f1e1fab3d8"</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -273,7 +273,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>objs <span class="ot">&lt;-</span> <span class="fu">list</span>(mean, base<span class="sc">::</span>mean, <span class="fu">evalq</span>(mean), <span class="fu">match.fun</span>(<span class="st">"mean"</span>))</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">obj_addrs</span>(objs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x7f89c60caea8" "0x7f89c60caea8" "0x7f89c60caea8" "0x7f89c60caea8"</code></pre>
+<pre><code>[1] "0x55f1e0a58f70" "0x55f1e0a58f70" "0x55f1e0a58f70" "0x55f1e0a58f70"</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -307,7 +307,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">obj_addr</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x7f89d0425ae8"</code></pre>
+<pre><code>[1] "0x55f1e3622e38"</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -316,7 +316,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>y[[<span class="dv">3</span>]] <span class="ot">&lt;-</span> <span class="dv">4</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">obj_addr</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x7f89c58e6c68"</code></pre>
+<pre><code>[1] "0x55f1e3cef098"</code></pre>
 </div>
 </div>
 <p><br> We see that this is different than the original object’s address</p>
@@ -334,7 +334,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">tracemem</span>(x), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;0x7f89c5fa31f8&gt; </code></pre>
+<pre><code>&lt;0x55f1e3ec13e8&gt; </code></pre>
 </div>
 </div>
 <p><br> In the example below, a second name, <code>y</code> was assigned to an object, which already had an assigned name <code>x</code>. So when <code>x</code> or <code>y</code> is modified, copy-on-modify takes place. This will trigger <code>tracemem()</code> to print a memory change.</p>
@@ -342,7 +342,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>y[[<span class="dv">4</span>]] <span class="ot">&lt;-</span> 4L</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>tracemem[0x7f89c5fa31f8 -&gt; 0x7f89d03542d8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
+<pre><code>tracemem[0x55f1e3ec13e8 -&gt; 0x55f1e3eda518]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
 </div>
 </div>
 <p><br> <code>base::untracemem()</code> is the opposite of <code>base::tracemem()</code></p>
@@ -363,15 +363,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>l1[[<span class="dv">3</span>]] <span class="ot">&lt;-</span> <span class="dv">4</span></span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ref</span>(l1, l2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>█ [1:0x7f89d03a72d8] &lt;list&gt; 
-├─[2:0x7f89c6ac8780] &lt;dbl&gt; 
-├─[3:0x7f89c6ac8748] &lt;dbl&gt; 
-└─[4:0x7f89c6ac8630] &lt;dbl&gt; 
+<pre><code>█ [1:0x55f1e4455498] &lt;list&gt; 
+├─[2:0x55f1e2d2dc60] &lt;dbl&gt; 
+├─[3:0x55f1e2d2dc28] &lt;dbl&gt; 
+└─[4:0x55f1e2d2db10] &lt;dbl&gt; 
  
-█ [5:0x7f89d03a5af8] &lt;list&gt; 
-├─[2:0x7f89c6ac8780] 
-├─[3:0x7f89c6ac8748] 
-└─[6:0x7f89c6ac8710] &lt;dbl&gt; </code></pre>
+█ [5:0x55f1e3f1c538] &lt;list&gt; 
+├─[2:0x55f1e2d2dc60] 
+├─[3:0x55f1e2d2dc28] 
+└─[6:0x55f1e2d2dbf0] &lt;dbl&gt; </code></pre>
 </div>
 </div>
 <p><br></p>
@@ -383,7 +383,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">b =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>))</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tracemem</span>(d1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "&lt;0x7f89d03b71c8&gt;"</code></pre>
+<pre><code>[1] "&lt;0x55f1e450c118&gt;"</code></pre>
 </div>
 </div>
 <p><br> Here, <code>tracemem()</code> shows us that the new column was copied to a new object in memory.</p>
@@ -391,25 +391,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> d1</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>d2[, <span class="dv">2</span>] <span class="ot">&lt;-</span> d2[, <span class="dv">2</span>] <span class="sc">*</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>tracemem[0x7f89d03b71c8 -&gt; 0x7f89d03e7548]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
-tracemem[0x7f89d03e7548 -&gt; 0x7f89d03e7488]: [&lt;-.data.frame [&lt;- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
+<pre><code>tracemem[0x55f1e450c118 -&gt; 0x55f1e4722658]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
+tracemem[0x55f1e4722658 -&gt; 0x55f1e4722598]: [&lt;-.data.frame [&lt;- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
 </div>
 </div>
 <p><br> And with <code>lobstr::ref()</code>, we confirm that both the data.frame object and the second column were copied.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ref</span>(d1, d2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>tracemem[0x7f89d03b71c8 -&gt; 0x7f89d040b488]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
-tracemem[0x7f89d03e7488 -&gt; 0x7f89c671d308]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
+<pre><code>tracemem[0x55f1e450c118 -&gt; 0x55f1df47be18]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
+tracemem[0x55f1e4722598 -&gt; 0x55f1e131f158]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>█ [1:0x7f89d03b71c8] &lt;df[,2]&gt; 
-├─a = [2:0x7f89c5fc49b8] &lt;dbl&gt; 
-└─b = [3:0x7f89c5fc4968] &lt;dbl&gt; 
+<pre><code>█ [1:0x55f1e450c118] &lt;df[,2]&gt; 
+├─a = [2:0x55f1e450f658] &lt;dbl&gt; 
+└─b = [3:0x55f1e450f608] &lt;dbl&gt; 
  
-█ [4:0x7f89d03e7488] &lt;df[,2]&gt; 
-├─a = [2:0x7f89c5fc49b8] 
-└─b = [5:0x7f89d02c39b8] &lt;dbl&gt; </code></pre>
+█ [4:0x55f1e4722598] &lt;df[,2]&gt; 
+├─a = [2:0x55f1e450f658] 
+└─b = [5:0x55f1e3d3c718] &lt;dbl&gt; </code></pre>
 </div>
 </div>
 <p><br> Since data.frames are built column-wise, modifying a row results in copying every column.</p>
@@ -417,8 +417,8 @@ tracemem[0x7f89d03e7488 -&gt; 0x7f89c671d308]: FUN lapply ref eval eval eval_wit
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> d1</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>d1[<span class="dv">1</span>, ] <span class="ot">&lt;-</span> d1[<span class="dv">1</span>, ] <span class="sc">*</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>tracemem[0x7f89d03b71c8 -&gt; 0x7f89c67b3148]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
-tracemem[0x7f89c67b3148 -&gt; 0x7f89c67b2fc8]: [&lt;-.data.frame [&lt;- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
+<pre><code>tracemem[0x55f1e450c118 -&gt; 0x55f1e32dc918]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
+tracemem[0x55f1e32dc918 -&gt; 0x55f1e32dc858]: [&lt;-.data.frame [&lt;- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
 </div>
 </div>
 <p><br></p>
@@ -426,16 +426,16 @@ tracemem[0x7f89c67b3148 -&gt; 0x7f89c67b2fc8]: [&lt;-.data.frame [&lt;- eval eva
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">untracemem</span>(d1)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ref</span>(d1, d3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>tracemem[0x7f89d03b71c8 -&gt; 0x7f89d0980648]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
+<pre><code>tracemem[0x55f1e450c118 -&gt; 0x55f1e3cf41b8]: FUN lapply ref eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>█ [1:0x7f89c67b2fc8] &lt;df[,2]&gt; 
-├─a = [2:0x7f89d03997c8] &lt;dbl&gt; 
-└─b = [3:0x7f89d0399778] &lt;dbl&gt; 
+<pre><code>█ [1:0x55f1e32dc858] &lt;df[,2]&gt; 
+├─a = [2:0x55f1e3cf6408] &lt;dbl&gt; 
+└─b = [3:0x55f1e3cf63b8] &lt;dbl&gt; 
  
-█ [4:0x7f89d03b71c8] &lt;df[,2]&gt; 
-├─a = [5:0x7f89c5fc49b8] &lt;dbl&gt; 
-└─b = [6:0x7f89c5fc4968] &lt;dbl&gt; </code></pre>
+█ [4:0x55f1e450c118] &lt;df[,2]&gt; 
+├─a = [5:0x55f1e450f658] &lt;dbl&gt; 
+└─b = [6:0x55f1e450f608] &lt;dbl&gt; </code></pre>
 </div>
 </div>
 <p><br></p>
@@ -447,10 +447,10 @@ tracemem[0x7f89c67b3148 -&gt; 0x7f89c67b2fc8]: [&lt;-.data.frame [&lt;- eval eva
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ref</span>(x, <span class="at">character =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>█ [1:0x7f89c67c1658] &lt;chr&gt; 
-├─[2:0x7f89f72b00e8] &lt;string: "a"&gt; 
-├─[3:0x7f89f6c08040] &lt;string: "b"&gt; 
-└─[4:0x7f89f680cac0] &lt;string: "c"&gt; </code></pre>
+<pre><code>█ [1:0x55f1e47c7a58] &lt;chr&gt; 
+├─[2:0x55f1de78ca68] &lt;string: "a"&gt; 
+├─[3:0x55f1deade548] &lt;string: "b"&gt; 
+└─[4:0x55f1de48ad10] &lt;string: "c"&gt; </code></pre>
 </div>
 </div>
 <p><br></p>
@@ -465,12 +465,12 @@ tracemem[0x7f89c67b3148 -&gt; 0x7f89c67b2fc8]: [&lt;-.data.frame [&lt;- eval eva
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(1L, 2L, 3L)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tracemem</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "&lt;0x7f89e5972408&gt;"</code></pre>
+<pre><code>[1] "&lt;0x55f1e3f04008&gt;"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>x[[<span class="dv">3</span>]] <span class="ot">&lt;-</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>tracemem[0x7f89e5972408 -&gt; 0x7f89c583f448]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
-tracemem[0x7f89c583f448 -&gt; 0x7f89e67918e8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
+<pre><code>tracemem[0x55f1e3f04008 -&gt; 0x55f1e3f12e48]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
+tracemem[0x55f1e3f12e48 -&gt; 0x55f1e4522dc8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">untracemem</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -600,7 +600,7 @@ tracemem[0x7f89c583f448 -&gt; 0x7f89e67918e8]: eval eval eval_with_user_handlers
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ref</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1:0x7f89e70944b8] &lt;dbl&gt; </code></pre>
+<pre><code>[1:0x55f1e4787b18] &lt;dbl&gt; </code></pre>
 </div>
 </div>
 <p><br> After:</p>
@@ -608,7 +608,7 @@ tracemem[0x7f89c583f448 -&gt; 0x7f89e67918e8]: eval eval eval_with_user_handlers
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>a[[<span class="dv">3</span>]] <span class="ot">&lt;-</span> <span class="dv">4</span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ref</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1:0x7f89e67926a8] &lt;dbl&gt; </code></pre>
+<pre><code>[1:0x55f1e3a477c8] &lt;dbl&gt; </code></pre>
 </div>
 </div>
 <p><br> Note that this optimization does <em>not</em> apply when modifying a vector’s length. Here, <code>z</code> is assigned to a new object upon “adding” a fourth element to the vector <code>z</code>.</p>
@@ -617,7 +617,7 @@ tracemem[0x7f89c583f448 -&gt; 0x7f89e67918e8]: eval eval eval_with_user_handlers
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">obj_addr</span>(z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x7f89d0375208"</code></pre>
+<pre><code>[1] "0x55f1e47371e8"</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -626,7 +626,7 @@ tracemem[0x7f89c583f448 -&gt; 0x7f89e67918e8]: eval eval eval_with_user_handlers
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>z[[<span class="dv">4</span>]] <span class="ot">&lt;-</span> <span class="st">"d"</span></span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">obj_addr</span>(z)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "0x7f89d03fb7d8"</code></pre>
+<pre><code>[1] "0x55f1e473bc78"</code></pre>
 </div>
 </div>
 <p><br> There are two complications in R’s behavior that limit execution of the modify-in-place optimization:</p>
@@ -641,20 +641,20 @@ tracemem[0x7f89c583f448 -&gt; 0x7f89e67918e8]: eval eval eval_with_user_handlers
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="fu">runif</span>(<span class="fl">1e3</span>), <span class="at">ncol =</span> <span class="dv">4</span>))</span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tracemem</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "&lt;0x7f89c79af898&gt;"</code></pre>
+<pre><code>[1] "&lt;0x55f1e3e16be8&gt;"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(x)) {</span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>  x[[i]] <span class="ot">&lt;-</span> x[[i]] <span class="sc">*</span> <span class="dv">5</span></span>
 <span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>tracemem[0x7f89c79af898 -&gt; 0x7f89f7277918]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
-tracemem[0x7f89f7277918 -&gt; 0x7f89f7277828]: [[&lt;-.data.frame [[&lt;- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
-tracemem[0x7f89f7277828 -&gt; 0x7f89f7277788]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
-tracemem[0x7f89f7277788 -&gt; 0x7f89f7277648]: [[&lt;-.data.frame [[&lt;- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
-tracemem[0x7f89f7277648 -&gt; 0x7f89f7277558]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
-tracemem[0x7f89f7277558 -&gt; 0x7f89f7277468]: [[&lt;-.data.frame [[&lt;- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
-tracemem[0x7f89f7277468 -&gt; 0x7f89f72773c8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
-tracemem[0x7f89f72773c8 -&gt; 0x7f89f72772d8]: [[&lt;-.data.frame [[&lt;- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
+<pre><code>tracemem[0x55f1e3e16be8 -&gt; 0x55f1e3ced838]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
+tracemem[0x55f1e3ced838 -&gt; 0x55f1e3ced6f8]: [[&lt;-.data.frame [[&lt;- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
+tracemem[0x55f1e3ced6f8 -&gt; 0x55f1e3ced658]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
+tracemem[0x55f1e3ced658 -&gt; 0x55f1e3ced518]: [[&lt;-.data.frame [[&lt;- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
+tracemem[0x55f1e3ced518 -&gt; 0x55f1e3ced428]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
+tracemem[0x55f1e3ced428 -&gt; 0x55f1e3ced338]: [[&lt;-.data.frame [[&lt;- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
+tracemem[0x55f1e3ced338 -&gt; 0x55f1e3ced298]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main 
+tracemem[0x55f1e3ced298 -&gt; 0x55f1e3cf6d18]: [[&lt;-.data.frame [[&lt;- eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">untracemem</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -663,13 +663,13 @@ tracemem[0x7f89f72773c8 -&gt; 0x7f89f72772d8]: [[&lt;-.data.frame [[&lt;- eval e
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">as.list</span>(x)</span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tracemem</span>(l)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "&lt;0x7f89d09227c8&gt;"</code></pre>
+<pre><code>[1] "&lt;0x55f1e3ef08e8&gt;"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(l)) {</span>
 <span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>  l[[i]] <span class="ot">&lt;-</span> l[[i]] <span class="sc">*</span> <span class="dv">5</span></span>
 <span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>tracemem[0x7f89d09227c8 -&gt; 0x7f89d037bca8]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
+<pre><code>tracemem[0x55f1e3ef08e8 -&gt; 0x55f1e4782308]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">untracemem</span>(l)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -695,7 +695,7 @@ tracemem[0x7f89f72773c8 -&gt; 0x7f89f72772d8]: [[&lt;-.data.frame [[&lt;- eval e
 <div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ref</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>█ [1:0x7f89c5e0b628] &lt;list&gt; </code></pre>
+<pre><code>█ [1:0x55f1e22eb380] &lt;list&gt; </code></pre>
 </div>
 </div>
 <p><br> Modified list:</p>
@@ -703,8 +703,8 @@ tracemem[0x7f89f72773c8 -&gt; 0x7f89f72772d8]: [[&lt;-.data.frame [[&lt;- eval e
 <div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>x[[<span class="dv">1</span>]] <span class="ot">&lt;-</span> x</span>
 <span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ref</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>█ [1:0x7f89d0940168] &lt;list&gt; 
-└─█ [2:0x7f89c5e0b628] &lt;list&gt; </code></pre>
+<pre><code>█ [1:0x55f1e29010b8] &lt;list&gt; 
+└─█ [2:0x55f1e22eb380] &lt;list&gt; </code></pre>
 </div>
 </div>
 <p><br></p>
@@ -738,16 +738,16 @@ tracemem[0x7f89f72773c8 -&gt; 0x7f89f72772d8]: [[&lt;-.data.frame [[&lt;- eval e
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">df</td>
-<td style="text-align: right;">45.17µs</td>
-<td style="text-align: right;">47.96µs</td>
-<td style="text-align: right;">19536.99</td>
+<td style="text-align: right;">95.6µs</td>
+<td style="text-align: right;">111µs</td>
+<td style="text-align: right;">8156.273</td>
 <td style="text-align: right;">99.9KB</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">l</td>
-<td style="text-align: right;">3.83µs</td>
-<td style="text-align: right;">5.08µs</td>
-<td style="text-align: right;">162336.57</td>
+<td style="text-align: right;">15.3µs</td>
+<td style="text-align: right;">18.7µs</td>
+<td style="text-align: right;">49455.778</td>
 <td style="text-align: right;">78.3KB</td>
 </tr>
 </tbody>
@@ -775,16 +775,16 @@ tracemem[0x7f89f72773c8 -&gt; 0x7f89f72772d8]: [[&lt;-.data.frame [[&lt;- eval e
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">df</td>
-<td style="text-align: right;">7.75ms</td>
-<td style="text-align: right;">7.96ms</td>
-<td style="text-align: right;">125.3716</td>
+<td style="text-align: right;">14ms</td>
+<td style="text-align: right;">14.4ms</td>
+<td style="text-align: right;">68.69335</td>
 <td style="text-align: right;">3.26MB</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">l</td>
-<td style="text-align: right;">104.33µs</td>
-<td style="text-align: right;">111.52µs</td>
-<td style="text-align: right;">8530.8081</td>
+<td style="text-align: right;">316µs</td>
+<td style="text-align: right;">371.5µs</td>
+<td style="text-align: right;">2579.15136</td>
 <td style="text-align: right;">803.17KB</td>
 </tr>
 </tbody>
