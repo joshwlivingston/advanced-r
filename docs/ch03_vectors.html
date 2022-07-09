@@ -572,7 +572,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     names(object) &lt;- nm
     object
 }
-&lt;bytecode: 0x7fad77242a08&gt;
+&lt;bytecode: 0x559d03db9f78&gt;
 &lt;environment: namespace:stats&gt;</code></pre>
 </div>
 </div>
@@ -589,7 +589,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         dimnames(obj) &lt;- NULL
     obj
 }
-&lt;bytecode: 0x7fad95b6a598&gt;
+&lt;bytecode: 0x559d015e3de0&gt;
 &lt;environment: namespace:base&gt;</code></pre>
 </div>
 </div>
@@ -790,11 +790,11 @@ $class
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="fu">factor</span>(letters)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tracemem</span>(f1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "&lt;0x7fad9090c488&gt;"</code></pre>
+<pre><code>[1] "&lt;0x559d03f7a7f8&gt;"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(f1) <span class="ot">&lt;-</span> <span class="fu">rev</span>(<span class="fu">levels</span>(f1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>tracemem[0x7fad9090c488 -&gt; 0x7fad9090b198]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
+<pre><code>tracemem[0x559d03f7a7f8 -&gt; 0x559d03e8a608]: eval eval eval_with_user_handlers withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir in_input_dir eng_r block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; execute .main </code></pre>
 </div>
 </div>
 <p><br></p>
@@ -865,7 +865,7 @@ $class
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> letters</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ref</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1:0x600001018f00] &lt;chr&gt; </code></pre>
+<pre><code>[1:0x559cfebd0d10] &lt;chr&gt; </code></pre>
 </div>
 </div>
 <p><br></p>
@@ -874,10 +874,10 @@ $class
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">list</span>(x, LETTERS, letters)</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ref</span>(l)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>█ [1:0x7fad76f40ac8] &lt;list&gt; 
-├─[2:0x600001018f00] &lt;chr&gt; 
-├─[3:0x600001018e00] &lt;chr&gt; 
-└─[2:0x600001018f00] </code></pre>
+<pre><code>█ [1:0x559d048cd288] &lt;list&gt; 
+├─[2:0x559cfebd0d10] &lt;chr&gt; 
+├─[3:0x559cfeb96420] &lt;chr&gt; 
+└─[2:0x559cfebd0d10] </code></pre>
 </div>
 </div>
 <p><br></p>
@@ -905,7 +905,7 @@ $class
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">c</span>(dt, d)</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(x2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> POSIXct[1:2], format: "2022-07-09 10:50:35" "2022-07-08 20:00:00"</code></pre>
+<pre><code> POSIXct[1:2], format: "2022-07-09 15:05:22" "2022-07-09 00:00:00"</code></pre>
 </div>
 </div>
 <p><br></p>
