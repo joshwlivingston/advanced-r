@@ -4,3 +4,6 @@
 .Ruserdata
 
 /.quarto/
+
+# only use docs rendered from gh actions
+docs
