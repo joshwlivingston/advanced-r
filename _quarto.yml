@@ -10,6 +10,7 @@ book:
     - index.qmd
     - ch02_namesvalues.qmd
     - ch03_vectors.qmd
+    - test.qmd
 
 bibliography: references.bib
 
