@@ -1,5 +1,0 @@
----
-title: Test Chapter
----
-
-Click [here](https://joshwlivingston.github.io/advanced-r/test.html) to see something great.
