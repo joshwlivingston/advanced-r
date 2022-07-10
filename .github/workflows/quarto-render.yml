@@ -2,6 +2,11 @@
 name: Render and Publish Quarto Files
 on:
   push:
+    branches-ignore:
+      - 'github-pages'
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
 
 jobs:
   quarto-render-and-push:
