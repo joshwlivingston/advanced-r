@@ -31,7 +31,7 @@ jobs:
         add: 'README.md'
         message: 'GH actions document render'
 
-      - name: Add & Commit Book
+    - name: Add & Commit Book
       uses: EndBug/add-and-commit@v9.0.1
       with:
         author_name: joshwlivingston
