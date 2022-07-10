@@ -1,7 +1,5 @@
-# Introduction {.unnumbered}
+---
+title: Work In Progress
+---
 
-This book contains all of my notes and exercise work-throughs from Hadley Wickham's [Advanced R](https://adv-r.hadley.nz), 2nd edition.
-
-Source code is organized at the chapter-section level. In each section, notes appear first, followed by the exercises. Exercise question text are written in *italics*.
-
-This [book](https://quarto.org/docs/books/) was rendered using [Quarto](https::quarto.org).
+Coming soon!
