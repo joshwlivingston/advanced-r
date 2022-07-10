@@ -1,7 +1,12 @@
 # https://github.com/quarto-dev/quarto-actions
-name: Render and Push Quarto File
+name: Render and Publish Quarto Files
 on:
   push:
+    branches-ignore:
+      - 'github-pages'
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
 
 jobs:
   quarto-render-and-push:
@@ -14,13 +19,19 @@ jobs:
     - name: Install Quarto
       uses: quarto-dev/quarto-actions/setup@v2
 
-    - name: Render .qmd
+    - name: Install Tinytex
+      run: quarto tools install tinytex
+
+    - name: Render README
       run: quarto render README.qmd
+
+    - name: Render Book
+      uses: quarto-dev/quarto-actions/render@v2
 
     - name: Add & Commit
       uses: EndBug/add-and-commit@v9.0.1
       with:
         author_name: joshwlivingston
         author_email: joshwlivingston@gmail.com
-        add: 'README.md'
-        message: 'Render README'
+        add: 'README.md docs -f'
+        message: 'GH actions document render'

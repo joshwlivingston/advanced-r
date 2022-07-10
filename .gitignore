@@ -2,3 +2,12 @@
 .Rhistory
 .RData
 .Ruserdata
+
+/.quarto/
+
+# Mac OS file
+.DS_Store
+
+# only use docs rendered from gh actions
+/docs/
+README.md
