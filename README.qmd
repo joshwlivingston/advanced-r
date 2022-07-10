@@ -206,6 +206,7 @@ ref(x, character = TRUE)
 ```{r}
 x <- c(1L, 2L, 3L)
 tracemem(x)
+
 x[[3]] <- 4
 untracemem(x)
 ```
@@ -231,6 +232,7 @@ Because lists store references to objects, a repeated list is smaller than one w
 ```{r}
 l1 <- list(rep(100, 100000))
 obj_size(l1)
+
 l2 <- list(l1, l1, l1)
 obj_size(l2)
 ```
@@ -249,6 +251,7 @@ Similarly, since character vectors are references to the global string pool, a r
 ```{r}
 s <- "ask me about my sentence"
 obj_size(s)
+
 obj_size(rep(s, 10))
 ```
 <br>
@@ -272,6 +275,7 @@ obj_size(1:1e9)
 
 ```{r}
 y <- rep(list(runif(1e4)), 100)
+
 object.size(y)
 obj_size(y)
 ```
@@ -346,9 +350,11 @@ First, on modifying a data frame:
 ```{r}
 x <- as.data.frame(matrix(runif(1e3), ncol = 4))
 tracemem(x)
+
 for (i in seq_along(x)) {
   x[[i]] <- x[[i]] * 5
 }
+
 untracemem(x)
 ```
 <br>
@@ -356,9 +362,11 @@ Then a list:
 ```{r}
 l <- as.list(x)
 tracemem(l)
+
 for (i in seq_along(l)) {
   l[[i]] <- l[[i]] * 5
 }
+
 untracemem(l)
 ```
 <br>
@@ -408,8 +416,10 @@ mult_five_seq <- function(x) {
     x[[i]] <- x[[i]] * 5
   }
 }
+
 df <- as.data.frame(matrix(runif(1e4), ncol = 4))
 l <- as.list(df)
+
 bm <- mark(df = mult_five_seq(df), l = mult_five_seq(l))
 knitr::kable(bm[, 1:5])
 ```
@@ -419,6 +429,7 @@ With a 250 x 400 data set, the differences in both speed and memory allocation a
 ```{r}
 df <- as.data.frame(matrix(runif(1e5), ncol = 400))
 l <- as.list(df)
+
 bm <- mark(df = mult_five_seq(df), l = mult_five_seq(l))
 knitr::kable(bm[, 1:5])
 ```
@@ -643,9 +654,11 @@ Logical vectors are lowest on the type hierarchy. When they are combined with an
 ```{r}
 # When creating it: 
 x <- c(a = 1, b = 2, c = 3)
+
 # By assigning a character vector to names()
 x <- 1:3
 names(x) <- c("a", "b", "c")
+
 # Inline, with setNames():
 x <- setNames(1:3, c("a", "b", "c"))
 ```
